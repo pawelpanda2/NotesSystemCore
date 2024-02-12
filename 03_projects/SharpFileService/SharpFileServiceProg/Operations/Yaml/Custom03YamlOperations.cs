@@ -144,7 +144,6 @@ namespace SharpFileServiceProg.Operations.Yaml
             using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8, true))
             {
                 text = streamReader.ReadToEnd();
-                Console.WriteLine(text);
             }
 
             return text;

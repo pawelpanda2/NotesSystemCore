@@ -3,7 +3,6 @@ using Google.Apis.Docs.v1.Data;
 using GoogleDocument = Google.Apis.Docs.v1.Data.Document;
 using GoogleDocsRange = Google.Apis.Docs.v1.Data.Range;
 using static Google.Apis.Docs.v1.DocumentsResource;
-using System.Security;
 
 namespace SharpGoogleDocsProg.Worker
 {
@@ -49,6 +48,16 @@ namespace SharpGoogleDocsProg.Worker
         {
             var lastEndIndex = (int)document.Body.Content.Last().EndIndex - 1;
             return lastEndIndex;
+        }
+
+        public int GetDocumentLastIndex(string docId)
+        {
+            var request = service.Documents.Get(docId);
+            var document = request.Execute();
+            this.document = document;
+            this.docId = document.DocumentId;
+            lastIndex = (int)document.Body.Content.Last().EndIndex - 1;
+            return lastIndex;
         }
 
         public Request GetInsertPhotosRequests(int width, string uri, int index)
@@ -252,6 +261,7 @@ namespace SharpGoogleDocsProg.Worker
 
         public void AppendToDocument(string id, List<string> lines, int lastEndIndex, string sep)
         {
+            LoadDocument(id);
             var text = ConcatLines(lines, sep);
             AppendToDocument(text);
         }

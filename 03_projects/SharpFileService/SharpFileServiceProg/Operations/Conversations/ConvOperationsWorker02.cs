@@ -16,7 +16,7 @@ namespace SharpFileServiceProg.Operations.Conversations
             var id = dict["id"].ToString();
             var name = dict["name"].ToString();
             var tmp = dict["messages"] as List<object>;
-            var bio = dict["bio"].ToString().Split('\n');
+            var bio = (dict["bio"] ?? "").ToString().Split('\n');
             var birth_date = dict["birth_date"].ToString();
             var messagesObj = tmp.Select(x => (Dictionary<object, object>)x).ToList();
             var messages = messagesObj.Select(x => OwnerName(x) + " " + x["message"].ToString()).ToList();
