@@ -761,7 +761,7 @@ namespace SharpRepoServiceProg.RepoOperations
             string name)
         {
             var existingItem = GetExistingItem(address, name);
-            Console.Write($"existingItem: {existingItem}");
+            //Console.Write($"existingItem: {existingItem}");
             if (existingItem != default)
             {
                 return existingItem;
