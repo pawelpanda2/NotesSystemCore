@@ -337,7 +337,8 @@ namespace SharpRepoBackendProg.Service
         {
             try
             {
-                var result = typeof(RepoMethods).GetMethod(methodName).Invoke(
+                var method = typeof(RepoMethods).GetMethod(methodName);
+                var result = method.Invoke(
                     repoService.Methods,
                     args);
                 return result.ToString();

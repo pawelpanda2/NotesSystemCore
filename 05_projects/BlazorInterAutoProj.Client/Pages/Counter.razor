@@ -9,11 +9,18 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me 2</button>
 
+<button @onclick="OnClick01">Go</button>
+
 @code {
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void OnClick01()
+    {
+
     }
 }

@@ -1,7 +1,39 @@
 ﻿@page "/"
+@using SharpRepoBackendProg.Service
+@using System.Diagnostics
+@rendermode InteractiveServer
+@inject BackendService backendService
 
 <PageTitle>Home 2</PageTitle>
 
-<h1>Hello, world 2!</h1>
+<div>
+    <input type="button" value="<" />
+    <input type="button" value=">" />
+</div>
 
-Welcome to your new app.
+<div>
+    <input type="button" value="Go" @onclick="OnClick01" @onchange="OnClick01" />
+    <button @onclick="OnClick01">Go</button>
+    <input type="text" name="CompanyName" value="" />
+</div>
+
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var repo = "Notki";
+        var loca = "";
+        var type = backendService.RepoApi("GetItemType", repo, loca);
+        var s1 = backendService.CommandApi("OpenFolder", repo, loca);
+
+    // var type = backendService.RepoApi("GetItemType", defaultRepo.Item1, defaultRepo.Item2);
+    // OpenContent,
+    // OpenFolder
+    }
+
+    public void OnClick01()
+    {
+        Debug.WriteLine($"OnClick01!!!!");
+    }
+}
