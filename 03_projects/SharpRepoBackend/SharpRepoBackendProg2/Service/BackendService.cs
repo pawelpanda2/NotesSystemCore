@@ -72,6 +72,7 @@ namespace SharpRepoBackendProg.Service
 
                 var loca2 = loca.Replace("-", "/");
                 var itemPath = repoService.Methods.GetElemPath((repo, loca2));
+                
 
                 if (cmdName == IBackendService.ApiMethods.OpenFolder.ToString())
                 {
@@ -82,10 +83,17 @@ namespace SharpRepoBackendProg.Service
                     var json = JsonConvert.SerializeObject(result2);
                     return json;
                 }
-
+                
                 if (cmdName == IBackendService.ApiMethods.OpenContent.ToString())
                 {
                     buttonActionService.OpenContent(itemPath);
+                }
+
+                var address = (repo, loca);
+                if (cmdName == IBackendService.ApiMethods.GetConfig.ToString())
+                {
+                    var item = repoService.Methods.GetItem(address);
+                    return item;
                 }
 
                 if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())

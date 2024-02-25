@@ -7,16 +7,20 @@ namespace SharpTtsServiceProg.Worker
     public class TtsWorker
     {
         private SpeechSynthesizer synth;
+        
         private CultureInfo currentCulture;
         private Prompt currentPrompt;
+
+        private bool isInitialized;
 
         public TtsWorker()
         {
             synth = new SpeechSynthesizer();
-            //SetVoiceSettings();
-            currentCulture = new CultureInfo("pl-PL");
-            SetVoiceSettings2(currentCulture);
-            synth.Rate = 0;
+                //SetVoiceSettings();
+                currentCulture = new CultureInfo("pl-PL");
+                SetVoiceSettings2(currentCulture);
+                synth.Rate = 0;
+                isInitialized = true;
         }
 
         private void SetVoiceSettings2(CultureInfo culture)

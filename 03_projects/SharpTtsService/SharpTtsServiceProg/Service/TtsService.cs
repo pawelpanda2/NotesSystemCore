@@ -8,16 +8,38 @@ namespace SharpTtsServiceProg.Service
 {
     internal class TtsService : ITtsService
     {
-        public TtsWorker Tts { get; }
-        public RepoTtsWorker RepoTts { get; }
+        private IFileService fileService;
+        private IRepoService repoService;
+        private IVideoService videoService;
+
+        private RepoTtsWorker repoTts;
+        public RepoTtsWorker RepoTts
+        {
+            get
+            {
+                TryInitialize();
+                return repoTts;
+            }
+        }
+
+        public TtsWorker Tts { get; private set;}
+
+        private bool isInitialized;
+
+        private void TryInitialize()
+        {
+            Tts = new TtsWorker();
+            repoTts = new RepoTtsWorker(fileService, repoService, videoService);
+        }
 
         public TtsService(
             IFileService fileService,
             IRepoService repoService,
             IVideoService videoService)
         {
-            Tts = new TtsWorker();
-            RepoTts = new RepoTtsWorker(fileService, repoService, videoService);
+            this.fileService = fileService;
+            this.repoService = repoService;
+            this.videoService = videoService;
         }
     }
 }

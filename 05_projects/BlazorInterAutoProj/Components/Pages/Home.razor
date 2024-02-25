@@ -4,7 +4,7 @@
 @rendermode InteractiveServer
 @inject BackendService backendService
 
-<PageTitle>Home 2</PageTitle>
+<!--<PageTitle>Home 2</PageTitle>-->
 
 <div>
     <input type="button" value="<" />
@@ -15,9 +15,8 @@
     <input type="button" value="Go" @onclick="OnClick01" @onchange="OnClick01" />
     <button @onclick="OnClick01">Go</button>
     <input type="text" name="CompanyName" value="" />
+    <textarea>@GetText()</textarea>
 </div>
-
-
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -35,5 +34,13 @@
     public void OnClick01()
     {
         Debug.WriteLine($"OnClick01!!!!");
+    }
+
+    public string GetText()
+    {
+        var repo = "Notki";
+        var loca = "02";
+        var text = backendService.CommandApi("GetConfig", repo, loca);
+        return text;
     }
 }

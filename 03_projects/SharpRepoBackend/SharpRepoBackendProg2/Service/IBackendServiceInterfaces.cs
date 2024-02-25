@@ -5,10 +5,13 @@
         public enum ApiMethods
         {
             // config
+            GetConfig,
             OpenConfig,
             CreateFolder,
 
             // content
+            GetContent,
+
             OpenContent,
             CreateContent,
             AddContent,
