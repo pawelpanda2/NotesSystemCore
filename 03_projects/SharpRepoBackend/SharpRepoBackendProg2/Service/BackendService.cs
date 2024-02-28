@@ -89,12 +89,29 @@ namespace SharpRepoBackendProg.Service
                     buttonActionService.OpenContent(itemPath);
                 }
 
+
                 var address = (repo, loca);
-                if (cmdName == IBackendService.ApiMethods.GetConfig.ToString())
+                if (cmdName == IBackendService.ApiMethods.GetItem.ToString())
                 {
                     var item = repoService.Methods.GetItem(address);
                     return item;
                 }
+
+                // var address = (repo, loca);
+                // if (cmdName == IBackendService.ApiMethods.GetName.ToString())
+                // {
+                //     var item = repoService.Methods.GetItem(address);
+                //     var tmp = Json.Deserialize(item);
+                //     var name = tmp["name"];
+                //     return Json.Serialize(name)
+                // }
+
+                // if (cmdName == IBackendService.ApiMethods.GetContent.ToString())
+                // {
+                //     var item = repoService.Methods.GetItem(address);
+                //     var body = item["Body"];
+                //     return body;
+                // }
 
                 if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())
                 {
@@ -141,9 +158,12 @@ namespace SharpRepoBackendProg.Service
                     return string.Empty;
                 }
             }
-            catch { }
+            catch(Exception ex)
+            {
 
-            return JsonConvert.SerializeObject("completed!");
+            }
+
+            return JsonConvert.SerializeObject("bad request - method not found!");
         }
 
         public string CommandApi(string cmdName, string[] args)

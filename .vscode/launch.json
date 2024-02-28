@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "run - SharpButtonActionsProg",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build; SharpButtonActionsProg",
             //"program": "${workspaceFolder}/03_projects/SharpButtonActions/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
             "program": "${workspaceFolder}/03_projects/Binaries/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
             "args": [],
@@ -17,14 +17,11 @@
             "console": "internalConsole"
         },
         {
-            "name": ".NET Core Launch (web)",
+            "name": "run - BlazorInterAutoProj",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            //"program": "${workspaceFolder}/BlazorInterAutoProj/bin/Debug/net8.0/BlazorInterAutoProj.dll",
-
+            "preLaunchTask": "build; BlazorInterAutoProj",
             "program": "${workspaceFolder}/05_projects/BlazorInterAutoProj/bin/Debug/net8.0/BlazorInterAutoProj.dll",
-            // BlazorInterAutoProj.dll
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

@@ -1,10 +1,11 @@
 ﻿@page "/"
 @using SharpRepoBackendProg.Service
 @using System.Diagnostics
+@using using Newtonsoft.Json
 @rendermode InteractiveServer
 @inject BackendService backendService
 
-<!--<PageTitle>Home 2</PageTitle>-->
+    <!--<PageTitle>Home 2</PageTitle>-->
 
 <div>
     <input type="button" value="<" />
@@ -40,7 +41,8 @@
     {
         var repo = "Notki";
         var loca = "02";
-        var text = backendService.CommandApi("GetConfig", repo, loca);
-        return text;
+        var itemJson = backendService.CommandApi("GetItem", repo, loca);
+        var nameObj = Json.Deserialize(itemJson);
+        return "";
     }
 }

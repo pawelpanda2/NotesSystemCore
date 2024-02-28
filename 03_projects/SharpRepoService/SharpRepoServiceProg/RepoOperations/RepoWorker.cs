@@ -212,7 +212,8 @@ namespace SharpRepoServiceProg.RepoOperations
             var itemPath = GetElemPath(address);
             var configItemPath = itemPath + slash + configFileName;
 
-            var obj = yamlOperations.DeserializeFile<Dictionary<string, object>>(configItemPath);
+            var text = GetConfigText(address);
+            var obj = yamlOperations.Deserialize<Dictionary<string, object>>(text);
 
             var result = obj[key];
             return result;

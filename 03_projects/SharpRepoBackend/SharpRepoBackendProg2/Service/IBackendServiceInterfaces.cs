@@ -4,6 +4,15 @@
     {
         public enum ApiMethods
         {
+            // item
+            GetItem,
+
+            // name
+            GetName,
+
+            // body
+            GetBody,
+
             // config
             GetConfig,
             OpenConfig,

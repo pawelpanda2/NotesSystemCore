@@ -4,21 +4,53 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+        "label": "build; SharpButtonActionsProg",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/03_projects/SharpButtonActions/SharpButtonActionsProg/SharpButtonActionsProg.csproj", // removed ${workspaceFolder}/
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build; BlazorInterAutoProj",
             "command": "dotnet",
-            "type": "shell",
+            "type": "process",
             "args": [
                 "build",
-                // Ask dotnet build to generate full paths for file names.
+                "${workspaceFolder}/05_projects/BlazorInterAutoProj/BlazorInterAutoProj.csproj", // removed ${workspaceFolder}/
                 "/property:GenerateFullPaths=true",
-                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
                 "/consoleloggerparameters:NoSummary"
             ],
-            "group": "build",
-            "presentation": {
-                "reveal": "silent"
-            },
             "problemMatcher": "$msCompile"
-        }
+        },
     ]
 }
+
+// {
+//     // See https://go.microsoft.com/fwlink/?LinkId=733558
+//     // for the documentation about the tasks.json format
+//     "version": "2.0.0",
+//     "tasks": [
+//         {
+//             "label": "build",
+//             "command": "dotnet",
+//             "type": "shell",
+//             "args": [
+//                 "build",
+//                 // Ask dotnet build to generate full paths for file names.
+//                 "/property:GenerateFullPaths=true",
+//                 // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+//                 "/consoleloggerparameters:NoSummary"
+//             ],
+//             "group": "build",
+//             "presentation": {
+//                 "reveal": "silent"
+//             },
+//             "problemMatcher": "$msCompile"
+//         }
+//     ]
+// }
