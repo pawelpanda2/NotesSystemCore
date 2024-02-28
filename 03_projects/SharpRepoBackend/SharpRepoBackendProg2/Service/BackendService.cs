@@ -160,7 +160,7 @@ namespace SharpRepoBackendProg.Service
             }
             catch(Exception ex)
             {
-
+                return JsonConvert.SerializeObject("bad request - exception occured!");
             }
 
             return JsonConvert.SerializeObject("bad request - method not found!");
