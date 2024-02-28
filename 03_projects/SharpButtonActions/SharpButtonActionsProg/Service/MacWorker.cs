@@ -2,7 +2,7 @@
 
 namespace SharpButtonActionsProj.Service
 {
-    public class ButtonActionsMacWorker
+    public class MacWorker
     {
         static char space = ' ';
         

@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\23_projects\SharpSetup21\SharpSetupProg21Private\SharpSetupProg21Private.csproj" />
     <ProjectReference Include="..\BlazorInterAutoProj.Client\BlazorInterAutoProj.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

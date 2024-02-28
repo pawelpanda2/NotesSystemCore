@@ -5,18 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "run - SharpButtonActionsProg",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build; SharpButtonActionsProg",
-            //"program": "${workspaceFolder}/03_projects/SharpButtonActions/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
-            "program": "${workspaceFolder}/03_projects/Binaries/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "console": "internalConsole"
-        },
-        {
             "name": "run - BlazorInterAutoProj",
             "type": "coreclr",
             "request": "launch",
@@ -35,7 +23,18 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
-        }
-
+        },
+        {
+            "name": "run - SharpButtonActionsProg",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build; SharpButtonActionsProg",
+            //"program": "${workspaceFolder}/03_projects/SharpButtonActions/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
+            "program": "${workspaceFolder}/03_projects/Binaries/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
     ]
 }

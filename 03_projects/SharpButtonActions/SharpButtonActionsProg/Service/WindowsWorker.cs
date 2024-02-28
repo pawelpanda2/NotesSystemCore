@@ -2,22 +2,15 @@
 
 namespace SharpButtonActionsProj.Service
 {
-    public class ButtonActionsService
+    public class WindowsWorker
     {
         static char space = ' ';
-        private MacWorker mac;
-        private WindowsWorker windows;
 
-        public ButtonActionsService()
+        public void TryOpenFolder(string path)
         {
-            mac = new MacWorker();
-            windows = new WindowsWorker();
-        }
-
-        public void OpenFolder(string path)
-        {
-            windows.TryOpenFolder(path);
-            mac.TryOpenFolder(path);
+            var programPath = "explorer.exe";
+            var windowsFormatPath = Path.GetFullPath(path);
+            Process.Start(programPath, windowsFormatPath);
         }
 
         public void OpenContent(string path)

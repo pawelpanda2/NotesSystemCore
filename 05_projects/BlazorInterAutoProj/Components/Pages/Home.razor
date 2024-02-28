@@ -1,7 +1,8 @@
 ﻿@page "/"
+@using Newtonsoft.Json
 @using SharpRepoBackendProg.Service
 @using System.Diagnostics
-@using using Newtonsoft.Json
+@using SharpSetupProg21Private.AAPublic.Models
 @rendermode InteractiveServer
 @inject BackendService backendService
 
@@ -13,36 +14,51 @@
 </div>
 
 <div>
-    <input type="button" value="Go" @onclick="OnClick01" @onchange="OnClick01" />
-    <button @onclick="OnClick01">Go</button>
-    <input type="text" name="CompanyName" value="" />
-    <textarea>@GetText()</textarea>
+    <input type="button" value="Go" @onclick="OnGoBtnClicked" /> <!--@onchange="OnClick01" -->
+    Repo<input type="text"  @bind="repoName"/>
+    Loca<input type="text"  @bind="locaName"/>
+</div>
+
+<div>
+    Name: <textarea style="width: 550px; height: 30px;">@name</textarea>
+</div>
+
+<div>
+    <textarea style="width: 600px; height: 1200px;">@body</textarea>
 </div>
 
 @code {
+    private string name;
+    private string body;
+
+    private string repoName;
+    private string locaName;
+
     protected override async Task OnInitializedAsync()
     {
-        var repo = "Notki";
-        var loca = "";
-        var type = backendService.RepoApi("GetItemType", repo, loca);
-        var s1 = backendService.CommandApi("OpenFolder", repo, loca);
-
-    // var type = backendService.RepoApi("GetItemType", defaultRepo.Item1, defaultRepo.Item2);
-    // OpenContent,
-    // OpenFolder
+        repoName = "Notki"; locaName = "";
+        var address = (repoName, locaName);
+        ReloadItem(address);
     }
 
-    public void OnClick01()
+    protected async Task ReloadItem((string Repo, string Loca) address)
     {
-        Debug.WriteLine($"OnClick01!!!!");
+        var itemJString = GetItem(address);
+        var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
+
+        name = itemObj.Name;
+        body = itemObj.Body.ToString();
     }
 
-    public string GetText()
+    public void OnGoBtnClicked()
     {
-        var repo = "Notki";
-        var loca = "02";
-        var itemJson = backendService.CommandApi("GetItem", repo, loca);
-        var nameObj = Json.Deserialize(itemJson);
-        return "";
+        var address = (repoName, locaName);
+        ReloadItem(address);
+    }
+
+    public string GetItem((string Repo, string Loca) address)
+    {
+        var itemJson = backendService.CommandApi("GetItem", address.Repo, address.Loca);
+        return itemJson;
     }
 }
