@@ -49,13 +49,16 @@ namespace SharpNotesMigrationTests
         [TestMethod]
         public void MigrateOneFolderRecoursively()
         {
-            // arrange
-            var migrator03 = MyBorder.Container.Resolve<IMigrationService.IMigrator03>();
-            migrator03.SetAgree(true);
-            var repoServer = MyBorder.Container.Resolve<IRepoService>();
+            // arrange 1
             var repoName = "Notki";
-            var loca = "";
-            //var repoName = "02_appData";
+            var loca = "01";
+            var agree = true;
+            
+            // arrange 2
+            var migrator03 = MyBorder.Container.Resolve<IMigrationService.IMigrator03>();
+            migrator03.SetAgree(agree);
+            var repoServer = MyBorder.Container.Resolve<IRepoService>();
+
             var address = (repoName, loca);
             var folderPath = repoServer.Methods.GetElemPath((repoName, loca));
 
@@ -72,6 +75,7 @@ namespace SharpNotesMigrationTests
                 Console.WriteLine(x.Item4);
                 Console.WriteLine();
             });
+            
         }
 
         [TestMethod]

@@ -75,8 +75,20 @@ namespace SharpNotesMigrationProg.Migrations
             }
         }
 
+        private void ClearNameFile((string Repo, string Loca) address)
+        {
+            var path = repoService.Methods.GetConfigPath(address);
+            var exists = File.Exists(path);
+            if (!exists)
+            {
+                using (File.Create(path))
+                {}
+            }
+        }
+
         public void MigrateOneAddress((string Repo, string Loca) address)
         {
+            ClearNameFile(address);
             if (!IsJustOneLine(address, out var nameLine))
             {
                 //HandleError();

@@ -213,10 +213,14 @@ namespace SharpRepoServiceProg.RepoOperations
             var configItemPath = itemPath + slash + configFileName;
 
             var text = GetConfigText(address);
-            var obj = yamlOperations.Deserialize<Dictionary<string, object>>(text);
-
-            var result = obj[key];
-            return result;
+            try{
+                var obj = yamlOperations.Deserialize<Dictionary<string, object>>(text);
+                var result = obj[key];
+                return result;
+            }
+            catch{
+                return "??error??";
+            }
         }
 
         public Dictionary<string, object> GetConfigDictionary(
@@ -462,7 +466,9 @@ namespace SharpRepoServiceProg.RepoOperations
                 names.Add(last.ToString(), name);
             }
 
-            return names;
+            var tmp = names.OrderBy(x => x.Key);
+            var tmp2 = tmp.ToDictionary();
+            return tmp2;
         }
 
         [MethodLogger]
