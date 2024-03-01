@@ -83,7 +83,7 @@ namespace SharpRepoServiceProg.RepoOperations
             return newLoca;
         }
 
-            public string GetConfigText((string Repo, string Loca) address)
+        public string GetConfigText((string Repo, string Loca) address)
         {
             var itemPath = GetElemPath(address);
             var nameFilePath = itemPath + slash + configFileName;
