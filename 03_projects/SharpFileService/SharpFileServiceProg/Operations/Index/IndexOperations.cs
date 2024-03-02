@@ -1,5 +1,4 @@
 ﻿using SharpFileServiceProg.Service;
-using System;
 namespace SharpFileServiceProg.Operations.Index
 {
     internal class IndexOperations : IFileService.IIndexWrk
@@ -12,8 +11,47 @@ namespace SharpFileServiceProg.Operations.Index
             return last;
         }
 
+        public (string, string) JoinIndexWithLoca(
+            (string Repo, string Loca) adrTuple, int? index)
+        {
+            if (index == null)
+            {
+                return adrTuple;
+            }
 
-        public string IndexToString(int index)
+            var idxString = IndexToString(index);
+
+            var newLoca = JoinLoca(adrTuple.Loca, idxString);
+            var newAdrTuple = (adrTuple.Repo, newLoca);
+            return newAdrTuple;
+        }
+
+        public (string, string) AdrTupleJoinLoca(
+            (string Repo, string Loca) adrTuple, string loca)
+        {
+            if (loca == string.Empty)
+            {
+                return adrTuple;
+            }
+
+            var newLoca = JoinLoca(adrTuple.Loca, loca);
+            var newAdrTuple = (adrTuple.Repo, newLoca);
+            return newAdrTuple;
+        }
+
+        public string JoinLoca(string loca01, string loca02)
+        {
+            if (loca01 == string.Empty)
+            {
+                return loca02;
+            }
+
+            var newLoca = loca01 + "/" + loca02;
+            return newLoca;
+        }
+
+
+        public string IndexToString(int? index)
         {
             if (index < 10)
             {

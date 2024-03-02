@@ -13,13 +13,15 @@ namespace SharpFileServiceProg.Service
 
         public interface IIndexWrk
         {
-            string IndexToString(int index);
+            string IndexToString(int? index);
             int StringToIndex(string input);
             int TryStringToIndex(string input);
             string LastTwoChar(string input);
             bool IsCorrectIndex(string input);
             bool IsCorrectIndex(string input, out int index);
             int GetLocaLast(string loca);
+            (string, string) JoinIndexWithLoca((string Repo, string Loca) adrTuple, int? index);
+
         }
 
         public interface IYamlWrk

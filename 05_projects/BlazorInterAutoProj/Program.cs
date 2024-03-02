@@ -1,12 +1,10 @@
-using BlazorInterAutoProj.Client.Pages;
 using BlazorInterAutoProj.Components;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using SharpFileServiceProg.Service;
 using SharpRepoBackendProg.Service;
-using System.Web.Services.Description;
 using Public01 = SharpSetupProg21Private.AAPublic;
 
 var registration = new Public01.Registration();
-registration.Start();
+var container = registration.Start();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +13,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-
 var backend = new BackendService();
+var fileService = container.Resolve<IFileService>();
 builder.Services.AddSingleton<BackendService>(backend);
+builder.Services.AddSingleton<IFileService>(fileService);
 
 var app = builder.Build();
 
@@ -29,13 +28,13 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
-var gg = app.Services.GetService<BackendService>();
+var tmp1 = app.Services.GetService<BackendService>();
+var tmp2 = app.Services.GetService<IFileService>();
 
 app.UseStaticFiles();
 app.UseAntiforgery();

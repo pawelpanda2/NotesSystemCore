@@ -7,5 +7,6 @@ namespace SharpFileServiceProg.Operations.RepoAddress
         (string, string) CreateAddressFromString(string addressString);
         Uri CreateUriFromAddress((string Repo, string Loca) address, int index);
         string CreateUrlFromAddress((string Repo, string Loca) address);
+        string MoveOneLocaBack(string adrString);
     }
 }

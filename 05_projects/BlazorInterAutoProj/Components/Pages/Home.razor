@@ -1,61 +1,80 @@
 ﻿@page "/"
+@using BlazorInterAutoProj.Components.Editor
 @using Newtonsoft.Json
+@using SharpFileServiceProg.Service
 @using SharpRepoBackendProg.Service
 @using System.Diagnostics
 @using SharpSetupProg21Private.AAPublic.Models
-@rendermode InteractiveServer
+
 @inject BackendService backendService
+@inject IFileService fileService
+
+@rendermode InteractiveServer
 
     <!--<PageTitle>Home 2</PageTitle>-->
 
 <div>
-    <input type="button" value="<" />
-    <input type="button" value=">" />
+    <input type="button" value="<" @onclick="OnBackArrowBtnClicked" />
 </div>
 
 <div>
     <input type="button" value="Go" @onclick="OnGoBtnClicked" /> <!--@onchange="OnClick01" -->
-    Repo<input type="text"  @bind="repoName"/>
-    Loca<input type="text"  @bind="locaName"/>
+    Repo<input type="text" @bind="formRepoName" />
+    Loca<input type="text" @bind="formLocaName" />
 </div>
 
 <div>
-    Name: <textarea style="width: 550px; height: 30px;">@name</textarea>
+    Name: <textarea style="width: 550px; height: 30px;">@item?.Name</textarea>
 </div>
 
 <div>
-    <textarea style="width: 600px; height: 1200px;">@body</textarea>
+    @if (item?.Type == "Text")
+    {
+        <textarea style="width: 600px; height: 1200px;">@item?.Body.ToString()</textarea>
+    }
+    @if (item?.Type == "Folder")
+    {
+        <Folder Item=@item ReloadItem=@ReloadItem></Folder>
+    }
 </div>
 
 @code {
-    private string name;
-    private string body;
+    private ItemModel2 item;
 
-    private string repoName;
-    private string locaName;
+    private string formRepoName;
+    private string formLocaName;
+
+    public Home()
+    {
+        item = new ItemModel2() { Address = "Notki" };
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        repoName = "Notki"; locaName = "";
-        var address = (repoName, locaName);
-        ReloadItem(address);
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(item.Address);
+        ReloadItem(adrTuple);
     }
 
     protected async Task ReloadItem((string Repo, string Loca) address)
     {
-        name = "";
-        body = "";
-
         var itemJString = GetItem(address);
         var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
-
-        name = itemObj.Name;
-        body = itemObj.Body.ToString();
+        item = itemObj;
     }
 
-    public void OnGoBtnClicked()
+    protected async Task ReloadItem(ItemModel2 item)
     {
-        var address = (repoName, locaName);
+        this.item = item;
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(item.Address);
+        formRepoName = adrTuple.Item1;
+        formLocaName = adrTuple.Item2;
+    }
+
+    public void OnGoBtnClicked(MouseEventArgs e)
+    {
+        var address = (formRepoName, formLocaName);
         ReloadItem(address);
     }
 
@@ -63,5 +82,14 @@
     {
         var itemJson = backendService.CommandApi("GetItem", address.Repo, address.Loca);
         return itemJson;
+    }
+
+    private async Task OnBackArrowBtnClicked(MouseEventArgs e)
+    {
+        var newAddress = fileService.RepoAddress
+             .MoveOneLocaBack(item.Address);
+        var newAdrTuple = fileService.RepoAddress
+             .CreateAddressFromString(item.Address);
+        ReloadItem(newAdrTuple);
     }
 }

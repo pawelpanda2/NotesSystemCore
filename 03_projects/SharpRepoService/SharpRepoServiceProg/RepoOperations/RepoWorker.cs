@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
-using System.Xml.Linq;
 using static SharpRepoServiceProg.Service.IRepoService;
 
 namespace SharpRepoServiceProg.RepoOperations

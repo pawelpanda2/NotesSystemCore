@@ -1,6 +1,4 @@
-﻿using SharpFileServiceProg.Operations.Index;
-using System;
-using static SharpFileServiceProg.Service.IFileService;
+﻿using static SharpFileServiceProg.Service.IFileService;
 
 namespace SharpFileServiceProg.Operations.RepoAddress
 {
@@ -47,6 +45,14 @@ namespace SharpFileServiceProg.Operations.RepoAddress
 
             var url = address.Repo + "/" + address.Loca;
             return url;
+        }
+
+        public string MoveOneLocaBack(string adrString)
+        {
+            var splited = adrString.Split("/").ToList();
+            var joined = string.Join("/", splited.Remove(splited.Last()));
+
+            return joined;
         }
 
         public (string, string) CreateAddressFromString(string addressString)

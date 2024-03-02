@@ -36,8 +36,8 @@ namespace SharpNotesMigrationTests
         {
             // arrange
             var migrator03 = MyBorder.Container.Resolve<IMigrationService.IMigrator03>();
-            var repo = "todo";
-            var loca = "02";
+            var repo = "Notki";
+            var loca = "";
 
             // act
             migrator03.MigrateOneAddress((repo, loca));
@@ -65,7 +65,7 @@ namespace SharpNotesMigrationTests
             // act
             migrator03.MigrateOneFolderRecourively(address);
 
-            // assert
+            // print
             var beforeAfter = migrator03.Changes;
             beforeAfter.ForEach((x) =>
             {
@@ -75,7 +75,6 @@ namespace SharpNotesMigrationTests
                 Console.WriteLine(x.Item4);
                 Console.WriteLine();
             });
-            
         }
 
         [TestMethod]

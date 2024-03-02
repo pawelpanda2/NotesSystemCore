@@ -1,0 +1,66 @@
+﻿@using Newtonsoft.Json
+@using SharpFileServiceProg.Service
+@using SharpRepoBackendProg.Service
+@using SharpSetupProg21Private.AAPublic.Models
+@inject IFileService fileService
+@inject BackendService backendService
+
+@foreach (var indexQname in indexQnameDict)
+{
+    <tr>
+        <td>@indexQname.Key</td>
+        <!-- <td><a @onclick=@OnUrlClicked() href="#"></a></td> -->
+        <input type="button" value="@indexQname.Value" @onclick="() => OnBtnClicked(indexQname.Key)" />
+    </tr>
+}
+
+@code {
+    [Parameter]
+    public ItemModel2 Item { get; set; }
+
+    [Parameter]
+    public Func<ItemModel2, Task> ReloadItem { get; set; }
+
+    private Dictionary<string, string> indexQnameDict;
+    private string myType = "Folder";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        ReloadComponent();
+    }
+
+    private void ReloadComponent()
+    {
+        var tmp = JsonConvert.DeserializeObject<Dictionary<string, string>>(Item.Body.ToString());
+        if (tmp is Dictionary<string, string> dict)
+        {
+            indexQnameDict = dict;
+        }
+    }
+
+    private void OnBtnClicked(string idxString)
+    {
+        var index = fileService.Index.StringToIndex(idxString);
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(Item.Address);
+        var newAddress = fileService.Index.JoinIndexWithLoca(adrTuple, index);
+        var itemJString = GetItem(newAddress);
+        var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
+
+        if (itemObj.Type != myType)
+        {
+            ReloadItem(itemObj);
+            return;
+        }
+        
+        ReloadItem(itemObj);
+        Item = itemObj;
+        ReloadComponent();
+    }
+
+    public string GetItem((string Repo, string Loca) address)
+    {
+        var itemJson = backendService.CommandApi("GetItem", address.Repo, address.Loca);
+        return itemJson;
+    }
+}
