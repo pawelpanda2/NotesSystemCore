@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\03_projects\SharpRepoService\SharpRepoServiceProj\SharpRepoServiceProj.csproj" />
     <ProjectReference Include="..\..\03_projects\SharpRepoBackend\SharpRepoBackendProg2\SharpRepoBackendProg2.csproj" />
     <ProjectReference Include="..\..\23_projects\SharpSetup21\SharpSetupProg21Private\SharpSetupProg21Private.csproj" />
     <ProjectReference Include="..\BlazorInterAutoProj.Client\BlazorInterAutoProj.Client.csproj" />

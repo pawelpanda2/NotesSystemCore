@@ -453,20 +453,21 @@ namespace SharpRepoServiceProg.RepoOperations
             var repoPath = GetLocalPath(address);
             Console.WriteLine($"repoPath: {repoPath}");
             var subLocasList = GetDirectories(repoPath)
-                .Select(x => SelectDirToSection(address.loca, x)).ToList();
+                .Select(x => SelectDirToSection(address.loca, x))
+                .OrderBy(x => x)
+                .ToList();
             
             var names = new Dictionary<string, string>();
             foreach (var subLoca in subLocasList)
             {
                 var subAddress = (address.repo, subLoca);
                 var name = GetName(subAddress);
-                var last = fileService.Index.GetLocaLast(subLoca);
-                names.Add(last.ToString(), name);
+                var lastInt = fileService.Index.GetLocaLast(subLoca);
+                var lastString = fileService.Index.IndexToString(lastInt);
+                names.Add(lastString, name);
             }
-
-            var tmp = names.OrderBy(x => x.Key);
-            var tmp2 = tmp.ToDictionary();
-            return tmp2;
+            
+            return names;
         }
 
         [MethodLogger]

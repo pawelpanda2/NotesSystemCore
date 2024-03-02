@@ -14,10 +14,6 @@
 <!--<PageTitle>Home 2</PageTitle>-->
 
 <div>
-    Type: @item?.Type
-</div>
-
-<div>
     <input type="button" value="<" @onclick="OnBackArrowBtnClicked" />
     <input type="button" value="Go" @onclick="OnGoBtnClicked" />
     Repo<input type="text" @bind=@formRepoName />
@@ -25,11 +21,15 @@
 </div>
 
 <div>
+    Item type: @item
+</div>
+
+<div>
     Name: <textarea style="width: 550px; height: 30px;">@item?.Name</textarea>
 </div>
 
 <div>
-    <TextView @bind-Item=@item ReloadItem=@ReloadItem hidden="@IsMyType"></TextView>
+    <TextView @bind-Item=@item ReloadItem=@ReloadItem></TextView>
     <Folder @bind-Item=@item ReloadItem=@ReloadItem></Folder>
 </div>
 
@@ -59,7 +59,7 @@
         ReloadItem(adrTuple);
     }
 
-    protected async Task ReloadItem((string Repo, string Loca) address)
+    protected void ReloadItem((string Repo, string Loca) address)
     {
         var itemJString = GetItem(address);
         var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
@@ -70,14 +70,19 @@
         formLocaName = adrTuple.Item2;
     }
 
-    protected async Task ReloadItem(ItemModel2 item)
+    protected void ReloadItem(ItemModel2 item, bool reloadState)
     {
-        this.item = item;
+        var itemType = this.item.Type;
+        this.item.Type = itemType;
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(item.Address);
         formRepoName = adrTuple.Item1;
         formLocaName = adrTuple.Item2;
-        //@Html.EditorFor(model => model.AmountDecimal, 
+        if (reloadState)
+        {
+            //StateHasChanged();
+        }
+        //@Html.EditorFor(model => model); 
     }
 
     public void OnGoBtnClicked(MouseEventArgs e)

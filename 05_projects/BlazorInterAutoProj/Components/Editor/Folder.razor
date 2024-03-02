@@ -19,7 +19,7 @@
     public ItemModel2 Item { get; set; }
 
     [Parameter]
-    public Func<ItemModel2, Task> ReloadItem { get; set; }
+    public Action<ItemModel2, bool> ReloadItem { get; set; }
 
     private Dictionary<string, string> indexQnameDict;
     private string myType = "Folder";
@@ -44,7 +44,7 @@
 
     private void ReloadComponent()
     {
-        var tmp = JsonConvert.DeserializeObject<Dictionary<string, string>>(Item.Body.ToString());
+        var tmp = JsonConvert.DeserializeObject<Dictionary<string, string>>(Item?.Body.ToString());
         if (tmp is Dictionary<string, string> dict)
         {
             indexQnameDict = dict;
@@ -62,11 +62,11 @@
 
         if (itemObj.Type != myType)
         {
-            ReloadItem(itemObj);
+            ReloadItem(itemObj, true);
             return;
         }
 
-        ReloadItem(itemObj).Wait();
+        ReloadItem(itemObj, false);
         Item = itemObj;
         ReloadComponent();
     }

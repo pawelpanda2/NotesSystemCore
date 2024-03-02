@@ -5,18 +5,30 @@
 @inject IFileService fileService
 @inject BackendService backendService
 
-<div Vis>
-   <textarea style="width: 550px; height: 30px;">@Item?.Body.ToString()</textarea>
-</div>
+@foreach (var line in linesList)
+{
+    @line
+}
 
 @code {
-    [Parameter]
-    public ItemModel2 Item { get; set; }
+    public ItemModel2 item;
 
     [Parameter]
-    public Func<ItemModel2, Task> ReloadItem { get; set; }
+    public ItemModel2 Item
+    {
+        get => item;
+        set
+        {
+            item = value;
+        }
+    }
+
+    [Parameter]
+    public Action<ItemModel2, bool> ReloadItem { get; set; }
 
     private string myType = "Text";
+
+    private List<string> linesList;
     
     protected override async Task OnInitializedAsync()
     {
@@ -38,6 +50,9 @@
 
     private void ReloadComponent()
     {
+        var tmp = Item?.Body.ToString();
+        var lines = tmp.Split("\n").ToList();
+        linesList = lines;
     }
 
     private void OnBtnClicked(string idxString)
@@ -51,11 +66,11 @@
 
         if (itemObj.Type != myType)
         {
-            ReloadItem(itemObj);
+            ReloadItem(itemObj, true);
             return;
         }
         
-        ReloadItem(itemObj);
+        ReloadItem(itemObj, false);
         Item = itemObj;
         ReloadComponent();
     }
