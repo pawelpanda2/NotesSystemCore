@@ -11,14 +11,15 @@
 
 @rendermode InteractiveServer
 
-    <!--<PageTitle>Home 2</PageTitle>-->
+<!--<PageTitle>Home 2</PageTitle>-->
 
 <div>
     Type: @item?.Type
 </div>
 
 <div>
-    <input type="button" value="Go" @onclick="OnGoBtnClicked" /> <!--@onchange="OnClick01" -->
+    <input type="button" value="<" @onclick="OnBackArrowBtnClicked" />
+    <input type="button" value="Go" @onclick="OnGoBtnClicked" />
     Repo<input type="text" @bind=@formRepoName />
     Loca<input type="text" @bind=@formLocaName />
 </div>
@@ -28,14 +29,8 @@
 </div>
 
 <div>
-    @if (item?.Type == "Text")
-    {
-        <TextView Item=@item ReloadItem=@ReloadItem></TextView>
-    }
-    @if (item?.Type == "Folder")
-    {
-        <Folder Item=@item ReloadItem=@ReloadItem></Folder>
-    }
+    <TextView @bind-Item=@item ReloadItem=@ReloadItem hidden="@IsMyType"></TextView>
+    <Folder @bind-Item=@item ReloadItem=@ReloadItem></Folder>
 </div>
 
 @code {
@@ -46,7 +41,15 @@
 
     public Home()
     {
-        item = new ItemModel2() { Address = "Notki" };
+        if (item == null)
+        {
+            item = new ItemModel2() { Address = "Notki" };
+        }
+    }
+
+    private bool IsMyType()
+    {
+        return true;
     }
 
     protected override async Task OnInitializedAsync()

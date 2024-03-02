@@ -5,7 +5,9 @@
 @inject IFileService fileService
 @inject BackendService backendService
 
-<textarea style="width: 550px; height: 30px;">@Item?.Body.ToString()</textarea>
+<div Vis>
+   <textarea style="width: 550px; height: 30px;">@Item?.Body.ToString()</textarea>
+</div>
 
 @code {
     [Parameter]
@@ -19,6 +21,19 @@
     protected override async Task OnInitializedAsync()
     {
         ReloadComponent();
+    }
+
+    private EventCallback<ItemModel2> itemChanged;
+
+    [Parameter]
+    public EventCallback<ItemModel2> ItemChanged
+    {
+        get => itemChanged;
+        set
+        {
+            itemChanged = value;
+            ReloadComponent();
+        }
     }
 
     private void ReloadComponent()

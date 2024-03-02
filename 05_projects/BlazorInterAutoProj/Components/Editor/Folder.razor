@@ -23,10 +23,23 @@
 
     private Dictionary<string, string> indexQnameDict;
     private string myType = "Folder";
-    
+
     protected override async Task OnInitializedAsync()
     {
         ReloadComponent();
+    }
+
+    private EventCallback<ItemModel2> itemChanged;
+
+    [Parameter]
+    public EventCallback<ItemModel2> ItemChanged
+    {
+        get => itemChanged;
+        set
+        {
+            itemChanged = value;
+            ReloadComponent();
+        }
     }
 
     private void ReloadComponent()
@@ -52,8 +65,8 @@
             ReloadItem(itemObj);
             return;
         }
-        
-        ReloadItem(itemObj);
+
+        ReloadItem(itemObj).Wait();
         Item = itemObj;
         ReloadComponent();
     }
