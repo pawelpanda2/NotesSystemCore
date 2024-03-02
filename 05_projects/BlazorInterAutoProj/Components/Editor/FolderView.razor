@@ -5,14 +5,20 @@
 @inject IFileService fileService
 @inject BackendService backendService
 
-@foreach (var indexQname in indexQnameDict)
+@rendermode InteractiveServer
+
+@if (Item?.Type == myType)
 {
-    <tr>
-        <td>@indexQname.Key</td>
-        <!-- <td><a @onclick=@OnUrlClicked() href="#"></a></td> -->
-        <input type="button" value="@indexQname.Value" @onclick="() => OnBtnClicked(indexQname.Key)" />
-    </tr>
+   @foreach (var indexQname in GetIndexQnameDict())
+   {
+       <tr>
+           <td>@indexQname.Key</td>
+           <!-- <td><a @onclick=@OnUrlClicked() href="#"></a></td> -->
+           <input type="button" value="@indexQname.Value" @onclick="() => OnBtnClicked(indexQname.Key)" />
+       </tr>
+   }
 }
+
 
 @code {
     [Parameter]
@@ -29,26 +35,33 @@
         ReloadComponent();
     }
 
-    private EventCallback<ItemModel2> itemChanged;
+    //private EventCallback<ItemModel2> itemChanged;
 
     [Parameter]
-    public EventCallback<ItemModel2> ItemChanged
+    public EventCallback<ItemModel2> ItemChanged { get; set; }
+
+    void ItemChangeHandler(ItemModel2 item)
     {
-        get => itemChanged;
-        set
-        {
-            itemChanged = value;
-            ReloadComponent();
-        }
+
     }
 
     private void ReloadComponent()
     {
-        var tmp = JsonConvert.DeserializeObject<Dictionary<string, string>>(Item?.Body.ToString());
-        if (tmp is Dictionary<string, string> dict)
+        indexQnameDict = GetIndexQnameDict();
+    }
+
+    private Dictionary<string, string> GetIndexQnameDict()
+    {
+        if (Item.Type == myType)
         {
-            indexQnameDict = dict;
+            var tmp = JsonConvert.DeserializeObject<Dictionary<string, string>>(Item?.Body.ToString());
+            if (tmp is Dictionary<string, string> dict)
+            {
+                return dict;
+            }
         }
+
+        return default;
     }
 
     private void OnBtnClicked(string idxString)

@@ -33,9 +33,9 @@
             CreatePdf,
 
             // google doc
-            OpenGoogledoc,
-            RecreateGoogledoc,
-            CreateGoogledoc,
+            OpenGoogleDoc,
+            RecreateGoogleDoc,
+            CreateGoogleDoc,
 
             // printer
             RunPrinter,

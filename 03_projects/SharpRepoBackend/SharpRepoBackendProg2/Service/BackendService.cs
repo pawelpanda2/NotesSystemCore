@@ -130,7 +130,7 @@ namespace SharpRepoBackendProg.Service
                     return success.ToString();
                 }
 
-                if (cmdName == IBackendService.ApiMethods.CreateGoogledoc.ToString())
+                if (cmdName == IBackendService.ApiMethods.CreateGoogleDoc.ToString())
                 {
                     var url = CreateGoogledoc((repo, loca2));
                     var result = new Dictionary<string, string> { { "url", url } };
@@ -138,13 +138,13 @@ namespace SharpRepoBackendProg.Service
                     return jsonResult;
                 }
 
-                if (cmdName == IBackendService.ApiMethods.RecreateGoogledoc.ToString())
+                if (cmdName == IBackendService.ApiMethods.RecreateGoogleDoc.ToString())
                 {
                     var url = CreateGoogledoc((repo, loca2));
                     OpenGoogledoc(url);
                 }
 
-                if (cmdName == IBackendService.ApiMethods.OpenGoogledoc.ToString())
+                if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
                 {
                     var url = OpenGoogledoc((repo, loca2));
                     OpenGoogledoc(url);
@@ -216,7 +216,7 @@ namespace SharpRepoBackendProg.Service
                     return success.ToString();
                 }
 
-                if (cmdName == IBackendService.ApiMethods.CreateGoogledoc.ToString())
+                if (cmdName == IBackendService.ApiMethods.CreateGoogleDoc.ToString())
                 {
                     var url = CreateGoogledoc((repo, loca));
                     var result = new Dictionary<string, string> { { "url", url } };
@@ -224,7 +224,7 @@ namespace SharpRepoBackendProg.Service
                     return jsonResult;
                 }
 
-                if (cmdName == IBackendService.ApiMethods.OpenGoogledoc.ToString())
+                if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
                 {
                     var url = CreateGoogledoc((repo, loca));
                     OpenGoogledoc(url);

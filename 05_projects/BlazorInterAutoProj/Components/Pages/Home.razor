@@ -11,7 +11,13 @@
 
 @rendermode InteractiveServer
 
-<!--<PageTitle>Home 2</PageTitle>-->
+<!--<PageTitle>Home 2</PageTitle>
+if (reloadState)
+        {
+            //StateHasChanged();
+        }
+        //@Html.EditorFor(model => model);
+-->
 
 <div>
     <input type="button" value="<" @onclick="OnBackArrowBtnClicked" />
@@ -21,16 +27,20 @@
 </div>
 
 <div>
-    Item type: @item
+    Address: @item.Address
 </div>
 
 <div>
-    Name: <textarea style="width: 550px; height: 30px;">@item?.Name</textarea>
+    Type: @item.Type
 </div>
 
 <div>
-    <TextView @bind-Item=@item ReloadItem=@ReloadItem></TextView>
-    <Folder @bind-Item=@item ReloadItem=@ReloadItem></Folder>
+    Name: @item.Name
+</div>
+
+<div>
+    <TextView @bind-Item=@item ReloadItem=@ReloadItem @ref="textView"></TextView>
+    <FolderView @bind-Item=@item ReloadItem=@ReloadItem @ref="folderView"></FolderView>
 </div>
 
 @code {
@@ -38,6 +48,9 @@
 
     private string formRepoName;
     private string formLocaName;
+
+    private TextView textView;
+    private FolderView folderView;
 
     public Home()
     {
@@ -68,21 +81,38 @@
              .CreateAddressFromString(item.Address);
         formRepoName = adrTuple.Item1;
         formLocaName = adrTuple.Item2;
+
+        if (folderView != null)
+        {
+            folderView.Item = item;
+        }
+
+        if (textView != null)
+        {
+            textView.Item = item;
+        }
     }
 
     protected void ReloadItem(ItemModel2 item, bool reloadState)
     {
-        var itemType = this.item.Type;
-        this.item.Type = itemType;
+        this.item = item;
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(item.Address);
         formRepoName = adrTuple.Item1;
         formLocaName = adrTuple.Item2;
-        if (reloadState)
+        
+
+        if (folderView != null)
         {
-            //StateHasChanged();
+            folderView.Item = item;
         }
-        //@Html.EditorFor(model => model); 
+
+        if (textView != null)
+        {
+            textView.Item = item;
+        }
+
+        StateHasChanged();
     }
 
     public void OnGoBtnClicked(MouseEventArgs e)

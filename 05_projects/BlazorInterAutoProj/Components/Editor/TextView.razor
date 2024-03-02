@@ -5,9 +5,20 @@
 @inject IFileService fileService
 @inject BackendService backendService
 
-@foreach (var line in linesList)
+@rendermode InteractiveServer
+
+@if (Item?.Type == myType)
 {
-    @line
+    <input type="button" value="Content" @onclick="ContentClicked" />
+    <input type="button" value="Config" @onclick="ConfigClicked" />
+    <input type="button" value="GoogleDoc" @onclick="GoogleDocClicked" />
+
+   @foreach (var line in linesList)
+   {
+       <div>@line</div>
+   }
+
+    
 }
 
 @code {
@@ -29,7 +40,7 @@
     private string myType = "Text";
 
     private List<string> linesList;
-    
+
     protected override async Task OnInitializedAsync()
     {
         ReloadComponent();
@@ -53,7 +64,31 @@
         var tmp = Item?.Body.ToString();
         var lines = tmp.Split("\n").ToList();
         linesList = lines;
+        //StateHasChanged();
     }
+
+    private void ContentClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+              .CreateAddressFromString(Item.Address);
+        var itemJson = backendService.CommandApi("OpenContent", adrTuple.Item1, adrTuple.Item2);
+    }
+
+    private void ConfigClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+              .CreateAddressFromString(Item.Address);
+        var itemJson = backendService.CommandApi("OpenConfig", adrTuple.Item1, adrTuple.Item2);
+    }
+
+
+    private void GoogleDocClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+              .CreateAddressFromString(Item.Address);
+        var itemJson = backendService.CommandApi("OpenGoogleDoc", adrTuple.Item1, adrTuple.Item2);
+    }
+
 
     private void OnBtnClicked(string idxString)
     {
