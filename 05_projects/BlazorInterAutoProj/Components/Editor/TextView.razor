@@ -1,0 +1,53 @@
+﻿@using Newtonsoft.Json
+@using SharpFileServiceProg.Service
+@using SharpRepoBackendProg.Service
+@using SharpSetupProg21Private.AAPublic.Models
+@inject IFileService fileService
+@inject BackendService backendService
+
+<textarea style="width: 550px; height: 30px;">@Item?.Body.ToString()</textarea>
+
+@code {
+    [Parameter]
+    public ItemModel2 Item { get; set; }
+
+    [Parameter]
+    public Func<ItemModel2, Task> ReloadItem { get; set; }
+
+    private string myType = "Text";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        ReloadComponent();
+    }
+
+    private void ReloadComponent()
+    {
+    }
+
+    private void OnBtnClicked(string idxString)
+    {
+        var index = fileService.Index.StringToIndex(idxString);
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(Item.Address);
+        var newAddress = fileService.Index.JoinIndexWithLoca(adrTuple, index);
+        var itemJString = GetItem(newAddress);
+        var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
+
+        if (itemObj.Type != myType)
+        {
+            ReloadItem(itemObj);
+            return;
+        }
+        
+        ReloadItem(itemObj);
+        Item = itemObj;
+        ReloadComponent();
+    }
+
+    public string GetItem((string Repo, string Loca) address)
+    {
+        var itemJson = backendService.CommandApi("GetItem", address.Repo, address.Loca);
+        return itemJson;
+    }
+}

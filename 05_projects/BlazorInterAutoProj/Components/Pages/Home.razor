@@ -14,7 +14,7 @@
     <!--<PageTitle>Home 2</PageTitle>-->
 
 <div>
-    <input type="button" value="<" @onclick="OnBackArrowBtnClicked" />
+    Type: @item?.Type
 </div>
 
 <div>
@@ -30,7 +30,7 @@
 <div>
     @if (item?.Type == "Text")
     {
-        <textarea style="width: 600px; height: 1200px;">@item?.Body.ToString()</textarea>
+        <TextView Item=@item ReloadItem=@ReloadItem></TextView>
     }
     @if (item?.Type == "Folder")
     {
