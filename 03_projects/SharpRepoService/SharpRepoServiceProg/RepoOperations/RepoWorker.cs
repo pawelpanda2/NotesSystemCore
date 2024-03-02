@@ -445,8 +445,7 @@ namespace SharpRepoServiceProg.RepoOperations
             var name = File.ReadAllLines(path).First();
             return name;
         }
-
-
+        
         [MethodLogger]
         public Dictionary<string, string> GetAllIndexesQNames(
             (string repo, string loca) address)

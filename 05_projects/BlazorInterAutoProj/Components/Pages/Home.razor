@@ -19,8 +19,8 @@
 
 <div>
     <input type="button" value="Go" @onclick="OnGoBtnClicked" /> <!--@onchange="OnClick01" -->
-    Repo<input type="text" @bind="formRepoName" />
-    Loca<input type="text" @bind="formLocaName" />
+    Repo<input type="text" @bind=@formRepoName />
+    Loca<input type="text" @bind=@formLocaName />
 </div>
 
 <div>
@@ -61,6 +61,10 @@
         var itemJString = GetItem(address);
         var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
         item = itemObj;
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(item.Address);
+        formRepoName = adrTuple.Item1;
+        formLocaName = adrTuple.Item2;
     }
 
     protected async Task ReloadItem(ItemModel2 item)
@@ -70,6 +74,7 @@
              .CreateAddressFromString(item.Address);
         formRepoName = adrTuple.Item1;
         formLocaName = adrTuple.Item2;
+        //@Html.EditorFor(model => model.AmountDecimal, 
     }
 
     public void OnGoBtnClicked(MouseEventArgs e)
@@ -89,7 +94,7 @@
         var newAddress = fileService.RepoAddress
              .MoveOneLocaBack(item.Address);
         var newAdrTuple = fileService.RepoAddress
-             .CreateAddressFromString(item.Address);
+             .CreateAddressFromString(newAddress);
         ReloadItem(newAdrTuple);
     }
 }
