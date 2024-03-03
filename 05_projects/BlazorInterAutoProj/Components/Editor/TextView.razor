@@ -4,8 +4,29 @@
 @using SharpSetupProg21Private.AAPublic.Models
 @inject IFileService fileService
 @inject BackendService backendService
-
 @rendermode InteractiveServer
+
+@if (Item?.Type == myType)
+{
+    <div>
+        <input type="button" value="Folder" @onclick="OnFolderClicked" />
+        <input type="button" value="Content" @onclick="ContentClicked" />
+        <input type="button" value="Config" @onclick="ConfigClicked" />
+        <input type="button" value="GoogleDoc" @onclick="GoogleDocClicked" />
+    </div>
+
+    <div>
+        <input type="button" value="Add" @onclick="OnAddClicked" />
+        <input type="text" @bind=@formAddValue>
+    </div>
+
+    <div>
+        <textarea readonly style="resize:none; width:800px; height: 1200px;">@item.Body</textarea>
+    </div>
+}
+
+@*
+<div>@item.Body</div>
 
 @if (Item?.Type == myType)
 {
@@ -18,6 +39,7 @@
        <div>@line</div>
    }
 }
+*@
 
 @code {
     public ItemModel2 item;
@@ -38,6 +60,10 @@
     private string myType = "Text";
 
     private List<string> linesList;
+
+    private string formAddValue;
+
+    private int rows;
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,6 +88,7 @@
         var tmp = Item?.Body.ToString();
         var lines = tmp.Split("\n").ToList();
         linesList = lines;
+        rows = linesList.Count();
         //StateHasChanged();
     }
 
@@ -106,6 +133,28 @@
         ReloadItem(itemObj, false);
         Item = itemObj;
         ReloadComponent();
+    }
+
+    private void OnAddClicked()
+    {
+        if (string.IsNullOrEmpty(formAddValue))
+        {
+            return;
+        }
+
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(Item.Address);
+        // todo
+        // var itemJson = backendService
+        //     .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Folder");
+    }
+
+    private void OnFolderClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+             .CreateAddressFromString(Item.Address);
+        var itemJson = backendService
+            .CommandApi("OpenFolder", adrTuple.Item1, adrTuple.Item2);
     }
 
     public string GetItem((string Repo, string Loca) address)

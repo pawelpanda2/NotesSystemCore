@@ -4,17 +4,20 @@
 @using SharpSetupProg21Private.AAPublic.Models
 @inject IFileService fileService
 @inject BackendService backendService
-
 @rendermode InteractiveServer
 
-<input type="button" value="Add" @onclick="OnAddClicked" />
-<input type="text" @bind=@formAddValue>
-
-<div>
-    <input type="button" value="Folder" @onclick="OnFolderClicked" />
-</div>
 @if (Item?.Type == myType)
 {
+    <div>
+        <input type="button" value="Folder" @onclick="OnFolderClicked" />
+        <input type="button" value="Config" @onclick="ConfigClicked" />
+    </div>
+
+    <div>
+        <input type="button" value="Add" @onclick="OnAddClicked" />
+        <input type="text" @bind=@formAddValue>
+    </div>
+
    @foreach (var indexQname in GetIndexQnameDict())
    {
        <tr>
@@ -91,6 +94,13 @@
              .CreateAddressFromString(Item.Address);
         var itemJson = backendService
             .CommandApi("OpenFolder", adrTuple.Item1, adrTuple.Item2);
+    }
+
+    private void ConfigClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+              .CreateAddressFromString(Item.Address);
+        var itemJson = backendService.CommandApi("OpenConfig", adrTuple.Item1, adrTuple.Item2);
     }
 
     private void OnBtnClicked(string idxString)
