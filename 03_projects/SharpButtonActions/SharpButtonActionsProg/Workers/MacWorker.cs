@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace SharpButtonActionsProg.Workers
@@ -19,9 +20,21 @@ namespace SharpButtonActionsProg.Workers
             // var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
         }
 
+        private string GetBinFile(string fileName)
+        {
+            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var binFolder = Path.GetDirectoryName(codeBase);
+            var filePath = binFolder + "/" + fileName;
+            return filePath;
+        }
+
         public void TryOpenFolder(string path)
         {
             if (!IsMyOsSystem()) { return; }
+
+            
+
+            RunShellScriptOSX("OpenFolder.sh", path);
 
             //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
             var exePath = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
@@ -77,10 +90,12 @@ namespace SharpButtonActionsProg.Workers
 
             try
             {
+                RunShellScriptOSX("OpenFile.sh", path);
+
                 //var exePath = "/applications/textedit.app";
                 //var exePath = "/applications/textedit.app/contents/macos/textedit";
-                var exePath = "/Applications/Nova.app/Contents/MacOS/Nova";
-                var gg = Process.Start(exePath, path);
+                //var exePath = "/Applications/Nova.app/Contents/MacOS/Nova";
+                //var gg = Process.Start(exePath, path);
             }
             catch (Exception ex)
             {
@@ -92,10 +107,12 @@ namespace SharpButtonActionsProg.Workers
         {
             if (!IsMyOsSystem()) { return; }
 
-            var contentFilePath = path + "/" + "nazwa.txt";
-            var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
-            var windowsFormatPath = Path.GetFullPath(contentFilePath);
-            Process.Start(programPath, windowsFormatPath);
+            RunShellScriptOSX("OpenFile.sh", path);
+
+            //var contentFilePath = path + "/" + "nazwa.txt";
+            //var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
+            //var windowsFormatPath = Path.GetFullPath(contentFilePath);
+            //Process.Start(programPath, windowsFormatPath);
         }
 
         public void RunShellScriptOSX(string scriptPath, string arguments = null)
