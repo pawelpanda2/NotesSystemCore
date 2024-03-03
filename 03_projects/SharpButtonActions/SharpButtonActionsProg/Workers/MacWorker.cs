@@ -33,7 +33,7 @@ namespace SharpButtonActionsProg.Workers
             if (!IsMyOsSystem()) { return; }
 
             
-            var scriptPath = GetBinFile("ShellScripts/OpenFolder.sh");
+            var scriptPath = GetBinFile("ShellScripts/OpenFolder.applescript");
             scriptPath = scriptPath.Replace("file:", "");
             RunScript2(scriptPath, path);
 
@@ -108,7 +108,7 @@ namespace SharpButtonActionsProg.Workers
         {
             if (!IsMyOsSystem()) { return; }
 
-            RunScript2("OpenFile.sh", path);
+            RunScript2("Openfold.", path);
 
             //var contentFilePath = path + "/" + "nazwa.txt";
             //var programPath = @"C:\Program Files\Notepad++\notepad++.exe";

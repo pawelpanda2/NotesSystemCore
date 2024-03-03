@@ -20,14 +20,23 @@
 
    @foreach (var indexQname in GetIndexQnameDict())
    {
-       <tr>
-           <td>@indexQname.Key</td>
-           <!-- <td><a @onclick=@OnUrlClicked() href="#"></a></td> -->
+       <div>
+           @indexQname.Key
            <input type="button" value="@indexQname.Value" @onclick="() => OnBtnClicked(indexQname.Key)" />
-       </tr>
+       </div>
    }
 }
 
+@*
+@foreach (var indexQname in GetIndexQnameDict())
+{
+    <tr>
+        <td>@indexQname.Key</td>
+        <!-- <td><a @onclick=@OnUrlClicked() href="#"></a></td> -->
+        <input type="button" value="@indexQname.Value" @onclick="() => OnBtnClicked(indexQname.Key)" />
+    </tr>
+}
+*@
 @code {
     [Parameter]
     public ItemModel2 Item { get; set; }
