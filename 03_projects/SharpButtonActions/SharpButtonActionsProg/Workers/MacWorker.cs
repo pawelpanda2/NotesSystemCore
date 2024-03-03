@@ -35,7 +35,7 @@ namespace SharpButtonActionsProg.Workers
             
             var scriptPath = GetBinFile("ShellScripts/OpenFolder.sh");
             scriptPath = scriptPath.Replace("file:", "");
-            RunShellScriptOSX(scriptPath, path);
+            RunScript2(scriptPath, path);
 
             //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
             // var exePath = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
@@ -91,7 +91,7 @@ namespace SharpButtonActionsProg.Workers
 
             try
             {
-                RunShellScriptOSX("OpenFile.sh", path);
+                RunScript2("OpenFile.sh", path);
 
                 //var exePath = "/applications/textedit.app";
                 //var exePath = "/applications/textedit.app/contents/macos/textedit";
@@ -108,7 +108,7 @@ namespace SharpButtonActionsProg.Workers
         {
             if (!IsMyOsSystem()) { return; }
 
-            RunShellScriptOSX("OpenFile.sh", path);
+            RunScript2("OpenFile.sh", path);
 
             //var contentFilePath = path + "/" + "nazwa.txt";
             //var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
@@ -116,9 +116,39 @@ namespace SharpButtonActionsProg.Workers
             //Process.Start(programPath, windowsFormatPath);
         }
 
-        public void RunShellScriptOSX(string scriptPath, string arguments = null)
+        public void RunScript2(string scriptPath, string arguments = null)
         {
             if (!IsMyOsSystem()) { return; }
+
+            //string test = $" -c \"osascript -e \' tell application \\\"Terminal\\\" to do script \\\"echo hello\\\" \' \"";
+            
+            string test = $" -c \"osascript {scriptPath}\"";
+            
+            test = new string(test.Where(c => !char.IsControl(c)).ToArray());
+            Console.WriteLine(test);
+            var startInfo = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                WindowStyle = ProcessWindowStyle.Normal,
+                FileName = "/bin/bash",
+                Arguments = test,
+                CreateNoWindow = false,
+            };
+            var process = new Process()
+            {
+                StartInfo = startInfo,
+            };
+            process.StartInfo = startInfo;
+            var s1 = process.Start();
+        }
+
+        public void RunScript1(string scriptPath, string arguments = null)
+        {
+            if (!IsMyOsSystem()) { return; }
+
+            var appPath = "/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
+
+            var s1 = Process.Start(appPath, "open .");
 
             ProcessStartInfo startInfo = new ProcessStartInfo()
             {
