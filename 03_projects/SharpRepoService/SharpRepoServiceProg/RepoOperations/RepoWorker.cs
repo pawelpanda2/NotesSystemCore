@@ -321,6 +321,25 @@ namespace SharpRepoServiceProg.RepoOperations
             return item;
         }
 
+        public string CreateItem(
+            (string repo, string loca) adrTuple, string name, string type)
+        {
+            string item = "";
+
+            if (type == "Text")
+            {
+                var newAdrTuple = CreateText(adrTuple, name);
+                item = GetItem(newAdrTuple);
+            }
+            if (type == "Folder")
+            {
+                var newAdrTuple = CreateFolder(adrTuple, name);
+                item = GetItem(newAdrTuple);
+            }
+            
+            return item;
+        }
+        
         public Dictionary<string, object> GetItemDict(
             (string repo, string loca) adrTuple)
         {

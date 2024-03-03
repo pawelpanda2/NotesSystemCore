@@ -6,6 +6,7 @@
         {
             // item
             GetItem,
+            CreateItem,
 
             // name
             GetName,

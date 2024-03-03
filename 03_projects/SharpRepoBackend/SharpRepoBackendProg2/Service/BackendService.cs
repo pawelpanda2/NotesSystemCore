@@ -59,10 +59,20 @@ namespace SharpRepoBackendProg.Service
             }
         }
 
-        public string CommandApi(string cmdName, string repo = "", string loca = "")
+        public string CommandApi(string cmdName, params string[] args)
         {
+            string repo = "";
+            string loca = "";
+
+            if (args.Length >= 2)
+            {
+                repo = args[0];
+                loca = args[1];
+            }
+
             try
             {
+                // config details (ex. names)
                 if (cmdName == IBackendService.ApiMethods.GetAllRepoName.ToString())
                 {
                     var allRepoNames = repoService.Methods.GetAllReposNames();
@@ -72,8 +82,18 @@ namespace SharpRepoBackendProg.Service
 
                 var loca2 = loca.Replace("-", "/");
                 var itemPath = repoService.Methods.GetElemPath((repo, loca2));
+
+                // var address = (repo, loca);
+                // if (cmdName == IBackendService.ApiMethods.GetName.ToString())
+                // {
+                //     var item = repoService.Methods.GetItem(address);
+                //     var tmp = Json.Deserialize(item);
+                //     var name = tmp["name"];
+                //     return Json.Serialize(name)
+                // }
                 
 
+                // folder
                 if (cmdName == IBackendService.ApiMethods.OpenFolder.ToString())
                 {
                     buttonActionService.OpenFolder(itemPath);
@@ -84,28 +104,11 @@ namespace SharpRepoBackendProg.Service
                     return json;
                 }
                 
+                //content
                 if (cmdName == IBackendService.ApiMethods.OpenContent.ToString())
                 {
                     buttonActionService.OpenContent(itemPath);
                 }
-
-
-                var address = (repo, loca);
-                if (cmdName == IBackendService.ApiMethods.GetItem.ToString())
-                {
-                    var item = repoService.Methods.GetItem(address);
-                    return item;
-                }
-
-                // var address = (repo, loca);
-                // if (cmdName == IBackendService.ApiMethods.GetName.ToString())
-                // {
-                //     var item = repoService.Methods.GetItem(address);
-                //     var tmp = Json.Deserialize(item);
-                //     var name = tmp["name"];
-                //     return Json.Serialize(name)
-                // }
-
                 // if (cmdName == IBackendService.ApiMethods.GetContent.ToString())
                 // {
                 //     var item = repoService.Methods.GetItem(address);
@@ -113,16 +116,32 @@ namespace SharpRepoBackendProg.Service
                 //     return body;
                 // }
 
+                // item
+                var address = (repo, loca);
+                if (cmdName == IBackendService.ApiMethods.GetItem.ToString())
+                {
+                    var item = repoService.Methods.GetItem(address);
+                    return item;
+                }
+                if (cmdName == IBackendService.ApiMethods.CreateItem.ToString())
+                {
+                    var name = args[2];
+                    var type = args[3];
+                    var item = repoService.Methods.CreateItem(address, name, type);
+                    return item;
+                }
+
+                // config
                 if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())
                 {
                     buttonActionService.OpenConfigFile(itemPath);
                 }
 
+                // pdf
                 if (cmdName == IBackendService.ApiMethods.CreatePdf.ToString())
                 {
                     CreatePdf((repo, loca2));
                 }
-
                 if (cmdName == IBackendService.ApiMethods.OpenPdf.ToString())
                 {
                     var pdfPath = CreatePdf((repo, loca2));
@@ -130,6 +149,12 @@ namespace SharpRepoBackendProg.Service
                     return success.ToString();
                 }
 
+                // google docs
+                if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
+                {
+                    var url = OpenGoogledoc((repo, loca2));
+                    OpenGoogledoc(url);
+                }
                 if (cmdName == IBackendService.ApiMethods.CreateGoogleDoc.ToString())
                 {
                     var url = CreateGoogledoc((repo, loca2));
@@ -137,19 +162,13 @@ namespace SharpRepoBackendProg.Service
                     var jsonResult = JsonConvert.SerializeObject(result);
                     return jsonResult;
                 }
-
                 if (cmdName == IBackendService.ApiMethods.RecreateGoogleDoc.ToString())
                 {
                     var url = CreateGoogledoc((repo, loca2));
                     OpenGoogledoc(url);
                 }
 
-                if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
-                {
-                    var url = OpenGoogledoc((repo, loca2));
-                    OpenGoogledoc(url);
-                }
-
+                // printer
                 if (cmdName == IBackendService.ApiMethods.RunPrinter.ToString())
                 {
                     //var pdfPath = CreatePdf((repo, loca2));
@@ -166,108 +185,108 @@ namespace SharpRepoBackendProg.Service
             return JsonConvert.SerializeObject("bad request - method not found!");
         }
 
-        public string CommandApi(string cmdName, string[] args)
-        {
-            try
-            {
-                // zero arguments
-                if (cmdName == IBackendService.ApiMethods.GetAllRepoName.ToString())
-                {
-                    var allRepoNames = repoService.Methods.GetAllReposNames();
-                    var jsonString = JsonConvert.SerializeObject(allRepoNames);
-                    return jsonString;
-                }
+        // public string CommandApi(string cmdName, string[] args)
+        // {
+        //     try
+        //     {
+        //         // zero arguments
+        //         if (cmdName == IBackendService.ApiMethods.GetAllRepoName.ToString())
+        //         {
+        //             var allRepoNames = repoService.Methods.GetAllReposNames();
+        //             var jsonString = JsonConvert.SerializeObject(allRepoNames);
+        //             return jsonString;
+        //         }
 
-                // two arguments
-                var repo = args[0];
-                var loca = args[1].Replace("-", "/");
-                var address = (repo, loca);
-                var itemPath = repoService.Methods.GetElemPath((repo, loca));
+        //         // two arguments
+        //         var repo = args[0];
+        //         var loca = args[1].Replace("-", "/");
+        //         var address = (repo, loca);
+        //         var itemPath = repoService.Methods.GetElemPath((repo, loca));
 
-                if (cmdName == IBackendService.ApiMethods.OpenFolder.ToString())
-                {
-                    buttonActionService.OpenFolder(itemPath);
+        //         if (cmdName == IBackendService.ApiMethods.OpenFolder.ToString())
+        //         {
+        //             buttonActionService.OpenFolder(itemPath);
 
-                    var url = "https://docs.google.com/document/d/18H_5aGqmrch7M_WCJ49PcA0doRxbLCC_bmULwraspe4";
-                    var result2 = new Dictionary<string, string> { { "url", url } };
-                    var json = JsonConvert.SerializeObject(result2);
-                    return json;
-                }
+        //             var url = "https://docs.google.com/document/d/18H_5aGqmrch7M_WCJ49PcA0doRxbLCC_bmULwraspe4";
+        //             var result2 = new Dictionary<string, string> { { "url", url } };
+        //             var json = JsonConvert.SerializeObject(result2);
+        //             return json;
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.OpenContent.ToString())
-                {
-                    buttonActionService.OpenContent(itemPath);
-                }
+        //         if (cmdName == IBackendService.ApiMethods.OpenContent.ToString())
+        //         {
+        //             buttonActionService.OpenContent(itemPath);
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())
-                {
-                    buttonActionService.OpenConfigFile(itemPath);
-                }
+        //         if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())
+        //         {
+        //             buttonActionService.OpenConfigFile(itemPath);
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.CreatePdf.ToString())
-                {
-                    CreatePdf((repo, loca));
-                }
+        //         if (cmdName == IBackendService.ApiMethods.CreatePdf.ToString())
+        //         {
+        //             CreatePdf((repo, loca));
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.OpenPdf.ToString())
-                {
-                    var pdfPath = CreatePdf((repo, loca));
-                    var success = pdfService.Open(pdfPath);
-                    return success.ToString();
-                }
+        //         if (cmdName == IBackendService.ApiMethods.OpenPdf.ToString())
+        //         {
+        //             var pdfPath = CreatePdf((repo, loca));
+        //             var success = pdfService.Open(pdfPath);
+        //             return success.ToString();
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.CreateGoogleDoc.ToString())
-                {
-                    var url = CreateGoogledoc((repo, loca));
-                    var result = new Dictionary<string, string> { { "url", url } };
-                    var jsonResult = JsonConvert.SerializeObject(result);
-                    return jsonResult;
-                }
+        //         if (cmdName == IBackendService.ApiMethods.CreateGoogleDoc.ToString())
+        //         {
+        //             var url = CreateGoogledoc((repo, loca));
+        //             var result = new Dictionary<string, string> { { "url", url } };
+        //             var jsonResult = JsonConvert.SerializeObject(result);
+        //             return jsonResult;
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
-                {
-                    var url = CreateGoogledoc((repo, loca));
-                    OpenGoogledoc(url);
-                }
+        //         if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
+        //         {
+        //             var url = CreateGoogledoc((repo, loca));
+        //             OpenGoogledoc(url);
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.RunPrinter.ToString())
-                {
-                    //var pdfPath = CreatePdf((repo, loca2));
-                    var pdfPath = itemPath + "/" + "lista.pdf";
-                    pdfService.RunPrinter(pdfPath);
-                    return string.Empty;
-                }
+        //         if (cmdName == IBackendService.ApiMethods.RunPrinter.ToString())
+        //         {
+        //             //var pdfPath = CreatePdf((repo, loca2));
+        //             var pdfPath = itemPath + "/" + "lista.pdf";
+        //             pdfService.RunPrinter(pdfPath);
+        //             return string.Empty;
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.CreateFolder.ToString())
-                {
-                    var type = args[2];
-                    var name = args[3];
-                    if (type == "Folder")
-                    {
-                        var outputItem = repoService.Methods
-                            .CreateChildFolder(address, name);
-                        return JsonConvert.SerializeObject("completed!");
-                    }
-                    if (type == "Text")
-                    {
-                        var outputItem = repoService.Methods
-                            .CreateChildText(address, name);
-                        return JsonConvert.SerializeObject("completed!");
-                    }
-                }
+        //         if (cmdName == IBackendService.ApiMethods.CreateFolder.ToString())
+        //         {
+        //             var type = args[2];
+        //             var name = args[3];
+        //             if (type == "Folder")
+        //             {
+        //                 var outputItem = repoService.Methods
+        //                     .CreateChildFolder(address, name);
+        //                 return JsonConvert.SerializeObject("completed!");
+        //             }
+        //             if (type == "Text")
+        //             {
+        //                 var outputItem = repoService.Methods
+        //                     .CreateChildText(address, name);
+        //                 return JsonConvert.SerializeObject("completed!");
+        //             }
+        //         }
 
-                if (cmdName == IBackendService.ApiMethods.AddContent.ToString())
-                {
-                    var content = args[2];
-                    repoService.Methods
-                            .AppendText(address, content);
-                    return JsonConvert.SerializeObject("completed!");
-                }
-            }
-            catch { }
+        //         if (cmdName == IBackendService.ApiMethods.AddContent.ToString())
+        //         {
+        //             var content = args[2];
+        //             repoService.Methods
+        //                     .AppendText(address, content);
+        //             return JsonConvert.SerializeObject("completed!");
+        //         }
+        //     }
+        //     catch { }
 
-            return JsonConvert.SerializeObject("completed!");
-        }
+        //     return JsonConvert.SerializeObject("completed!");
+        // }
 
         private void OpenGoogledoc(string url)
         {
