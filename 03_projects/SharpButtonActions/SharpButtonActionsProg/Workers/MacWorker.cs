@@ -33,8 +33,8 @@ namespace SharpButtonActionsProg.Workers
             if (!IsMyOsSystem()) { return; }
 
             
-            var scriptPath = GetBinFile("OpenFolder.sh");
-            scriptPath = scriptPath.Replace("file://", "");
+            var scriptPath = GetBinFile("ShellScripts/OpenFolder.sh");
+            scriptPath = scriptPath.Replace("file:", "");
             RunShellScriptOSX(scriptPath, path);
 
             //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
