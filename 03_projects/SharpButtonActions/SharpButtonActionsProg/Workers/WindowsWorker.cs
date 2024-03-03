@@ -1,13 +1,22 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
-namespace SharpButtonActionsProj.Service
+namespace SharpButtonActionsProg.Workers
 {
     public class WindowsWorker
     {
         static char space = ' ';
 
+        private bool IsMyOsSystem()
+        {
+            var result = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            return result;
+        }
+
         public void TryOpenFolder(string path)
         {
+            if (!IsMyOsSystem()) { return; }
+
             var programPath = "explorer.exe";
             var windowsFormatPath = Path.GetFullPath(path);
             Process.Start(programPath, windowsFormatPath);
@@ -15,6 +24,8 @@ namespace SharpButtonActionsProj.Service
 
         public void OpenContent(string path)
         {
+            if (!IsMyOsSystem()) { return; }
+
             var contentFilePath = path + "/" + "lista.txt";
             var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
             var windowsFormatPath = Path.GetFullPath(contentFilePath);
@@ -23,6 +34,8 @@ namespace SharpButtonActionsProj.Service
 
         public void OpenConfigFile(string path)
         {
+            if (!IsMyOsSystem()) { return; }
+
             var contentFilePath = path + "/" + "nazwa.txt";
             var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
             var windowsFormatPath = Path.GetFullPath(contentFilePath);

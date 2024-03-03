@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
-namespace SharpButtonActionsProj.Service
+namespace SharpButtonActionsProg.Workers
 {
     public class MacWorker
     {
         static char space = ' ';
-        
+
         private void AppPathsCorrect()
         {
             // Nova
@@ -20,68 +21,103 @@ namespace SharpButtonActionsProj.Service
 
         public void TryOpenFolder(string path)
         {
+            if (!IsMyOsSystem()) { return; }
+
             //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
             var exePath = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
 
             //var p = Process.Start(exePath, path);
 
-            var startInfo = new ProcessStartInfo {
+            var startInfo = new ProcessStartInfo
+            {
                 FileName = exePath,
                 Arguments = path,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
-                UserName = System.Environment.UserName
+                UserName = Environment.UserName
             };
 
-            var process = Process.Start (startInfo);
+            var process = Process.Start(startInfo);
         }
 
         public void TryOpenTerminal(string path)
         {
+            if (!IsMyOsSystem()) { return; }
+
             try
             {
                 var exePath = "/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-                System.Diagnostics.Process uploadProc = new System.Diagnostics.Process {
+                Process uploadProc = new Process
+                {
                     StartInfo = {
                         FileName = exePath,
                         UseShellExecute = false,
                         CreateNoWindow = false,
-                        WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
+                        WindowStyle = ProcessWindowStyle.Normal
                     }
                 };
-            
+
                 uploadProc.Start();
 
                 //var exePath = "/Applications/Utilities/Terminal.app/contents/macos/terminal";
                 //var exePath = @"/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
                 //Process.Start(exePath);
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
 
-            }            
+            }
         }
 
         public void TryOpenContent(string path)
         {
-            try{
+            if (!IsMyOsSystem()) { return; }
+
+            try
+            {
                 //var exePath = "/applications/textedit.app";
                 //var exePath = "/applications/textedit.app/contents/macos/textedit";
                 var exePath = "/Applications/Nova.app/Contents/MacOS/Nova";
                 var gg = Process.Start(exePath, path);
             }
-            catch(Exception ex){
-                
-            }            
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void TryOpenConfigFile(string path)
         {
+            if (!IsMyOsSystem()) { return; }
+
             var contentFilePath = path + "/" + "nazwa.txt";
             var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
             var windowsFormatPath = Path.GetFullPath(contentFilePath);
             Process.Start(programPath, windowsFormatPath);
+        }
+
+        public void RunShellScriptOSX(string scriptPath, string arguments = null)
+        {
+            if (!IsMyOsSystem()) { return; }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "osascript",
+                Arguments = $"-e 'tell application \"Terminal\" to activate' -e 'tell application \"Terminal\" to do script \"sh {scriptPath} {arguments}\"'",
+
+                UseShellExecute = true,
+                CreateNoWindow = false,
+                Verb = "runas",
+                RedirectStandardOutput = false,
+                RedirectStandardInput = false,
+            };
+            Process process = new Process()
+            {
+                StartInfo = startInfo,
+            };
+            process.Start();
         }
 
         public void Run(string[] args)
@@ -130,6 +166,12 @@ namespace SharpButtonActionsProj.Service
                     process.Start();
                 }
             }
+        }
+
+        private bool IsMyOsSystem()
+        {
+            var result = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return result;
         }
     }
 }
