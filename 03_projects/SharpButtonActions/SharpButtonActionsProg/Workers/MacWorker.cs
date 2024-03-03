@@ -22,7 +22,7 @@ namespace SharpButtonActionsProg.Workers
 
         private string GetBinFile(string fileName)
         {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var codeBase = Assembly.GetAssembly(this.GetType()).CodeBase;
             var binFolder = Path.GetDirectoryName(codeBase);
             var filePath = binFolder + "/" + fileName;
             return filePath;
@@ -34,6 +34,7 @@ namespace SharpButtonActionsProg.Workers
 
             
             var scriptPath = GetBinFile("OpenFolder.sh");
+            scriptPath = scriptPath.Replace("file://", "");
             RunShellScriptOSX(scriptPath, path);
 
             //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
