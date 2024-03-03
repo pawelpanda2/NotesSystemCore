@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="ShellScripts\OpenFolder.applescript">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShellScripts\OpenFile.applescript">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ShellScripts\OpenFile.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
