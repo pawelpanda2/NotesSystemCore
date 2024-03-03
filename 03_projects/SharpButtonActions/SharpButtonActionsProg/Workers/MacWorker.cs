@@ -33,26 +33,26 @@ namespace SharpButtonActionsProg.Workers
             if (!IsMyOsSystem()) { return; }
 
             
-
-            RunShellScriptOSX("OpenFolder.sh", path);
+            var scriptPath = GetBinFile("OpenFolder.sh");
+            RunShellScriptOSX(scriptPath, path);
 
             //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
-            var exePath = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
+            // var exePath = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
 
-            //var p = Process.Start(exePath, path);
+            // //var p = Process.Start(exePath, path);
 
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = exePath,
-                Arguments = path,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                RedirectStandardInput = true,
-                UserName = Environment.UserName
-            };
+            // var startInfo = new ProcessStartInfo
+            // {
+            //     FileName = exePath,
+            //     Arguments = path,
+            //     UseShellExecute = false,
+            //     RedirectStandardOutput = true,
+            //     RedirectStandardError = true,
+            //     RedirectStandardInput = true,
+            //     UserName = Environment.UserName
+            // };
 
-            var process = Process.Start(startInfo);
+            // var process = Process.Start(startInfo);
         }
 
         public void TryOpenTerminal(string path)
