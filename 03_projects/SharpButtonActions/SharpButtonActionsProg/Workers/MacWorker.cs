@@ -64,10 +64,17 @@ namespace SharpButtonActionsProg.Workers
             return Assembly.GetAssembly(this.GetType());
         }
 
+        private string GetAssemblyFolderPath()
+        {
+            var assembly = GetAssembly();
+            var path = Path.GetDirectoryName(assembly.CodeBase);
+            path = path.Replace("file:", "");
+            return path;
+        }
+
         private string ReplaceBinFile(string fileName, string content)
         {
-            var codeBase = GetAssembly().CodeBase;
-            var binFolder = Path.GetDirectoryName(codeBase).Replace("file:\\", "");
+            var binFolder = GetAssemblyFolderPath();
 
             var filePath = binFolder + "/" + fileName;
             if (File.Exists(filePath))
@@ -81,8 +88,7 @@ namespace SharpButtonActionsProg.Workers
 
         private string GetBinFilePath(string fileName)
         {
-            var codeBase = GetAssembly().CodeBase;
-            var binFolder = Path.GetDirectoryName(codeBase);
+            var binFolder = GetAssemblyFolderPath();
             var filePath = binFolder + "/" + fileName;
             return filePath;
         }
@@ -92,9 +98,7 @@ namespace SharpButtonActionsProg.Workers
             if (!IsMyOsSystem()) { return; }
 
             PrepareOpenFolder(path);
-
-            var scriptPath = GetBinFilePath(osaFilePath);
-            RunOsaScript(scriptPath, path);
+            RunOsaScript(osaFilePath, path);
         }
 
         public void TryOpenTerminal(string path)

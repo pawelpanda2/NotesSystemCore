@@ -98,9 +98,8 @@ namespace SharpRepoBackendProg.Service
                 {
                     buttonActionService.OpenFolder(itemPath);
 
-                    var url = "https://docs.google.com/document/d/18H_5aGqmrch7M_WCJ49PcA0doRxbLCC_bmULwraspe4";
-                    var result2 = new Dictionary<string, string> { { "url", url } };
-                    var json = JsonConvert.SerializeObject(result2);
+                    var result = "200; OK";
+                    var json = JsonConvert.SerializeObject(result);
                     return json;
                 }
                 
