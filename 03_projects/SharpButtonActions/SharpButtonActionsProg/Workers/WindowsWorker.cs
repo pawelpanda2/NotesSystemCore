@@ -22,21 +22,11 @@ namespace SharpButtonActionsProg.Workers
             Process.Start(programPath, windowsFormatPath);
         }
 
-        public void OpenContent(string path)
+        public void TryOpenFile(string path)
         {
             if (!IsMyOsSystem()) { return; }
 
             var contentFilePath = path + "/" + "lista.txt";
-            var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
-            var windowsFormatPath = Path.GetFullPath(contentFilePath);
-            Process.Start(programPath, windowsFormatPath);
-        }
-
-        public void OpenConfigFile(string path)
-        {
-            if (!IsMyOsSystem()) { return; }
-
-            var contentFilePath = path + "/" + "nazwa.txt";
             var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
             var windowsFormatPath = Path.GetFullPath(contentFilePath);
             Process.Start(programPath, windowsFormatPath);

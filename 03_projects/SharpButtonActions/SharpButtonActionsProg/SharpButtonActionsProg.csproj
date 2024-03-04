@@ -8,16 +8,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="ShellScripts\OpenFolder.applescript">
+    <None Remove="OpenFolder.applescript" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="OsaScripts\OpenFolder.scpt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharpFileService\SharpFileServiceProg\SharpFileServiceProg.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="OsaScripts\OpenFile.applescript">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ShellScripts\OpenFile.applescript">
+    <None Update="OsaScripts\OpenFile.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ShellScripts\OpenFile.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ShellScripts\OpenFolder.sh">
+    <None Update="OsaScripts\OpenFolder.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

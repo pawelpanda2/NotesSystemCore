@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SharpFileServiceProg.Service;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -6,7 +7,45 @@ namespace SharpButtonActionsProg.Workers
 {
     public class MacWorker
     {
-        static char space = ' ';
+        private readonly IFileService fileService;
+        private char space = ' ';
+
+        private string osaFileName = "osaScript.scpt";
+        private string osaFilePath;
+
+        public MacWorker(IFileService fileService)
+        {
+            this.fileService = fileService;
+            osaFilePath = GetBinFilePath(osaFileName);
+        }
+
+        private void PrepareOpenFolder(string filePath)
+        {
+            var fileName = "OpenFolder.scpt";
+            var dict = new Dictionary<string, string>()
+            {
+                { "[[folderPath]]", filePath }
+            };
+
+            ReplaceScript(fileName, dict);
+        }
+
+        private void ReplaceScript(
+            string fileName,
+            Dictionary<string, string> dict)
+        {
+            var path = "OsaScripts." + fileName;
+
+            var script = fileService.Credentials
+                .GetEmbeddedResource(GetAssembly().GetName(), path);
+
+            foreach (var item in dict)
+            {
+                script = script.Replace(item.Key, item.Value);
+            }
+
+            ReplaceBinFile(osaFileName, script);
+        }
 
         private void AppPathsCorrect()
         {
@@ -20,9 +59,29 @@ namespace SharpButtonActionsProg.Workers
             // var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
         }
 
-        private string GetBinFile(string fileName)
+        private Assembly GetAssembly()
         {
-            var codeBase = Assembly.GetAssembly(this.GetType()).CodeBase;
+            return Assembly.GetAssembly(this.GetType());
+        }
+
+        private string ReplaceBinFile(string fileName, string content)
+        {
+            var codeBase = GetAssembly().CodeBase;
+            var binFolder = Path.GetDirectoryName(codeBase).Replace("file:\\", "");
+
+            var filePath = binFolder + "/" + fileName;
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            File.WriteAllText(filePath, content);
+            return filePath;
+        }
+
+        private string GetBinFilePath(string fileName)
+        {
+            var codeBase = GetAssembly().CodeBase;
             var binFolder = Path.GetDirectoryName(codeBase);
             var filePath = binFolder + "/" + fileName;
             return filePath;
@@ -32,28 +91,10 @@ namespace SharpButtonActionsProg.Workers
         {
             if (!IsMyOsSystem()) { return; }
 
-            
-            var scriptPath = GetBinFile("ShellScripts/OpenFolder.applescript");
-            scriptPath = scriptPath.Replace("file:", "");
-            RunScript2(scriptPath, path);
+            PrepareOpenFolder(path);
 
-            //var exePath = "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder";
-            // var exePath = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-
-            // //var p = Process.Start(exePath, path);
-
-            // var startInfo = new ProcessStartInfo
-            // {
-            //     FileName = exePath,
-            //     Arguments = path,
-            //     UseShellExecute = false,
-            //     RedirectStandardOutput = true,
-            //     RedirectStandardError = true,
-            //     RedirectStandardInput = true,
-            //     UserName = Environment.UserName
-            // };
-
-            // var process = Process.Start(startInfo);
+            var scriptPath = GetBinFilePath(osaFilePath);
+            RunOsaScript(scriptPath, path);
         }
 
         public void TryOpenTerminal(string path)
@@ -85,13 +126,13 @@ namespace SharpButtonActionsProg.Workers
             }
         }
 
-        public void TryOpenContent(string path)
+        public void TryOpenFile(string path)
         {
             if (!IsMyOsSystem()) { return; }
 
             try
             {
-                RunScript2("OpenFile.sh", path);
+                RunOsaScript("OpenFile.sh", path);
 
                 //var exePath = "/applications/textedit.app";
                 //var exePath = "/applications/textedit.app/contents/macos/textedit";
@@ -104,19 +145,7 @@ namespace SharpButtonActionsProg.Workers
             }
         }
 
-        public void TryOpenConfigFile(string path)
-        {
-            if (!IsMyOsSystem()) { return; }
-
-            RunScript2("Openfold.", path);
-
-            //var contentFilePath = path + "/" + "nazwa.txt";
-            //var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
-            //var windowsFormatPath = Path.GetFullPath(contentFilePath);
-            //Process.Start(programPath, windowsFormatPath);
-        }
-
-        public void RunScript2(string scriptPath, string arguments = null)
+        public void RunOsaScript(string scriptPath, string arguments = null)
         {
             if (!IsMyOsSystem()) { return; }
 

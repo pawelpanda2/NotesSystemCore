@@ -7,5 +7,7 @@ namespace SharpConfigProg.AAPublic
         (string clientId, string clientSecret) GetCredentials(
             AssemblyName assemblyName,
             string embeddedResourceFile);
+
+        string GetEmbeddedResource(AssemblyName assemblyName, string filename);
     }
 }

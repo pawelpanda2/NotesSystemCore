@@ -26,7 +26,7 @@ namespace SharpRepoBackendProg.Service
         private readonly IRepoService repoService;
         private readonly IConfigService configService;
         private readonly HeaderNotesService headerNotesService;
-        private readonly ButtonActionsService buttonActionService;
+        private readonly SystemActionsService buttonActionService;
         private readonly NotesExporterService notesExporterService;
 
         public BackendService()
@@ -38,7 +38,7 @@ namespace SharpRepoBackendProg.Service
             docsService = MyBorder.Container.Resolve<IGoogleDocsService>();
             repoService = MyBorder.Container.Resolve<IRepoService>();
             headerNotesService = new HeaderNotesService();
-            buttonActionService = new ButtonActionsService();
+            buttonActionService = new SystemActionsService(fileService);
             notesExporterService = new NotesExporterService(repoService);
         }
 
@@ -107,7 +107,8 @@ namespace SharpRepoBackendProg.Service
                 //content
                 if (cmdName == IBackendService.ApiMethods.OpenContent.ToString())
                 {
-                    buttonActionService.OpenContent(itemPath);
+                    // todo join name of file
+                    buttonActionService.OpenFile(itemPath);
                 }
                 // if (cmdName == IBackendService.ApiMethods.GetContent.ToString())
                 // {
@@ -134,7 +135,8 @@ namespace SharpRepoBackendProg.Service
                 // config
                 if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())
                 {
-                    buttonActionService.OpenConfigFile(itemPath);
+                    // todo join name of file
+                    buttonActionService.OpenFile(itemPath);
                 }
 
                 // pdf

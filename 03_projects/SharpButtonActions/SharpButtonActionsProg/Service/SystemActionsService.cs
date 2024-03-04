@@ -1,17 +1,21 @@
 ﻿using System.Diagnostics;
+using SharpButtonActionsProg.AAPublic;
 using SharpButtonActionsProg.Workers;
+using SharpFileServiceProg.Service;
 
 namespace SharpButtonActionsProj.Service
 {
-    public class ButtonActionsService
+    public class SystemActionsService : ISystemActionsService
     {
         static char space = ' ';
+        private readonly IFileService fileService;
         private MacWorker mac;
         private WindowsWorker windows;
 
-        public ButtonActionsService()
+        public SystemActionsService(IFileService fileService)
         {
-            mac = new MacWorker();
+            this.fileService = fileService;
+            mac = new MacWorker(fileService);
             windows = new WindowsWorker();
         }
 
@@ -21,20 +25,10 @@ namespace SharpButtonActionsProj.Service
             mac.TryOpenFolder(path);
         }
 
-        public void OpenContent(string path)
+        public void OpenFile(string path)
         {
-            var contentFilePath = path + "/" + "lista.txt";
-            var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
-            var windowsFormatPath = Path.GetFullPath(contentFilePath);
-            Process.Start(programPath, windowsFormatPath);
-        }
-
-        public void OpenConfigFile(string path)
-        {
-            var contentFilePath = path + "/" + "nazwa.txt";
-            var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
-            var windowsFormatPath = Path.GetFullPath(contentFilePath);
-            Process.Start(programPath, windowsFormatPath);
+            windows.TryOpenFile(path);
+            mac.TryOpenFile(path);
         }
 
         public void Run(string[] args)
