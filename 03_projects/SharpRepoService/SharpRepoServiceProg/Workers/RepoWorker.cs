@@ -328,7 +328,7 @@ namespace SharpRepoServiceProg.RepoOperations
 
             if (type == "Text")
             {
-                var newAdrTuple = CreateText(adrTuple, name);
+                var newAdrTuple = CreateText(adrTuple, name, "");
                 item = GetItem(newAdrTuple);
             }
             if (type == "Folder")

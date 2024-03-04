@@ -15,6 +15,10 @@
 
     <div>
         <input type="button" value="Add" @onclick="OnAddClicked" />
+        <select @bind="@formSelectedType">
+            <option value="Text">Text</option>
+            <option value="Folder">Folder</option>
+        </select>
         <input type="text" @bind=@formAddValue>
     </div>
 
@@ -45,6 +49,7 @@
     public Action<ItemModel2, bool> ReloadItem { get; set; }
 
     private string formAddValue;
+    private string formSelectedType;
 
     private Dictionary<string, string> indexQnameDict;
     private string myType = "Folder";
@@ -93,8 +98,16 @@
 
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(Item.Address);
-        var itemJson = backendService
-            .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Folder");
+        if (formSelectedType == "Text")
+        {
+            var itemJson = backendService
+                .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Text");
+        }
+        if (formSelectedType == "Folder")
+        {
+            var itemJson = backendService
+                .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Folder");
+        }
     }
 
     private void OnFolderClicked()
