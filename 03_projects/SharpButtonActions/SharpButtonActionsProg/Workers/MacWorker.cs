@@ -8,23 +8,45 @@ namespace SharpButtonActionsProg.Workers
     public class MacWorker
     {
         private readonly IFileService fileService;
-        private char space = ' ';
-
-        private string osaFileName = "osaScript.scpt";
+        private string osaFileName;
         private string osaFilePath;
 
         public MacWorker(IFileService fileService)
         {
+            osaFileName = "osaScript.scpt";
             this.fileService = fileService;
             osaFilePath = GetBinFilePath(osaFileName);
         }
 
-        private void PrepareOpenFolder(string filePath)
+        private void PrepareOpenFile(string filePath)
+        {
+            var fileName = "OpenFile.scpt";
+            var dict = new Dictionary<string, string>()
+            {
+                { "[[filePath]]", filePath }
+            };
+
+            ReplaceScript(fileName, dict);
+        }
+
+        private void PrepareOpenFile2(string filePath)
+        {
+            filePath = filePath.Trim('/').Replace("/", ":");
+            var fileName = "OpenFile2.scpt";
+            var dict = new Dictionary<string, string>()
+            {
+                { "[[filePath]]", filePath }
+            };
+
+            ReplaceScript(fileName, dict);
+        }
+
+        private void PrepareOpenFolder(string folderPath )
         {
             var fileName = "OpenFolder.scpt";
             var dict = new Dictionary<string, string>()
             {
-                { "[[folderPath]]", filePath }
+                { "[[folderPath]]", folderPath }
             };
 
             ReplaceScript(fileName, dict);
@@ -93,70 +115,27 @@ namespace SharpButtonActionsProg.Workers
             return filePath;
         }
 
+        public void TryOpenFile(string path)
+        {
+            if (!IsMyOsSystem()) { return; }
+
+            PrepareOpenFile(path);
+            RunOsaScript(osaFilePath);
+        }
+
         public void TryOpenFolder(string path)
         {
             if (!IsMyOsSystem()) { return; }
 
             PrepareOpenFolder(path);
-            RunOsaScript(osaFilePath, path);
+            RunOsaScript(osaFilePath);
         }
-
-        public void TryOpenTerminal(string path)
+     
+        public void RunOsaScript(string scriptPath)
         {
             if (!IsMyOsSystem()) { return; }
 
-            try
-            {
-                var exePath = "/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-                Process uploadProc = new Process
-                {
-                    StartInfo = {
-                        FileName = exePath,
-                        UseShellExecute = false,
-                        CreateNoWindow = false,
-                        WindowStyle = ProcessWindowStyle.Normal
-                    }
-                };
-
-                uploadProc.Start();
-
-                //var exePath = "/Applications/Utilities/Terminal.app/contents/macos/terminal";
-                //var exePath = @"/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-                //Process.Start(exePath);
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public void TryOpenFile(string path)
-        {
-            if (!IsMyOsSystem()) { return; }
-
-            try
-            {
-                RunOsaScript("OpenFile.sh", path);
-
-                //var exePath = "/applications/textedit.app";
-                //var exePath = "/applications/textedit.app/contents/macos/textedit";
-                //var exePath = "/Applications/Nova.app/Contents/MacOS/Nova";
-                //var gg = Process.Start(exePath, path);
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public void RunOsaScript(string scriptPath, string arguments = null)
-        {
-            if (!IsMyOsSystem()) { return; }
-
-            //string test = $" -c \"osascript -e \' tell application \\\"Terminal\\\" to do script \\\"echo hello\\\" \' \"";
-            
             string test = $" -c \"osascript {scriptPath}\"";
-            
             test = new string(test.Where(c => !char.IsControl(c)).ToArray());
             Console.WriteLine(test);
             var startInfo = new ProcessStartInfo
@@ -175,78 +154,8 @@ namespace SharpButtonActionsProg.Workers
             var s1 = process.Start();
         }
 
-        public void RunScript1(string scriptPath, string arguments = null)
-        {
-            if (!IsMyOsSystem()) { return; }
-
-            var appPath = "/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-
-            var s1 = Process.Start(appPath, "open .");
-
-            ProcessStartInfo startInfo = new ProcessStartInfo()
-            {
-                FileName = "osascript",
-                Arguments = $"-e 'tell application \"Terminal\" to activate' -e 'tell application \"Terminal\" to do script \"sh {scriptPath} {arguments}\"'",
-
-                UseShellExecute = true,
-                CreateNoWindow = false,
-                Verb = "runas",
-                RedirectStandardOutput = false,
-                RedirectStandardInput = false,
-            };
-            Process process = new Process()
-            {
-                StartInfo = startInfo,
-            };
-            process.Start();
-        }
-
         public void Run(string[] args)
         {
-            //var fileName = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
-            //var fileName = @"C:\Program Files\Mozilla Firefox\firefox.exe";
-            //var arguments = "D:\02_Xampp\htdocs\Notki\01\02\lista.txt";
-
-            var fileName = @"C:\Program Files\Notepad++\notepad++.exe";
-
-            //var arguments = @"https://facebook.com";
-            //var arguments = "https://www.google.com";
-
-            string arguments = string.Empty;
-
-
-            var argsList = args.Any() ? args.ToList() : new List<string>();
-
-
-            if (argsList.Count == 0)
-            {
-                var currentDirectory = Directory.GetCurrentDirectory();
-                Process.Start("explorer.exe", currentDirectory);
-            }
-            else if (argsList.Count == 1)
-            {
-                arguments = args[0];
-
-                if (Directory.Exists(arguments))
-                {
-                    Process.Start("explorer.exe", arguments);
-                }
-                else
-                {
-                    Process process = new Process();
-                    process.StartInfo = new ProcessStartInfo()
-                    {
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        CreateNoWindow = true,
-                        StandardOutputEncoding = System.Text.Encoding.UTF8,
-                        FileName = fileName,
-                        Arguments = arguments,
-                    };
-                    process.Start();
-                }
-            }
         }
 
         private bool IsMyOsSystem()

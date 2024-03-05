@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="OsaScripts\OpenFolder.scpt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsaScripts\OpenFile.scpt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsaScripts\OpenFile2.scpt">
     </EmbeddedResource>
   </ItemGroup>
 

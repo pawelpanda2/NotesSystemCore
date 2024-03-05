@@ -17,6 +17,10 @@
 
     <div>
         <input type="button" value="Add" @onclick="OnAddClicked" />
+        <select @bind="@formAddType">
+            <option value="Text">Up</option>
+            <option value="Folder">Down</option>
+        </select>
         <input type="text" @bind=@formAddValue>
     </div>
 
@@ -42,6 +46,7 @@
 *@
 
 @code {
+    private string formAddType;
     public ItemModel2 item;
 
     [Parameter]

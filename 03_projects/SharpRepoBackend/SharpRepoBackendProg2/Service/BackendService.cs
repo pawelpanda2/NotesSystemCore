@@ -106,8 +106,8 @@ namespace SharpRepoBackendProg.Service
                 //content
                 if (cmdName == IBackendService.ApiMethods.OpenContent.ToString())
                 {
-                    // todo join name of file
-                    buttonActionService.OpenFile(itemPath);
+                    var path = itemPath + "/" + "lista.txt";
+                    buttonActionService.OpenFile(path);
                 }
                 // if (cmdName == IBackendService.ApiMethods.GetContent.ToString())
                 // {
@@ -135,7 +135,8 @@ namespace SharpRepoBackendProg.Service
                 if (cmdName == IBackendService.ApiMethods.OpenConfig.ToString())
                 {
                     // todo join name of file
-                    buttonActionService.OpenFile(itemPath);
+                    var path = itemPath + "/" + "nazwa.txt";
+                    buttonActionService.OpenFile(path);
                 }
 
                 // pdf
