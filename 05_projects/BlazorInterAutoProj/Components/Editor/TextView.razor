@@ -12,7 +12,13 @@
         <input type="button" value="Folder" @onclick="OnFolderClicked" />
         <input type="button" value="Content" @onclick="ContentClicked" />
         <input type="button" value="Config" @onclick="ConfigClicked" />
-        <input type="button" value="GoogleDoc" @onclick="GoogleDocClicked" />
+        <div style="vertical-align: middle;">
+            <select @bind="@formGoogleDocType">
+            <option value="Open">Open</option>
+            <option value="Recreate">Recreate</option>
+            </select>
+            <input type="button" value="GoogleDoc" @onclick="GoogleDocClicked" />
+        </div>
     </div>
 
     <div>
@@ -47,6 +53,7 @@
 
 @code {
     private string formAddType;
+    private string formGoogleDocType;
     public ItemModel2 item;
 
     [Parameter]
@@ -72,6 +79,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        formGoogleDocType = "Open";
+        formAddType = "Text";
         ReloadComponent();
     }
 
@@ -110,15 +119,20 @@
               .CreateAddressFromString(Item.Address);
         var itemJson = backendService.CommandApi("OpenConfig", adrTuple.Item1, adrTuple.Item2);
     }
-
-
+    
     private void GoogleDocClicked()
     {
         var adrTuple = fileService.RepoAddress
               .CreateAddressFromString(Item.Address);
-        var itemJson = backendService.CommandApi("OpenGoogleDoc", adrTuple.Item1, adrTuple.Item2);
+        if (formGoogleDocType == "Open")
+        {
+            var itemJson = backendService.CommandApi("OpenGoogleDoc", adrTuple.Item1, adrTuple.Item2);
+        }
+        if (formGoogleDocType == "Recreate")
+        {
+            var itemJson = backendService.CommandApi("RecreateGoogleDoc", adrTuple.Item1, adrTuple.Item2);
+        }
     }
-
 
     private void OnBtnClicked(string idxString)
     {

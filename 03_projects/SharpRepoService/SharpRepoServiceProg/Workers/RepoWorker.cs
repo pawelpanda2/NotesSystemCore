@@ -333,7 +333,7 @@ namespace SharpRepoServiceProg.RepoOperations
             }
             if (type == "Folder")
             {
-                var newAdrTuple = CreateFolder(adrTuple, name);
+                var newAdrTuple = CreateChildFolder(adrTuple, name);
                 item = GetItem(newAdrTuple);
             }
             
