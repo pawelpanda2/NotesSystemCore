@@ -6,8 +6,7 @@ namespace ButtonActionsCoreProj
         static void Main(string[] args)
         {
             //var service = new SystemActionsService();
-
-
+            
             ////var path01 = "/Users/pawelfluder/Dropbox/0fc7da8d-3466-4964-a24c-dfc0d0fef87c/Notki";
             //var path01 = "/Users";
             //service.OpenFolder(path01);
@@ -18,11 +17,7 @@ namespace ButtonActionsCoreProj
             //service.OpenContent(path);
 
             ////service.OpenTerminal("/");
-
-
             
-            
-
             //var buttonActionService = new ButtonActionsService();
         }
     }

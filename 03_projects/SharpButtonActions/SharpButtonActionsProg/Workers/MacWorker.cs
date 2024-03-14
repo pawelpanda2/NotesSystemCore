@@ -41,6 +41,28 @@ namespace SharpButtonActionsProg.Workers
             ReplaceScript(fileName, dict);
         }
 
+        private void PrepareOpenFile3(string filePath)
+        {
+            var fileName = "OpenFile3.scpt";
+            var dict = new Dictionary<string, string>()
+            {
+                { "[[filePath]]", filePath }
+            };
+
+            ReplaceScript(fileName, dict);
+        }
+
+        private void PrepareOpenFile4(string filePath)
+        {
+            var fileName = "OpenFile4.scpt";
+            var dict = new Dictionary<string, string>()
+            {
+                { "[[filePath]]", filePath }
+            };
+
+            ReplaceScript(fileName, dict);
+        }
+
         private void PrepareOpenFolder(string folderPath )
         {
             var fileName = "OpenFolder.scpt";
@@ -119,7 +141,7 @@ namespace SharpButtonActionsProg.Workers
         {
             if (!IsMyOsSystem()) { return; }
 
-            PrepareOpenFile(path);
+            PrepareOpenFile4(path);
             RunOsaScript(osaFilePath);
         }
 

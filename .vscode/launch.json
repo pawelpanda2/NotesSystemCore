@@ -31,7 +31,7 @@
             "request": "launch",
             "preLaunchTask": "build; SharpButtonActionsProg",
             //"program": "${workspaceFolder}/03_projects/SharpButtonActions/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
-            "program": "${workspaceFolder}/03_projects/Binaries/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
+            "program": "${workspaceFolder}/Binaries/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
