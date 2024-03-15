@@ -45,13 +45,10 @@ if (reloadState)
 
 @code {
     private ItemModel2 item;
-
     private string formRepoName;
     private string formLocaName;
-
     private TextView textView;
     private FolderView folderView;
-
     public Home()
     {
         if (item == null)
@@ -59,23 +56,20 @@ if (reloadState)
             item = new ItemModel2() { Address = "Notki" };
         }
     }
-
     private bool IsMyType()
     {
         return true;
     }
-
     protected override async Task OnInitializedAsync()
     {
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(item.Address);
         ReloadItem(adrTuple);
     }
-
     protected void ReloadItem((string Repo, string Loca) address)
     {
         var itemJString = GetItem(address);
-        var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
+        var itemObj = fileService.Json.TryDeserializeObject<ItemModel2>(itemJString);
         item = itemObj;
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(item.Address);
