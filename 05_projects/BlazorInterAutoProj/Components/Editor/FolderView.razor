@@ -80,7 +80,7 @@
     {
         if (Item.Type == myType)
         {
-            var tmp = JsonConvert.DeserializeObject<Dictionary<string, string>>(Item?.Body.ToString());
+            var tmp = fileService.Json.TryDeserializeObject<Dictionary<string, string>>(Item?.Body.ToString());
             if (tmp is Dictionary<string, string> dict)
             {
                 return dict;
@@ -134,7 +134,7 @@
              .CreateAddressFromString(Item.Address);
         var newAddress = fileService.Index.JoinIndexWithLoca(adrTuple, index);
         var itemJString = GetItem(newAddress);
-        var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
+        var itemObj = fileService.Json.TryDeserializeObject<ItemModel2>(itemJString);
 
         if (itemObj.Type != myType)
         {

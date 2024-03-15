@@ -4,6 +4,7 @@ using SharpFileServiceProg.AAPublic;
 using SharpFileServiceProg.Operations.Files;
 using SharpFileServiceProg.Operations.Headers;
 using SharpFileServiceProg.Operations.Index;
+using SharpFileServiceProg.Operations.Json;
 using SharpFileServiceProg.Operations.Reflection;
 using SharpFileServiceProg.Operations.RepoAddress;
 using SharpFileServiceProg.ServiceWorkers;
@@ -21,6 +22,7 @@ namespace SharpFileServiceProg.Service
         public IRepoAddressOperations RepoAddress { get; private set; }
         public IGoogleCredentialWorker Credentials { get; private set; }
         public IReflectionOperations Reflection { get; private set; }
+        public IJsonOperations Json { get; private set; }
 
         public FileService()
         {
@@ -32,6 +34,7 @@ namespace SharpFileServiceProg.Service
             RepoAddress = new RepoAddressOperations(Index);
             Credentials = new GoogleCredentialWorker();
             Reflection = new ReflectionOperations();
+            Json = new JsonOperations();
         }
     }
 }

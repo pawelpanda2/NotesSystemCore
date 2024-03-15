@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System;
-using System.Collections.Generic;
-
-namespace SharpFileServiceProg.Service
+﻿namespace SharpFileServiceProg.Service
 {
     public partial interface IFileService
     {

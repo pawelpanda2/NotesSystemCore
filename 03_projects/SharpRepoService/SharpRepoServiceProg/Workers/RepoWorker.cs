@@ -471,6 +471,12 @@ namespace SharpRepoServiceProg.RepoOperations
         {
             var repoPath = GetLocalPath(address);
             Console.WriteLine($"repoPath: {repoPath}");
+
+            if (!Directory.Exists(repoPath))
+            {
+                return new Dictionary<string, string>();
+            }
+
             var subLocasList = GetDirectories(repoPath)
                 .Select(x => SelectDirToSection(address.loca, x))
                 .OrderBy(x => x)

@@ -16,5 +16,6 @@ namespace SharpFileServiceProg.Service
         IRepoAddressOperations RepoAddress { get; }
         IGoogleCredentialWorker Credentials { get; }
         IReflectionOperations Reflection { get; }
+        IJsonOperations Json { get; }
     }
 }

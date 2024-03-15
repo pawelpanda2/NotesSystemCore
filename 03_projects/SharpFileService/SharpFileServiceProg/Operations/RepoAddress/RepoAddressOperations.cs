@@ -50,7 +50,8 @@ namespace SharpFileServiceProg.Operations.RepoAddress
         public string MoveOneLocaBack(string adrString)
         {
             var splited = adrString.Split("/").ToList();
-            splited.Remove(splited.Last());
+            var lastItemIndex = splited.Count - 1;
+            splited.RemoveAt(lastItemIndex);
             var newAddress = String.Join('/', splited);
 
             return newAddress;

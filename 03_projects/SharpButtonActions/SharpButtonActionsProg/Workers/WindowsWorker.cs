@@ -26,9 +26,8 @@ namespace SharpButtonActionsProg.Workers
         {
             if (!IsMyOsSystem()) { return; }
 
-            var contentFilePath = path + "/" + "lista.txt";
             var programPath = @"C:\Program Files\Notepad++\notepad++.exe";
-            var windowsFormatPath = Path.GetFullPath(contentFilePath);
+            var windowsFormatPath = Path.GetFullPath(path);
             Process.Start(programPath, windowsFormatPath);
         }
 

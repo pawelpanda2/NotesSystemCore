@@ -141,7 +141,7 @@
              .CreateAddressFromString(Item.Address);
         var newAddress = fileService.Index.JoinIndexWithLoca(adrTuple, index);
         var itemJString = GetItem(newAddress);
-        var itemObj = JsonConvert.DeserializeObject<ItemModel2>(itemJString);
+        var itemObj = fileService.Json.TryDeserializeObject<ItemModel2>(itemJString);
 
         if (itemObj.Type != myType)
         {

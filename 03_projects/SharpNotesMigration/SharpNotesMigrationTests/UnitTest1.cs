@@ -50,8 +50,8 @@ namespace SharpNotesMigrationTests
         public void MigrateOneFolderRecoursively()
         {
             // arrange 1
-            var repoName = "Notki";
-            var loca = "01";
+            var repoName = "System";
+            var loca = "";
             var agree = true;
             
             // arrange 2
