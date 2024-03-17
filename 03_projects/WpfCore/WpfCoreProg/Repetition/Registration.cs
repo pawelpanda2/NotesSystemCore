@@ -1,10 +1,5 @@
-﻿using SharpConfigProg.Service;
-using SharpFileServiceProg.Service;
-using SharpRepoBackendProg.Service;
+﻿using SharpRepoBackendProg.Service;
 using WpfNotesSystem.ViewModels;
-using Unity;
-using OutBorder1 = SharpFileServiceProg.AAPublic.OutBorder;
-using OutBorder2 = SharpConfigProg.AAPublic.OutBorder;
 using OutBorder3 = SharpRepoBackendProg.Repetition.OutBorder;
 using SharpContainerProg.AAPublic;
 

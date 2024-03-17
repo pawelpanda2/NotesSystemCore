@@ -208,18 +208,24 @@ namespace SharpRepoServiceProg.RepoOperations
             (string Repo, string Loca) address,
             string key)
         {
-            var itemPath = GetElemPath(address);
-            var configItemPath = itemPath + slash + configFileName;
-
             var text = GetConfigText(address);
-            try{
-                var obj = yamlOperations.Deserialize<Dictionary<string, object>>(text);
-                var result = obj[key];
-                return result;
+            var success = yamlOperations
+                .TryDeserialize<Dictionary<string, object>>(text, out var resultDict);
+            var errorValue = "??error??";
+
+            if (!success)
+            {
+                return errorValue;
             }
-            catch{
-                return "??error??";
+
+            var success2 = resultDict.TryGetValue(key, out var resultValue);
+
+            if (!success2)
+            {
+                return errorValue;
             }
+
+            return resultValue;
         }
 
         public Dictionary<string, object> GetConfigDictionary(
