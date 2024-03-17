@@ -350,32 +350,28 @@ namespace SharpRepoServiceProg.RepoOperations
             (string repo, string loca) adrTuple)
         {
             var type = GetItemType(adrTuple);
-            JsonValue jsonBody = null;
-            Object body = null;
+            object body = null;
+
+            if (type == ItemTypeNames.RefText)
+            {
+                var newLoca = GetConfigKey(adrTuple, "refLoca").ToString();
+                var newAdrTuple = (adrTuple.repo, newLoca);
+                body = GetText2(newAdrTuple);
+            }
+
             if (type == ItemTypeNames.Text)
             {
                 body = GetText2(adrTuple);
-                jsonBody = JsonValue.Create(body);
             }
 
             if (type == ItemTypeNames.Folder)
             {
                 body = GetAllIndexesQNames(adrTuple);
-                jsonBody = JsonValue.Create(body);
             }
             var name = GetName(adrTuple);
 
             var config = GetConfigDictionary(adrTuple);
-            var jsonConfig = JsonValue.Create(config);
             var address = GetAddressString(adrTuple);
-            var jsonAddress = JsonValue.Create(address);
-
-            JsonObject jObj = new JsonObject();
-            jObj.Add("Type", type);
-            jObj.Add("Name", name);
-            jObj.Add("Body", jsonBody);
-            jObj.Add("Config", jsonConfig);
-            jObj.Add("Address", jsonAddress);
 
             var dict = new Dictionary<string, object>();
             dict.Add("Type", type);
@@ -383,12 +379,7 @@ namespace SharpRepoServiceProg.RepoOperations
             dict.Add("Body", body);
             dict.Add("Config", config);
             dict.Add("Address", address);
-
-            //var item = new Dictionary<string, object>();
-            //var name = GetLocalName(address);
-            //item.Add("Name", name);
-            //item.Add("Body", body);
-            //item.Add("Type", type);
+            
             return dict;
         }
 
@@ -428,6 +419,12 @@ namespace SharpRepoServiceProg.RepoOperations
         [MethodLogger]
         public string GetType((string repo, string loca) address)
         {
+            var type = GetConfigKey(address, "type").ToString();
+            if (type == "RefText")
+            {
+                return "RefText";
+            }
+
             var repoPath = GetRepoPath(address.repo);
             var contentFilePath = repoPath + "/" + address.loca + "/" + contentFileName;
             if (File.Exists(contentFilePath))

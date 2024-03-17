@@ -8,5 +8,8 @@ namespace SharpTinderComplexTests
 
         public static string Text
             = "Text";
+
+        public static string RefText
+            = "RefText";
     }
 }

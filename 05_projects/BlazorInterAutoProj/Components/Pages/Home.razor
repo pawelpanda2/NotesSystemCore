@@ -40,6 +40,7 @@ if (reloadState)
 
 <div>
     <TextView @bind-Item=@item ReloadItem=@ReloadItem @ref="textView"></TextView>
+    <RefTextView @bind-Item=@item ReloadItem=@ReloadItem @ref="refTextView"></RefTextView>
     <FolderView @bind-Item=@item ReloadItem=@ReloadItem @ref="folderView"></FolderView>
 </div>
 
@@ -48,6 +49,7 @@ if (reloadState)
     private string formRepoName;
     private string formLocaName;
     private TextView textView;
+    private RefTextView refTextView;
     private FolderView folderView;
     public Home()
     {
