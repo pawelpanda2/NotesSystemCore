@@ -6,34 +6,38 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json.Nodes;
 using static SharpRepoServiceProg.Service.IRepoService;
 
 namespace SharpRepoServiceProg.RepoOperations
 {
-    public class RepoMethods
+    public class RepoWorker
     {
+        // services
         private readonly IFileService fileService;
+        private readonly IFileService.IYamlOperations yamlOperations;
 
-        private readonly string contentFileName;
-        private readonly string configFileName;
-        private readonly string repoConfigName;
+        // string names
+        private string contentFileName;
+        private string configFileName;
+        private string repoConfigName;
+        private string errorValue;
+        private string refGuidStr;
+        private string refLocaStr;
 
+        // char names
         private static char slash = '/';
-        private static string git = ".git";
+
         private readonly ServerInfo serverInfo;
         private readonly LocalInfo localInfo;
-        private readonly IFileService.IYamlOperations yamlOperations;
+
         private List<string> reposPathsList;
 
-        public RepoMethods(
+        public RepoWorker(
            IFileService fileService,
            ServerInfo serverInfo,
            LocalInfo localInfo)
         {
-            contentFileName = "lista.txt";
-            configFileName = "nazwa.txt";
-            repoConfigName = "repoConfig.txt";
+            SetNames();
             reposPathsList = new List<string>();
 
             this.fileService = fileService;
@@ -42,7 +46,17 @@ namespace SharpRepoServiceProg.RepoOperations
             yamlOperations = fileService.Yaml.Custom03;
         }
 
-        public RepoMethods(IFileService fileService)
+        private void SetNames()
+        {
+            contentFileName = "lista.txt";
+            configFileName = "nazwa.txt";
+            repoConfigName = "repoConfig.txt";
+            errorValue = "??error??";
+            refGuidStr = "refGuid";
+            refLocaStr = "refLoca";
+        }
+
+        public RepoWorker(IFileService fileService)
         {
             this.fileService = fileService;
         }
@@ -186,7 +200,7 @@ namespace SharpRepoServiceProg.RepoOperations
             foreach (var tmp2 in tmp)
             {
                 var index = StringToIndex(tmp2);
-                var newAddress = SelectAddress(address, index);
+                var newAddress = fileService.Index.SelectAddress(address, index);
                 var content = GetText2(newAddress);
                 contentsList.Add(content);
             }
@@ -211,7 +225,6 @@ namespace SharpRepoServiceProg.RepoOperations
             var text = GetConfigText(address);
             var success = yamlOperations
                 .TryDeserialize<Dictionary<string, object>>(text, out var resultDict);
-            var errorValue = "??error??";
 
             if (!success)
             {
@@ -226,6 +239,36 @@ namespace SharpRepoServiceProg.RepoOperations
             }
 
             return resultValue;
+        }
+
+        public Dictionary<string, object> GetConfigKeyDict(
+            (string Repo, string Loca) address,
+            params string[] keyArray)
+        {
+            var text = GetConfigText(address);
+            var success = yamlOperations
+                .TryDeserialize<Dictionary<string, object>>(text, out var configDict);
+            var resultDict = new Dictionary<string, object>();
+
+            if (!success)
+            {
+                return resultDict;
+            }
+
+            foreach (var key in keyArray)
+            {
+                var success2 = configDict.TryGetValue((string)key, out var resultValue);
+
+                if (!success2)
+                {
+                    resultDict.Add(key, errorValue);
+                    continue;
+                }
+
+                resultDict.Add(key, resultValue);
+            }
+
+            return resultDict;
         }
 
         public Dictionary<string, object> GetConfigDictionary(
@@ -301,7 +344,7 @@ namespace SharpRepoServiceProg.RepoOperations
             foreach (var tmp2 in tmp)
             {
                 var index = StringToIndex(tmp2);
-                var newAddress = SelectAddress(address, index);
+                var newAddress = fileService.Index.SelectAddress(address, index);
                 var path = GetElemPath(newAddress) + slash + contentFileName;
                 var content = File.ReadAllText(path);
                 contentsList.Add(content);
@@ -334,7 +377,7 @@ namespace SharpRepoServiceProg.RepoOperations
 
             if (type == "Text")
             {
-                var newAdrTuple = CreateText(adrTuple, name, "");
+                var newAdrTuple = CreateChildText(adrTuple, name, "");
                 item = GetItem(newAdrTuple);
             }
             if (type == "Folder")
@@ -342,10 +385,10 @@ namespace SharpRepoServiceProg.RepoOperations
                 var newAdrTuple = CreateChildFolder(adrTuple, name);
                 item = GetItem(newAdrTuple);
             }
-            
+
             return item;
         }
-        
+
         public Dictionary<string, object> GetItemDict(
             (string repo, string loca) adrTuple)
         {
@@ -354,9 +397,8 @@ namespace SharpRepoServiceProg.RepoOperations
 
             if (type == ItemTypeNames.RefText)
             {
-                var newLoca = GetConfigKey(adrTuple, "refLoca").ToString();
-                var newAdrTuple = (adrTuple.repo, newLoca);
-                body = GetText2(newAdrTuple);
+                var refAdrTuple = GetRefAdrTuple(adrTuple);
+                body = GetText2(refAdrTuple);
             }
 
             if (type == ItemTypeNames.Text)
@@ -371,7 +413,7 @@ namespace SharpRepoServiceProg.RepoOperations
             var name = GetName(adrTuple);
 
             var config = GetConfigDictionary(adrTuple);
-            var address = GetAddressString(adrTuple);
+            var address = fileService.Index.GetAddressString(adrTuple);
 
             var dict = new Dictionary<string, object>();
             dict.Add("Type", type);
@@ -379,19 +421,34 @@ namespace SharpRepoServiceProg.RepoOperations
             dict.Add("Body", body);
             dict.Add("Config", config);
             dict.Add("Address", address);
-            
+
             return dict;
         }
 
-        private string GetAddressString((string, string) adrTuple)
+        public (string repo, string newLoca) GetRefAdrTuple(
+            (string repo, string loca) adrTuple)
         {
-            if (string.IsNullOrEmpty(adrTuple.Item2))
+            var keyDict = GetConfigKeyDict(adrTuple, refLocaStr, refGuidStr);
+            var guid = keyDict[refGuidStr].ToString();
+            var newLoca = keyDict[refLocaStr].ToString();
+
+            var newAdrTuple = (adrTuple.repo, newLoca);
+            var id = GetConfigKey(adrTuple, "id").ToString();
+
+            if (id == guid)
             {
-                return adrTuple.Item1;
+                return newAdrTuple;
             }
 
-            var address = adrTuple.Item1 + "/" + adrTuple.Item2;
-            return address;
+            // todo implement guid search and cache
+            var id2 = FindIdAdrTuple();
+
+            return id2;
+        }
+
+        private (string repo, string newLoca) FindIdAdrTuple()
+        {
+            throw new NotImplementedException();
         }
 
         [MethodLogger]
@@ -402,7 +459,7 @@ namespace SharpRepoServiceProg.RepoOperations
         }
 
         [MethodLogger]
-        private string GetItemType((string repo, string loca) address)
+        public string GetItemType((string repo, string loca) address)
         {
             var result = GetType(address);
             return result;
@@ -436,7 +493,7 @@ namespace SharpRepoServiceProg.RepoOperations
         }
 
         [MethodLogger]
-        private string GetName((string repo, string loca) address)
+        public string GetName((string repo, string loca) address)
         {
             var name = GetConfigKey(address, "name").ToString();
             return name;
@@ -467,7 +524,7 @@ namespace SharpRepoServiceProg.RepoOperations
             var name = File.ReadAllLines(path).First();
             return name;
         }
-        
+
         [MethodLogger]
         public Dictionary<string, string> GetAllIndexesQNames(
             (string repo, string loca) address)
@@ -484,7 +541,7 @@ namespace SharpRepoServiceProg.RepoOperations
                 .Select(x => SelectDirToSection(address.loca, x))
                 .OrderBy(x => x)
                 .ToList();
-            
+
             var names = new Dictionary<string, string>();
             foreach (var subLoca in subLocasList)
             {
@@ -494,7 +551,7 @@ namespace SharpRepoServiceProg.RepoOperations
                 var lastString = fileService.Index.IndexToString(lastInt);
                 names.Add(lastString, name);
             }
-            
+
             return names;
         }
 
@@ -765,9 +822,9 @@ namespace SharpRepoServiceProg.RepoOperations
             {
                 lastNumber++;
                 if (nQc.Name == "645a90a505ed8501009ff2fc651ae829e0d5d201007d6767")
-                {}
+                { }
 
-                CreateText(address, nQc.Name, nQc.Content);
+                CreateChildText(address, nQc.Name, nQc.Content);
             }
         }
 
@@ -784,7 +841,7 @@ namespace SharpRepoServiceProg.RepoOperations
             string name)
         {
             var lastNumber = GetFolderLastNumber(address);
-            var newAddress = SelectAddress(address, lastNumber + 1);
+            var newAddress = fileService.Index.SelectAddress(address, lastNumber + 1);
             CreateTextGenerate(newAddress, name, string.Empty);
             return newAddress;
         }
@@ -843,11 +900,15 @@ namespace SharpRepoServiceProg.RepoOperations
         {
             var elemPath = GetElemPath(address);
             Directory.CreateDirectory(elemPath);
-            var dict = new Dictionary<string, object>() { { "name", name } };
+            var dict = new Dictionary<string, object>()
+            {
+                { "id", Guid.NewGuid() },
+                { "name", name } 
+            };
             CreateConfig(address, dict);
         }
 
-        public (string, string) CreateText(
+        public (string, string) CreateChildText(
             (string Repo, string Loca) address,
             string name,
             string content)
@@ -860,7 +921,7 @@ namespace SharpRepoServiceProg.RepoOperations
             }
 
             var lastNumber = GetFolderLastNumber(address);
-            var newAddress = SelectAddress(address, lastNumber + 1);
+            var newAddress = fileService.Index.SelectAddress(address, lastNumber + 1);
             CreateTextGenerate(newAddress, name, content);
             return newAddress;
         }
@@ -883,7 +944,11 @@ namespace SharpRepoServiceProg.RepoOperations
             Directory.CreateDirectory(itemPath);
 
             // config
-            var dict = new Dictionary<string, object>() { { "name", name } };
+            var dict = new Dictionary<string, object>()
+            {
+                { "id", Guid.NewGuid().ToString() },
+                { "name", name }
+            };
             InternalCreateConfig(itemPath, dict);
 
             // body
@@ -908,7 +973,7 @@ namespace SharpRepoServiceProg.RepoOperations
             }
 
             var lastNumber = GetFolderLastNumber(address);
-            var newAddress = SelectAddress(address, lastNumber + 1);
+            var newAddress = fileService.Index.SelectAddress(address, lastNumber + 1);
             CreateTextGenerate(newAddress, name, content);
             return newAddress;
         }
@@ -1048,14 +1113,6 @@ namespace SharpRepoServiceProg.RepoOperations
 
         //-------------------------
         // SELECT
-        private (string, string) SelectAddress(
-            (string Repo, string Loca) address,
-            int index)
-        {
-            // AddIndexToAddress
-            var newLoca = address.Loca + slash + IndexToString(index);
-            return (address.Repo, newLoca);
-        }
 
         public int SelectNumberFromLoca(string loca)
         {

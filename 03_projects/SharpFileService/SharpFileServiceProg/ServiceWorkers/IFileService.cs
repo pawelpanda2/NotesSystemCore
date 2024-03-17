@@ -13,6 +13,8 @@ namespace SharpFileServiceProg.Service
 
         public interface IIndexWrk
         {
+            string GetAddressString((string, string) adrTuple);
+            (string, string) SelectAddress((string Repo, string Loca) address, int index);
             string IndexToString(int? index);
             int StringToIndex(string input);
             int TryStringToIndex(string input);

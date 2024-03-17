@@ -386,7 +386,9 @@ namespace SharpRepoBackendProg.Service
         {
             try
             {
-                var method = typeof(RepoMethods).GetMethod(methodName);
+                var methodList = typeof(RepoWorker).GetMethods().Where(x => x.Name == methodName);
+                var method = methodList.SingleOrDefault(x => x.GetParameters().Length == args.Length);
+
                 var result = method.Invoke(
                     repoService.Methods,
                     args);

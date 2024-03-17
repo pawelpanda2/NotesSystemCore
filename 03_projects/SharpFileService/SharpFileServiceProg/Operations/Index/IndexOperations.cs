@@ -3,12 +3,33 @@ namespace SharpFileServiceProg.Operations.Index
 {
     internal class IndexOperations : IFileService.IIndexWrk
     {
+        private char slash = '/';
         public int GetLocaLast(string loca)
         {
             var tmp = loca.Split("/");
             var lastString = tmp.Last();
             var last = StringToIndex(lastString);
             return last;
+        }
+
+        public string GetAddressString((string, string) adrTuple)
+        {
+            if (string.IsNullOrEmpty(adrTuple.Item2))
+            {
+                return adrTuple.Item1;
+            }
+
+            var address = adrTuple.Item1 + "/" + adrTuple.Item2;
+            return address;
+        }
+
+        public (string, string) SelectAddress(
+            (string Repo, string Loca) address,
+            int index)
+        {
+            // AddIndexToAddress
+            var newLoca = address.Loca + slash + IndexToString(index);
+            return (address.Repo, newLoca);
         }
 
         public (string, string) JoinIndexWithLoca(

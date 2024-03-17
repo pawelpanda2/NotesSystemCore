@@ -5,7 +5,7 @@ namespace SharpRepoServiceProg.Service
 {
     public interface IRepoService
     {
-        RepoMethods Methods { get; }
+        RepoWorker Methods { get; }
 
         void Initialize(List<string> searchPaths);
 
