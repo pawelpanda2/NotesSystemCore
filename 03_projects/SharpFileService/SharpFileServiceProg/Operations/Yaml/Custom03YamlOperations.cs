@@ -83,16 +83,8 @@ namespace SharpFileServiceProg.Operations.Yaml
 
         public T Deserialize<T>(string yamlText)
         {
-            try
-            {
-                var result = custom03Deserializer.Deserialize<T>(yamlText);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                HandleError(ex);
-                return default;
-            }
+            var result = custom03Deserializer.Deserialize<T>(yamlText);
+            return result;
         }
 
         public T DeserializeFile<T>(string path)
