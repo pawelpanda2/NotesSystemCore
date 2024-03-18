@@ -151,6 +151,12 @@ namespace SharpRepoBackendProg.Service
                     return success.ToString();
                 }
 
+                // terminal
+                if (cmdName == IBackendService.ApiMethods.OpenTerminal.ToString())
+                {
+                    buttonActionService.OpenTerminal(itemPath);
+                }
+
                 // google docs
                 if (cmdName == IBackendService.ApiMethods.OpenGoogleDoc.ToString())
                 {

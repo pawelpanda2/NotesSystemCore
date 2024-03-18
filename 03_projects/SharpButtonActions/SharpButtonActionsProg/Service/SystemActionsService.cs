@@ -31,6 +31,11 @@ namespace SharpButtonActionsProj.Service
             mac.TryOpenFile(path);
         }
 
+        public void OpenTerminal(string path)
+        {
+            mac.TryOpenTerminal(path);
+        }
+
         public void Run(string[] args)
         {
             //var fileName = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";

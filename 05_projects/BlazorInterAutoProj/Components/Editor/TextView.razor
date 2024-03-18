@@ -12,6 +12,7 @@
         <input type="button" value="Folder" @onclick="OnFolderClicked" />
         <input type="button" value="Content" @onclick="ContentClicked" />
         <input type="button" value="Config" @onclick="ConfigClicked" />
+        <input type="button" value="Terminal" @onclick="TerminalClicked" />
         <div style="vertical-align: middle;">
             <select @bind="@formGoogleDocType">
             <option value="Open">Open</option>
@@ -118,6 +119,13 @@
         var adrTuple = fileService.RepoAddress
               .CreateAddressFromString(Item.Address);
         var itemJson = backendService.CommandApi("OpenConfig", adrTuple.Item1, adrTuple.Item2);
+    }
+
+    private void TerminalClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+              .CreateAddressFromString(Item.Address);
+        var itemJson = backendService.CommandApi("OpenTerminal", adrTuple.Item1, adrTuple.Item2);
     }
     
     private void GoogleDocClicked()

@@ -29,6 +29,9 @@
             // folder
             OpenFolder,
 
+            // terminal
+            OpenTerminal,
+
             // pdf
             OpenPdf,
             CreatePdf,
