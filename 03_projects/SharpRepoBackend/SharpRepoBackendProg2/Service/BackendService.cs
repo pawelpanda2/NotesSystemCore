@@ -125,9 +125,9 @@ namespace SharpRepoBackendProg.Service
                 }
                 if (cmdName == IBackendService.ApiMethods.CreateItem.ToString())
                 {
-                    var name = args[2];
-                    var type = args[3];
-                    var item = repoService.Methods.CreateItem(address, name, type);
+                    var type = args[2];
+                    var name = args[3];
+                    var item = repoService.Methods.CreateItem(address, type, name);
                     return item;
                 }
 

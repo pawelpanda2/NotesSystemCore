@@ -376,7 +376,7 @@ namespace SharpRepoServiceProg.RepoOperations
         }
 
         public string CreateItem(
-            (string repo, string loca) adrTuple, string name, string type)
+            (string repo, string loca) adrTuple, string type, string name)
         {
             string item = "";
 
