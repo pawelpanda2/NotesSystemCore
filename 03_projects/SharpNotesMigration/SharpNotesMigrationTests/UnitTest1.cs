@@ -27,7 +27,7 @@ namespace SharpNotesMigrationTests
         {
             // arrange
             var migrationService = MyBorder.Container.Resolve<IMigrationService>();
-            var adrTuple = ("Rama", "");
+            var adrTuple = ("Notki", "");
             var agree = true;
 
             // act
