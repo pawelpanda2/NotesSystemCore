@@ -18,6 +18,7 @@
         <select @bind="@formSelectedType">
             <option value="Text">Text</option>
             <option value="Folder">Folder</option>
+            <option value="RefText">RefText</option>
         </select>
         <input type="text" @bind=@formAddValue>
     </div>
@@ -100,16 +101,8 @@
 
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(Item.Address);
-        if (formSelectedType == "Text")
-        {
-            var itemJson = backendService
-                .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Text");
-        }
-        if (formSelectedType == "Folder")
-        {
-            var itemJson = backendService
-                .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Folder");
-        }
+        var itemJson = backendService
+            .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, formSelectedType);
     }
 
     private void OnFolderClicked()
