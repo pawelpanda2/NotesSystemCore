@@ -2,8 +2,9 @@
 {
     public partial interface IMigrationService
     {
-        void MigrateAll();
-
-        void Migrate(Type migratorType);
+        void MigrateOneAddress(Type migratorType, (string Repo, string Loca) address);
+        void MigrateOneFolder(Type migratorType, (string Repo, string Loca) address, bool agree);
+        void MigrateOneRepo(Type migratorType, string repoName);
+        void MigrateAllRepos(Type migratorType);
     }
 }

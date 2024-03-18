@@ -1,4 +1,5 @@
 using SharpConfigProg.Service;
+using SharpNotesMigrationProg.AAPublic;
 using SharpNotesMigrationProg.Service;
 using SharpNotesMigrationTests.Repetition;
 using SharpRepoServiceProg.Service;
@@ -22,20 +23,33 @@ namespace SharpNotesMigrationTests
         }
 
         [TestMethod]
+        public void TestMethod3()
+        {
+            // arrange
+            var migrationService = MyBorder.Container.Resolve<IMigrationService>();
+            var adrTuple = ("Rama", "");
+            var agree = true;
+
+            // act
+            migrationService.MigrateOneFolder(typeof(IMigrator03), adrTuple, agree);
+            migrationService.MigrateOneFolder(typeof(IMigrator04), adrTuple, agree);
+        }
+
+        [TestMethod]
         public void TestMethod1()
         {
             // arrange
             var migrationService = MyBorder.Container.Resolve<IMigrationService>();
 
             // act
-            migrationService.Migrate(typeof(IMigrationService.IMigrator03));
+            migrationService.MigrateOneRepo(typeof(IMigrator03), "Notes");
         }
 
         [TestMethod]
         public void TestMethod2()
         {
             // arrange
-            var migrator03 = MyBorder.Container.Resolve<IMigrationService.IMigrator03>();
+            var migrator03 = MyBorder.Container.Resolve<IMigrator03>();
             var repo = "Notki";
             var loca = "";
 
@@ -53,9 +67,9 @@ namespace SharpNotesMigrationTests
             var repoName = "System";
             var loca = "";
             var agree = true;
-            
+
             // arrange 2
-            var migrator03 = MyBorder.Container.Resolve<IMigrationService.IMigrator03>();
+            var migrator03 = MyBorder.Container.Resolve<IMigrator03>();
             migrator03.SetAgree(agree);
             var repoServer = MyBorder.Container.Resolve<IRepoService>();
 
@@ -63,25 +77,25 @@ namespace SharpNotesMigrationTests
             var folderPath = repoServer.Methods.GetElemPath((repoName, loca));
 
             // act
-            migrator03.MigrateOneFolderRecourively(address);
+            //migrator03.MigrateOneFolder(address);
 
-            // print
-            var beforeAfter = migrator03.Changes;
-            beforeAfter.ForEach((x) =>
-            {
-                Console.WriteLine(x.Item1);
-                Console.WriteLine(x.Item2);
-                Console.WriteLine(x.Item3);
-                Console.WriteLine(x.Item4);
-                Console.WriteLine();
-            });
+            //// print
+            //var beforeAfter = migrator03.Changes;
+            //beforeAfter.ForEach((x) =>
+            //{
+            //    Console.WriteLine(x.Item1);
+            //    Console.WriteLine(x.Item2);
+            //    Console.WriteLine(x.Item3);
+            //    Console.WriteLine(x.Item4);
+            //    Console.WriteLine();
+            //});
         }
 
         [TestMethod]
         public void MigrateOneRepo()
         {
             // arrange
-            var migrator03 = MyBorder.Container.Resolve<IMigrationService.IMigrator03>();
+            var migrator03 = MyBorder.Container.Resolve<IMigrator03>();
             migrator03.SetAgree(true);
             var repoServer = MyBorder.Container.Resolve<IRepoService>();
             var repoName = "Notki";
@@ -93,7 +107,7 @@ namespace SharpNotesMigrationTests
             migrator03.MigrateOneRepo(address);
 
             // assert
-            
+
             var beforeAfter = migrator03.Changes;
             beforeAfter.ForEach((x) =>
             {

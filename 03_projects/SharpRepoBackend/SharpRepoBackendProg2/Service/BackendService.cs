@@ -97,9 +97,7 @@ namespace SharpRepoBackendProg.Service
                 if (cmdName == IBackendService.ApiMethods.OpenFolder.ToString())
                 {
                     buttonActionService.OpenFolder(itemPath);
-
-                    var result = "200; OK";
-                    var json = JsonConvert.SerializeObject(result);
+                    var json = GetOKJson();
                     return json;
                 }
                 
@@ -108,6 +106,8 @@ namespace SharpRepoBackendProg.Service
                 {
                     var path = itemPath + "/" + "lista.txt";
                     buttonActionService.OpenFile(path);
+                    var json = GetOKJson();
+                    return json;
                 }
                 // if (cmdName == IBackendService.ApiMethods.GetContent.ToString())
                 // {
@@ -185,6 +185,13 @@ namespace SharpRepoBackendProg.Service
             }
 
             return JsonConvert.SerializeObject("bad request - method not found!");
+        }
+
+        private string GetOKJson()
+        {
+            var result = "200; OK";
+            var json = JsonConvert.SerializeObject(result);
+            return json;
         }
 
         // public string CommandApi(string cmdName, string[] args)

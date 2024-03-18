@@ -1,11 +1,11 @@
 ﻿using SharpFileServiceProg.Service;
-using SharpNotesMigrationProg.Service;
+using SharpNotesMigrationProg.AAPublic;
 using SharpRepoServiceProg.Service;
 using System.Text.RegularExpressions;
 
 namespace SharpNotesMigrationProg.Migrations
 {
-    internal class Migrator03 : IMigrator, IMigrationService.IMigrator03
+    internal class Migrator03 : IMigrator, IMigrator03
     {
         private readonly IFileService fileService;
         private readonly IRepoService repoService;
@@ -51,18 +51,6 @@ namespace SharpNotesMigrationProg.Migrations
             foreach (var repoName in allRepoNameList)
             {
                 MigrateOneRepo((repoName, ""));
-            }
-        }
-
-        public void MigrateOneFolderRecourively((string Repo, string Loca) address)
-        {
-            var foundAddressList = repoService.Methods
-                .GetAllRepoAddresses(address).ToList();
-
-            //MigrateOneAddress(address);
-            foreach (var foundAddress in foundAddressList)
-            {
-                MigrateOneAddress(foundAddress);
             }
         }
 
@@ -329,6 +317,30 @@ namespace SharpNotesMigrationProg.Migrations
         public void SetAgree(bool agree)
         {
             this.agree = agree;
+        }
+
+
+        public void MigrateOneFolder((string Repo, string Loca) adrTuple)
+        {
+            var foundAddressList = repoService.Methods
+                .GetAllRepoAddresses(adrTuple).ToList();
+
+            MigrateOneAddress(adrTuple);
+
+            foreach (var foundAddress in foundAddressList)
+            {
+                MigrateOneAddress(foundAddress);
+            }
+        }
+
+        public void MigrateOneRepo(string repoName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MigrateAllRepos()
+        {
+            throw new NotImplementedException();
         }
     }
 }

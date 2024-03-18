@@ -1,4 +1,5 @@
 ﻿using SharpFileServiceProg.Service;
+using SharpNotesMigrationProg.AAPublic;
 using SharpNotesMigrationProg.Migrations;
 using SharpNotesMigrationProg.Service;
 using SharpRepoServiceProg.Service;
@@ -14,7 +15,7 @@ namespace SharpNotesMigrationProg.Repetition
             return new MigrationService(fileService, repoService);
         }
 
-        public static IMigrationService.IMigrator03 Migrator03(
+        public static IMigrator03 Migrator03(
             IFileService fileService,
             IRepoService repoService)
         {

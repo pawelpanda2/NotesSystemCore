@@ -17,7 +17,7 @@ namespace SharpFileServiceProg.Service
             (string, string) SelectAddress((string Repo, string Loca) address, int index);
             string IndexToString(int? index);
             int StringToIndex(string input);
-            int TryStringToIndex(string input);
+            bool TryStringToIndex(string input, out int index);
             string LastTwoChar(string input);
             bool IsCorrectIndex(string input);
             bool IsCorrectIndex(string input, out int index);

@@ -1,4 +1,5 @@
 ﻿using SharpFileServiceProg.Service;
+using SharpNotesMigrationProg.AAPublic;
 using SharpNotesMigrationProg.Service;
 using SharpRepoServiceProg.Service;
 using Unity;
@@ -27,7 +28,7 @@ namespace SharpNotesMigrationTests.Repetition
                 container.Resolve<IFileService>(),
                 container.Resolve<IRepoService>());
 
-            RegisterByFunc<IMigrationService.IMigrator03, IFileService, IRepoService>
+            RegisterByFunc<IMigrator03, IFileService, IRepoService>
                 (OutBorder4.Migrator03,
                 container.Resolve<IFileService>(),
                 container.Resolve<IRepoService>());

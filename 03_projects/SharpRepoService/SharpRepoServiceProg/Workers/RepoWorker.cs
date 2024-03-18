@@ -255,6 +255,11 @@ namespace SharpRepoServiceProg.RepoOperations
                 return resultDict;
             }
 
+            if (keyArray.Length == 0)
+            {
+                return configDict;
+            }
+
             foreach (var key in keyArray)
             {
                 var success2 = configDict.TryGetValue((string)key, out var resultValue);
@@ -433,7 +438,7 @@ namespace SharpRepoServiceProg.RepoOperations
             var newLoca = keyDict[refLocaStr].ToString();
 
             var newAdrTuple = (adrTuple.repo, newLoca);
-            var id = GetConfigKey(adrTuple, "id").ToString();
+            var id = GetConfigKey(newAdrTuple, "id").ToString();
 
             if (id == guid)
             {
@@ -448,7 +453,7 @@ namespace SharpRepoServiceProg.RepoOperations
 
         private (string repo, string newLoca) FindIdAdrTuple()
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         [MethodLogger]
@@ -903,6 +908,7 @@ namespace SharpRepoServiceProg.RepoOperations
             var dict = new Dictionary<string, object>()
             {
                 { "id", Guid.NewGuid() },
+                { "type", ItemTypeNames.Folder },
                 { "name", name } 
             };
             CreateConfig(address, dict);
@@ -947,6 +953,7 @@ namespace SharpRepoServiceProg.RepoOperations
             var dict = new Dictionary<string, object>()
             {
                 { "id", Guid.NewGuid().ToString() },
+                { "type", ItemTypeNames.Text },
                 { "name", name }
             };
             InternalCreateConfig(itemPath, dict);

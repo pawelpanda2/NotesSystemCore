@@ -103,15 +103,15 @@ namespace SharpRepoServiceProg.RepoOperations
             var type = repo.GetItemType(adrTuple);
             object body = null;
 
+            if (type == ItemTypeNames.Text)
+            {
+                body = repo.GetText2(adrTuple);
+            }
+
             if (type == ItemTypeNames.RefText)
             {
                 var refAdrTuple = repo.GetRefAdrTuple(adrTuple);
                 body = repo.GetText2(refAdrTuple);
-            }
-
-            if (type == ItemTypeNames.Text)
-            {
-                body = repo.GetText2(adrTuple);
             }
 
             if (type == ItemTypeNames.Folder)

@@ -101,17 +101,16 @@ namespace SharpFileServiceProg.Operations.Index
             return index;
         }
 
-        public int TryStringToIndex(string input)
+        public bool TryStringToIndex(string input, out int index)
         {
-            try
+            if (input.Length > 3)
             {
-                var index = StringToIndex(input);
-                return index;
+                index = -1;
+                return false;
             }
-            catch
-            {
-                return -1;
-            }
+
+            var s1 = int.TryParse(input, out index);
+            return s1;
         }
 
         public string LastTwoChar(string input)
@@ -123,25 +122,17 @@ namespace SharpFileServiceProg.Operations.Index
         public bool IsCorrectIndex(string input)
         {
             var lastTwo = LastTwoChar(input);
-            var index = TryStringToIndex(lastTwo);
-            if (index == -1)
-            {
-                return false;
-            }
+            var success = TryStringToIndex(lastTwo, out var index);
 
-            return true;
+            return success;
         }
 
         public bool IsCorrectIndex(string input, out int index)
         {
             var lastTwo = LastTwoChar(input);
-            index = TryStringToIndex(lastTwo);
-            if (index == -1)
-            {
-                return false;
-            }
+            var success = TryStringToIndex(lastTwo, out index);
 
-            return true;
+            return success;
         }
     }
 }

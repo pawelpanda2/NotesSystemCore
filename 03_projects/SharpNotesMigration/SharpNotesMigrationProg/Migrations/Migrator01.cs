@@ -17,6 +17,11 @@ namespace SharpNotesMigrationProg.Migrations
             this.repoService = repoService;
         }
 
+        public void MigrateAllRepos()
+        {
+            throw new NotImplementedException();
+        }
+
         public void MigrateEverything()
         {
             var allRepos = repoService.Methods.GetAllReposNames();
@@ -27,6 +32,26 @@ namespace SharpNotesMigrationProg.Migrations
                 var content = $"name: {repo}";
                 repoService.Methods.CreateRepoConfig(repo, content);
             }
+        }
+
+        public void MigrateOneAddress((string Repo, string Loca) address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MigrateOneFolder((string Repo, string Loca) adrTuple)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MigrateOneRepo(string repoName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetAgree(bool agree)
+        {
+            throw new NotImplementedException();
         }
     }
 }
