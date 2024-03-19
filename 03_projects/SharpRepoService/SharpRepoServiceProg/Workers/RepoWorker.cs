@@ -380,14 +380,21 @@ namespace SharpRepoServiceProg.RepoOperations
         {
             string item = "";
 
-            if (type == "Text")
+            if (type == ItemTypeNames.Text)
             {
                 var newAdrTuple = CreateChildText(adrTuple, name, "");
                 item = GetItem(newAdrTuple);
             }
-            if (type == "Folder")
+
+            if (type == ItemTypeNames.Folder)
             {
                 var newAdrTuple = CreateChildFolder(adrTuple, name);
+                item = GetItem(newAdrTuple);
+            }
+
+            if (type == ItemTypeNames.RefText)
+            {
+                var newAdrTuple = CreateChildRefText(adrTuple, name, "");
                 item = GetItem(newAdrTuple);
             }
 
@@ -932,12 +939,45 @@ namespace SharpRepoServiceProg.RepoOperations
             return newAddress;
         }
 
+        public (string, string) CreateChildRefText(
+            (string Repo, string Loca) address,
+            string name,
+            string content)
+        {
+            var lastNumber = GetFolderLastNumber(address);
+            var newAddress = fileService.Index.SelectAddress(address, lastNumber + 1);
+            CreateRefTextGenerate(newAddress, name, content);
+            return newAddress;
+        }
+
         public (string, string) CreateText(
             (string Repo, string Loca) address,
             string content)
         {
             OverrideTextGenerate(address, content);
             return address;
+        }
+
+        private void CreateRefTextGenerate(
+            (string Repo, string Loca) address,
+            string name,
+            string content)
+        {
+            // directory
+            var itemPath = GetElemPath(address);
+            Directory.CreateDirectory(itemPath);
+
+            // config
+            var dict = new Dictionary<string, object>()
+            {
+                { "id", Guid.NewGuid().ToString() },
+                { "type", ItemTypeNames.RefText },
+                { "name", name }
+            };
+            InternalCreateConfig(itemPath, dict);
+
+            // body
+            InternalCreateBody(itemPath, content);
         }
 
         private void CreateTextGenerate(

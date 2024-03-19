@@ -74,6 +74,17 @@ namespace SharpButtonActionsProg.Workers
             ReplaceScript(fileName, dict);
         }
 
+        private void PrepareOpenTerminal(string folderPath )
+        {
+            var fileName = "OpenTerminal.scpt";
+            var dict = new Dictionary<string, string>()
+            {
+                { "[[folderPath]]", folderPath }
+            };
+
+            ReplaceScript(fileName, dict);
+        }
+
         private void ReplaceScript(
             string fileName,
             Dictionary<string, string> dict)
@@ -152,7 +163,15 @@ namespace SharpButtonActionsProg.Workers
             PrepareOpenFolder(path);
             RunOsaScript(osaFilePath);
         }
-     
+
+        public void TryOpenTerminal(string path)
+        {
+            if (!IsMyOsSystem()) { return; }
+
+            PrepareOpenTerminal(path);
+            RunOsaScript(osaFilePath);
+        }
+        
         public void RunOsaScript(string scriptPath)
         {
             if (!IsMyOsSystem()) { return; }

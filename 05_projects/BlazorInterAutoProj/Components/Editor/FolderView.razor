@@ -11,6 +11,7 @@
     <div>
         <input type="button" value="Folder" @onclick="OnFolderClicked" />
         <input type="button" value="Config" @onclick="ConfigClicked" />
+        <input type="button" value="Terminal" @onclick="TerminalClicked" />
     </div>
 
     <div>
@@ -18,6 +19,7 @@
         <select @bind="@formSelectedType">
             <option value="Text">Text</option>
             <option value="Folder">Folder</option>
+            <option value="RefText">RefText</option>
         </select>
         <input type="text" @bind=@formAddValue>
     </div>
@@ -100,16 +102,8 @@
 
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(Item.Address);
-        if (formSelectedType == "Text")
-        {
-            var itemJson = backendService
-                .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Text");
-        }
-        if (formSelectedType == "Folder")
-        {
-            var itemJson = backendService
-                .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formAddValue, "Folder");
-        }
+        var itemJson = backendService
+            .CommandApi("CreateItem", adrTuple.Item1, adrTuple.Item2, formSelectedType, formAddValue);
     }
 
     private void OnFolderClicked()
@@ -125,6 +119,13 @@
         var adrTuple = fileService.RepoAddress
               .CreateAddressFromString(Item.Address);
         var itemJson = backendService.CommandApi("OpenConfig", adrTuple.Item1, adrTuple.Item2);
+    }
+    
+    private void TerminalClicked()
+    {
+        var adrTuple = fileService.RepoAddress
+              .CreateAddressFromString(Item.Address);
+        var itemJson = backendService.CommandApi("OpenTerminal", adrTuple.Item1, adrTuple.Item2);
     }
 
     private void OnBtnClicked(string idxString)

@@ -17,6 +17,7 @@
     <EmbeddedResource Include="OsaScripts\OpenFile2.scpt"></EmbeddedResource>
     <EmbeddedResource Include="OsaScripts\OpenFile3.scpt"></EmbeddedResource>
     <EmbeddedResource Include="OsaScripts\OpenFile4.scpt"></EmbeddedResource>
+    <EmbeddedResource Include="OsaScripts\OpenTerminal.scpt"></EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
