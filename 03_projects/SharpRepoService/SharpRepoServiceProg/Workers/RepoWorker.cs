@@ -926,13 +926,6 @@ namespace SharpRepoServiceProg.RepoOperations
             string name,
             string content)
         {
-            var existingItem = GetExistingItem(address, name);
-            if (existingItem != default)
-            {
-                CreateTextGenerate(existingItem, name, content);
-                return existingItem;
-            }
-
             var lastNumber = GetFolderLastNumber(address);
             var newAddress = fileService.Index.SelectAddress(address, lastNumber + 1);
             CreateTextGenerate(newAddress, name, content);
