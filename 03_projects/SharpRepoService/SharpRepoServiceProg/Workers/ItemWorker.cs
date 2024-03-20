@@ -79,7 +79,9 @@ namespace SharpRepoServiceProg.RepoOperations
         }
 
         public string CreateItem(
-            (string repo, string loca) adrTuple, string name, string type)
+            (string repo, string loca) adrTuple,
+            string name,
+            string type)
         {
             string item = "";
 
@@ -91,6 +93,24 @@ namespace SharpRepoServiceProg.RepoOperations
             if (type == ItemTypes.Folder)
             {
                 var newAdrTuple = repo.CreateChildFolder(adrTuple, name);
+                item = GetItem(newAdrTuple);
+            }
+
+            return item;
+        }
+
+        public string PutItem(
+            (string repo, string loca) adrTuple,
+            string type,
+            string name,
+            string body)
+        {
+            string item = "";
+
+            if (type == ItemTypes.Text)
+            {
+                // todo add version with name & change name to PutText
+                var newAdrTuple = repo.CreateText(adrTuple, body);
                 item = GetItem(newAdrTuple);
             }
 
