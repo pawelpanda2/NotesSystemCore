@@ -15,7 +15,7 @@ namespace SharpFileServiceProg.Operations.Json
             return obj;
         }
 
-        public string SerializeObject<T>(object obj)
+        public string SerializeObject(object obj)
         {
             var jsonString = JsonConvert.SerializeObject(obj);
             return jsonString;
@@ -34,7 +34,7 @@ namespace SharpFileServiceProg.Operations.Json
             }
         }
 
-        public string TrySerializeObject<T>(object obj)
+        public string TrySerializeObject(object obj)
         {
             try
             {

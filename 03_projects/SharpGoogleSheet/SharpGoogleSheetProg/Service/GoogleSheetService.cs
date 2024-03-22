@@ -65,7 +65,7 @@ namespace SharpGoogleSheetProg.Service
         public void Initialize(string clientId, string clientSecret)
         {
             string[] Scopes = { SheetsService.Scope.Spreadsheets};
-            string ApplicationName = GetType().Name;
+            string ApplicationName = "notesSystem";
 
             var secrets = new ClientSecrets();
             secrets.ClientId = clientId;

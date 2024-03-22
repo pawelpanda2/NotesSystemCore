@@ -672,8 +672,13 @@ namespace SharpGoogleSheetProg.Service
 
         public IList<IList<object>> GetSheetData(string spreadsheetId, string sheetId, string sheetRange)
         {
-            var spreadsheet = sheetsService.Spreadsheets.Get(spreadsheetId).Execute();
-            var sheet = spreadsheet.Sheets.SingleOrDefault(x => x.Properties.SheetId.ToString() == sheetId);
+            var gg = sheetsService.BaseUri;
+            var gg2 = sheetsService.Features;
+            
+            var getRequest = sheetsService.Spreadsheets.Get(spreadsheetId);
+            var response = getRequest.Execute();
+
+            var sheet = response.Sheets.SingleOrDefault(x => x.Properties.SheetId.ToString() == sheetId);
             var sheetName = sheet.Properties.Title;
 
             var generalRange = sheetName + "!" + sheetRange;

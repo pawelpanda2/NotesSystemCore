@@ -27,5 +27,17 @@
             ],
             "problemMatcher": "$msCompile"
         },
+        {
+            "label": "build; SharpCryptoCalcProg",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/24_projects/SharpCryptoCalc/SharpCryptoCalcProg/SharpCryptoCalcProg.csproj", // removed ${workspaceFolder}/
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
     ]
 }

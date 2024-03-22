@@ -49,6 +49,12 @@ namespace SharpFileServiceProg.Operations.RepoAddress
 
         public string MoveOneLocaBack(string adrString)
         {
+            var slashCount = adrString.Count(x => x == '/');
+            if (slashCount == 0)
+            {
+                return adrString;
+            }
+            
             var splited = adrString.Split("/").ToList();
             var lastItemIndex = splited.Count - 1;
             splited.RemoveAt(lastItemIndex);
