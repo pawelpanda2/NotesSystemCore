@@ -676,6 +676,9 @@ namespace SharpGoogleSheetProg.Service
             var gg2 = sheetsService.Features;
             
             var getRequest = sheetsService.Spreadsheets.Get(spreadsheetId);
+
+            GetSprea
+
             var response = getRequest.Execute();
 
             var sheet = response.Sheets.SingleOrDefault(x => x.Properties.SheetId.ToString() == sheetId);

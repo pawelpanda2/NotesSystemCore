@@ -59,11 +59,10 @@ namespace SharpGoogleSheetProg.Service
         {
             this.clientId = settings["googleClientId"].ToString();
             this.clientSecret = settings["googleClientSecret"].ToString();
-            scopes = new List<string>();
-            scopes.Add(SheetsService.Scope.Spreadsheets);
-            scopes.Add(SheetsService.Scope.Drive);
-            applicationName = "notesSystem";
-            user = "GameStatistics";
+            this.scopes = new List<string>();
+            this.scopes.Add(SheetsService.Scope.Spreadsheets);
+            this.applicationName = "GameStatistics";
+            this.user = "GameStatistics";
         }
 
         private void SheetInit()

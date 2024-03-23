@@ -19,6 +19,8 @@ namespace GoogleDocsServiceProj.Service
         private string clientSecret;
         private string applicationName;
 
+        private string user;
+
         public GoogleDocsService()
         {
         }
@@ -46,7 +48,8 @@ namespace GoogleDocsServiceProj.Service
         {
             var s3 = settingDict.TryGetValue("googleClientId", out var clientId);
             var s4 = settingDict.TryGetValue("googleClientSecret", out var clientSecret);
-            this.applicationName = "notesSystem";
+            this.applicationName = "GameStatistics";
+            user = "GameStatistics";
             this.scopes = new List<string> { DocsService.ScopeConstants.Documents };
             if (s3) { this.clientId = clientId.ToString(); }
             if (s4) { this.clientSecret = clientSecret.ToString(); }
@@ -74,7 +77,7 @@ namespace GoogleDocsServiceProj.Service
             var credentialAuthorization = GoogleWebAuthorizationBroker.AuthorizeAsync(
                 secrets,
                 this.scopes,
-                "user",
+                user,
                 CancellationToken.None);
 
             var initializer = new BaseClientService.Initializer()
