@@ -59,10 +59,10 @@ namespace SharpGoogleSheetProg.Service
         {
             this.clientId = settings["googleClientId"].ToString();
             this.clientSecret = settings["googleClientSecret"].ToString();
-            this.scopes = new List<string>();
-            this.scopes.Add(SheetsService.Scope.Spreadsheets);
-            this.applicationName = "GameStatistics";
-            this.user = "GameStatistics";
+            scopes = new List<string>();
+            scopes.Add(SheetsService.ScopeConstants.Spreadsheets);
+            applicationName = "notesSystem";
+            user = "GameStatistics";
         }
 
         private void SheetInit()
@@ -75,7 +75,7 @@ namespace SharpGoogleSheetProg.Service
 
             var credentialAuthorization = GoogleWebAuthorizationBroker.AuthorizeAsync(
                 secrets,
-                scopes.ToArray(),
+                scopes,
                 user,
                 CancellationToken.None);
 
