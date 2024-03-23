@@ -52,12 +52,9 @@ namespace SharpGoogleDriveProg.Service
             this.scopes = new List<string>
             { 
                 DriveService.ScopeConstants.Drive,
-                //DriveService.ScopeConstants.DriveAppda
                 DriveService.ScopeConstants.DriveFile,
                 DriveService.ScopeConstants.DriveMetadata,
                 DriveService.ScopeConstants.DriveScripts,
-                //DriveService.ScopeConstants.DriveMetadata,
-                //DriveService.ScopeConstants.DriveScripts,
             };
 
             //string[] Scopes = { DriveService.Scope.Drive, DriveService.Scope.DriveFile };

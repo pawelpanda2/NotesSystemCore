@@ -42,7 +42,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build; SharpCryptoCalcProg",
-            "program": "${workspaceFolder}/Binaries/SharpCryptoCalcProg/bin/Debug/net6.0/SharpCryptoCalcProg.dll",
+            "program": "${workspaceFolder}/Binaries/SharpCryptoCalcProg/bin/Debug/net8.0/SharpCryptoCalcProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
