@@ -4,7 +4,7 @@ using SharpNotesMigrationProg.Service;
 using SharpNotesMigrationTests.Repetition;
 using SharpRepoServiceProg.Service;
 using Unity;
-using Public01 = SharpSetupProg21Private.AAPublic;
+using OutBorder01 = SharpSetup21ProgPrivate.AAPublic.OutBorder;
 
 namespace SharpNotesMigrationTests
 {
@@ -13,9 +13,7 @@ namespace SharpNotesMigrationTests
     {
         public UnitTest1()
         {
-            // WpfNotesSystemPrivate01.Repetition
-            var registration = new Public01.Registration();
-            registration.Start();
+            OutBorder01.GetPeparer("PrivateNotesPreparer").Prepare();
             var configService = MyBorder.Container.Resolve<IConfigService>();
             configService.Prepare();
             var repoService = MyBorder.Container.Resolve<IRepoService>();

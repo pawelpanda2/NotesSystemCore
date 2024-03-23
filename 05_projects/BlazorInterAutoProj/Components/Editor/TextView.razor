@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json
 @using SharpFileServiceProg.Service
 @using SharpRepoBackendProg.Service
-@using SharpSetupProg21Private.AAPublic.Models
+@using BlazorInterAutoProj.Repet.Models
 @inject IFileService fileService
 @inject BackendService backendService
 @rendermode InteractiveServer
@@ -55,10 +55,10 @@
 @code {
     private string formAddType;
     private string formGoogleDocType;
-    public ItemModel2 item;
+    public ItemModel item;
 
     [Parameter]
-    public ItemModel2 Item
+    public ItemModel Item
     {
         get => item;
         set
@@ -68,7 +68,7 @@
     }
 
     [Parameter]
-    public Action<ItemModel2, bool> ReloadItem { get; set; }
+    public Action<ItemModel, bool> ReloadItem { get; set; }
 
     private string myType = "Text";
 
@@ -85,10 +85,10 @@
         ReloadComponent();
     }
 
-    private EventCallback<ItemModel2> itemChanged;
+    private EventCallback<ItemModel> itemChanged;
 
     [Parameter]
-    public EventCallback<ItemModel2> ItemChanged
+    public EventCallback<ItemModel> ItemChanged
     {
         get => itemChanged;
         set
@@ -149,7 +149,7 @@
              .CreateAddressFromString(Item.Address);
         var newAddress = fileService.Index.JoinIndexWithLoca(adrTuple, index);
         var itemJString = GetItem(newAddress);
-        var itemObj = fileService.Json.TryDeserializeObject<ItemModel2>(itemJString);
+        var itemObj = fileService.Json.TryDeserializeObject<ItemModel>(itemJString);
 
         if (itemObj.Type != myType)
         {

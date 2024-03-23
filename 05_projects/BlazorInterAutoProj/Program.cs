@@ -1,10 +1,10 @@
 using BlazorInterAutoProj.Components;
+using BlazorInterAutoProj.Registrations;
 using SharpFileServiceProg.Service;
 using SharpRepoBackendProg.Service;
-using Public01 = SharpSetupProg21Private.AAPublic;
+using OutBorder01 = SharpSetup21ProgPrivate.AAPublic.OutBorder;
 
-var registration = new Public01.Registration();
-var container = registration.Start();
+OutBorder01.GetPeparer("PrivateNotesPreparer").Prepare();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 var backend = new BackendService();
-var fileService = container.Resolve<IFileService>();
+var fileService = MyBorder.Container.Resolve<IFileService>();
 builder.Services.AddSingleton<BackendService>(backend);
 builder.Services.AddSingleton<IFileService>(fileService);
 

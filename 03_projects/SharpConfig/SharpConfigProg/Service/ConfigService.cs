@@ -63,7 +63,9 @@ namespace SharpConfigProg.Service
 
         public void Prepare(IPreparer preparer)
         {
-
+            preparer.SetConfigService(this);
+            SettingsDict = preparer.Prepare(); ;
+            new BeforeAfter(fileService, this).Run();
         }
 
         public void Prepare(Dictionary<string, object> dict)

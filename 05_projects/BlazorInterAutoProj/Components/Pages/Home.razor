@@ -4,7 +4,7 @@
 @using SharpFileServiceProg.Service
 @using SharpRepoBackendProg.Service
 @using System.Diagnostics
-@using SharpSetupProg21Private.AAPublic.Models
+@using BlazorInterAutoProj.Repet.Models
 
 @inject BackendService backendService
 @inject IFileService fileService
@@ -45,7 +45,7 @@ if (reloadState)
 </div>
 
 @code {
-    private ItemModel2 item;
+    private ItemModel item;
     private string formRepoName;
     private string formLocaName;
     private TextView textView;
@@ -55,7 +55,7 @@ if (reloadState)
     {
         if (item == null)
         {
-            item = new ItemModel2() { Address = "Notki" };
+            item = new ItemModel() { Address = "Notki" };
         }
     }
     private bool IsMyType()
@@ -71,7 +71,7 @@ if (reloadState)
     protected void ReloadItem((string Repo, string Loca) address)
     {
         var itemJString = GetItem(address);
-        var itemObj = fileService.Json.TryDeserializeObject<ItemModel2>(itemJString);
+        var itemObj = fileService.Json.TryDeserializeObject<ItemModel>(itemJString);
         item = itemObj;
         var adrTuple = fileService.RepoAddress
              .CreateAddressFromString(item.Address);
@@ -89,7 +89,7 @@ if (reloadState)
         }
     }
 
-    protected void ReloadItem(ItemModel2 item, bool reloadState)
+    protected void ReloadItem(ItemModel item, bool reloadState)
     {
         this.item = item;
         var adrTuple = fileService.RepoAddress

@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json
 @using SharpFileServiceProg.Service
 @using SharpRepoBackendProg.Service
-@using SharpSetupProg21Private.AAPublic.Models
+@using BlazorInterAutoProj.Repet.Models
 @inject IFileService fileService
 @inject BackendService backendService
 @rendermode InteractiveServer
@@ -45,10 +45,10 @@
 *@
 @code {
     [Parameter]
-    public ItemModel2 Item { get; set; }
+    public ItemModel Item { get; set; }
 
     [Parameter]
-    public Action<ItemModel2, bool> ReloadItem { get; set; }
+    public Action<ItemModel, bool> ReloadItem { get; set; }
 
     private string formAddValue;
     private string formSelectedType;
@@ -66,9 +66,9 @@
     //private EventCallback<ItemModel2> itemChanged;
 
     [Parameter]
-    public EventCallback<ItemModel2> ItemChanged { get; set; }
+    public EventCallback<ItemModel> ItemChanged { get; set; }
 
-    void ItemChangeHandler(ItemModel2 item)
+    void ItemChangeHandler(ItemModel item)
     {
 
     }
@@ -135,7 +135,7 @@
              .CreateAddressFromString(Item.Address);
         var newAddress = fileService.Index.JoinIndexWithLoca(adrTuple, index);
         var itemJString = GetItem(newAddress);
-        var itemObj = fileService.Json.TryDeserializeObject<ItemModel2>(itemJString);
+        var itemObj = fileService.Json.TryDeserializeObject<ItemModel>(itemJString);
 
         if (itemObj.Type != myType)
         {
