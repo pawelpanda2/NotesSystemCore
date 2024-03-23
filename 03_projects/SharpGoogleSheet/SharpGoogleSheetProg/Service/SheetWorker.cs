@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
+using static Google.Apis.Sheets.v4.SpreadsheetsResource;
 
 namespace SharpGoogleSheetProg.Service
 {
@@ -674,9 +675,10 @@ namespace SharpGoogleSheetProg.Service
         {
             var gg = sheetsService.BaseUri;
             var gg2 = sheetsService.Features;
-            
-            var getRequest = sheetsService.Spreadsheets.Get(spreadsheetId);
-            var response = getRequest.Execute();
+
+            var request = new GetRequest(sheetsService, spreadsheetId);
+            //var getRequest = sheetsService.Spreadsheets.Get(spreadsheetId);
+            var response = request.Execute();
 
             var sheet = response.Sheets.SingleOrDefault(x => x.Properties.SheetId.ToString() == sheetId);
             var sheetName = sheet.Properties.Title;
