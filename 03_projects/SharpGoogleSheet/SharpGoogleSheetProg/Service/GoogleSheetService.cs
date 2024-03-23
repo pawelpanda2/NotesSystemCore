@@ -33,7 +33,7 @@ namespace SharpGoogleSheetProg.Service
             {
                 if (!sheetInit)
                 {
-                    SheetInit(clientId, clientSecret);
+                    SheetInit();
                     sheetInit = true;
                 }
                 return worker;
@@ -49,19 +49,16 @@ namespace SharpGoogleSheetProg.Service
         private void ReWriteSettings(Dictionary<string, object> inputDict)
         {
             this.settings = new Dictionary<string, object>();
-            TryAdd(settings, inputDict, "googleClientId");
-            TryAdd(settings, inputDict, "googleClientSecret");
-            TryAdd(settings, inputDict, "applicationName");
-            TryAdd(settings, inputDict, "scopes");
+            TryAdd(inputDict, settings, "googleClientId");
+            TryAdd(inputDict, settings, "googleClientSecret");
+            TryAdd(inputDict, settings, "applicationName");
+            TryAdd(inputDict, settings, "scopes");
         }
 
         private void ApplySettings()
         {
-            var s3 = settings.TryGetValue("googleClientId", out var clientId);
-            var s4 = settings.TryGetValue("googleClientSecret", out var clientSecret);
-            if (s3) { this.clientId = clientId.ToString(); }
-            if (s4) { this.clientSecret = clientSecret.ToString(); }
-
+            this.clientId = settings["googleClientId"].ToString();
+            this.clientSecret = settings["googleClientSecret"].ToString();
             scopes = new List<string>();
             scopes.Add(SheetsService.Scope.Spreadsheets);
             scopes.Add(SheetsService.Scope.Drive);
@@ -69,7 +66,7 @@ namespace SharpGoogleSheetProg.Service
             user = "GameStatistics";
         }
 
-        private void SheetInit(string clientId, string clientSecret)
+        private void SheetInit()
         {
             ApplySettings();
 
