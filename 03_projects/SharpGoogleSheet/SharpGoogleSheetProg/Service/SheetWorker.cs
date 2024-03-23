@@ -671,14 +671,22 @@ namespace SharpGoogleSheetProg.Service
 
         public IList<IList<object>> GetSheetData(string spreadsheetId, string sheetId, string sheetRange)
         {
-            var result2 = GetSheetData(spreadsheetId, "BinanceConvert!A4:K");
+            //var result2 = GetSheetData(spreadsheetId, "BinanceConvert!A4:K");
 
             var gg = sheetsService.BaseUri;
             var gg2 = sheetsService.Features;
 
             var request = new GetRequest(sheetsService, spreadsheetId);
             //var getRequest = sheetsService.Spreadsheets.Get(spreadsheetId);
-            var response = request.Execute();
+            Spreadsheet response = null;
+            try
+            {
+                response = request.Execute();
+            }
+            catch (Exception ex)
+            {
+            }
+            
 
             var sheet = response.Sheets.SingleOrDefault(x => x.Properties.SheetId.ToString() == sheetId);
             var sheetName = sheet.Properties.Title;

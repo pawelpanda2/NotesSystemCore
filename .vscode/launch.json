@@ -1,15 +1,13 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
-            "name": "run - BlazorInterAutoProj",
+            "name": "run; BlazorInterAutoProj",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build; BlazorInterAutoProj",
-            //"program": "${workspaceFolder}/05_projects/BlazorInterAutoProj/bin/Debug/net8.0/BlazorInterAutoProj.dll",
             "program": "${workspaceFolder}/Binaries/BlazorInterAutoProj/bin/Debug/net8.0/BlazorInterAutoProj.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
@@ -26,11 +24,10 @@
             }
         },
         {
-            "name": "run - SharpButtonActionsProg",
+            "name": "run; SharpButtonActionsProg",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build; SharpButtonActionsProg",
-            //"program": "${workspaceFolder}/03_projects/SharpButtonActions/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
             "program": "${workspaceFolder}/Binaries/SharpButtonActionsProg/bin/Debug/net8.0/SharpButtonActionsProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
@@ -41,23 +38,25 @@
             "name": "run; SharpCryptoCalcProg; 6.0",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build; SharpCryptoCalcProg",
+            "preLaunchTask": "build; SharpCryptoCalcProg; 6.0",
             "program": "${workspaceFolder}/Binaries/SharpCryptoCalcProg/bin/Debug/net6.0/SharpCryptoCalcProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "justMyCode": false,
         },
         {
             "name": "run; SharpCryptoCalcProg; 8.0",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build; SharpCryptoCalcProg",
+            "preLaunchTask": "build; SharpCryptoCalcProg; 8.0",
             "program": "${workspaceFolder}/Binaries/SharpCryptoCalcProg/bin/Debug/net8.0/SharpCryptoCalcProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "justMyCode": false,
         },
     ]
 }
