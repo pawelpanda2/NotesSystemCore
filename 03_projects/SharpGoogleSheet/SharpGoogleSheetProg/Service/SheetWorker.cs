@@ -662,9 +662,7 @@ namespace SharpGoogleSheetProg.Service
 
         private IList<IList<object>> GetSheetData(string spreadsheetId, string range)
         {
-            var request =
-               sheetsService.Spreadsheets.Values.Get(spreadsheetId, range);
-
+            var request = sheetsService.Spreadsheets.Values.Get(spreadsheetId, range);
             var response = request.Execute();
             var values = response.Values;
 
@@ -673,6 +671,8 @@ namespace SharpGoogleSheetProg.Service
 
         public IList<IList<object>> GetSheetData(string spreadsheetId, string sheetId, string sheetRange)
         {
+            var result2 = GetSheetData(spreadsheetId, "BinanceConvert!A4:K");
+
             var gg = sheetsService.BaseUri;
             var gg2 = sheetsService.Features;
 

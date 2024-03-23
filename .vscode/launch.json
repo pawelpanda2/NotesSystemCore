@@ -38,11 +38,22 @@
             "console": "internalConsole"
         },
         {
-            "name": "run - SharpCryptoCalcProg",
+            "name": "run; SharpCryptoCalcProg; 6.0",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build; SharpCryptoCalcProg",
             "program": "${workspaceFolder}/Binaries/SharpCryptoCalcProg/bin/Debug/net6.0/SharpCryptoCalcProg.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "run; SharpCryptoCalcProg; 8.0",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build; SharpCryptoCalcProg",
+            "program": "${workspaceFolder}/Binaries/SharpCryptoCalcProg/bin/Debug/net8.0/SharpCryptoCalcProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

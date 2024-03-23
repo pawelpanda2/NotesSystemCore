@@ -61,7 +61,7 @@ namespace SharpGoogleSheetProg.Service
             this.clientSecret = settings["googleClientSecret"].ToString();
             scopes = new List<string>();
             scopes.Add(SheetsService.ScopeConstants.Spreadsheets);
-            applicationName = "gamestatistics";
+            applicationName = "Gamestatistics";
             user = "gamestatistics";
         }
 
