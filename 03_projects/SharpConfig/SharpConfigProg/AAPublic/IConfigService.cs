@@ -11,6 +11,7 @@ namespace SharpConfigProg.Service
         void AddSetting(string key, object value);
         void OverrideSetting(string key, object value);
         void Prepare(Type preparationClassType);
+        void Prepare(Dictionary<string, object> settingsDict);
         void Prepare(IPreparer preparer);
         void Prepare();
         void LoadSettingsFromFile();
