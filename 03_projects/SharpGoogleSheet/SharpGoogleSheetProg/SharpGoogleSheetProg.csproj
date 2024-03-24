@@ -11,4 +11,8 @@
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.66.0.3148" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharpContainer\SharpContainerProg\SharpContainerProg.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,4 @@
-﻿using SharpRepoBackendProg.Repetition;
-using Unity;
+﻿using Unity;
 
 namespace SharpNotesMigrationTests.Repetition
 {

@@ -63,7 +63,7 @@ namespace SharpGoogleSheetProg.Service
             scopes.Add(SheetsService.ScopeConstants.Spreadsheets);
             scopes.Add(SheetsService.ScopeConstants.Drive);
             applicationName = "GameStatistics";
-            user = "gamestatistics";
+            user = "notki.info@gmail.com";
         }
 
         private void SheetInit()
@@ -82,9 +82,8 @@ namespace SharpGoogleSheetProg.Service
 
             sheetsService = new SheetsService(new BaseClientService.Initializer()
             {
-                //HttpClientInitializer = credentialAuthorization.Result,
+                HttpClientInitializer = credentialAuthorization.Result,
                 ApplicationName = applicationName,
-                ApiKey = "AIzaSyDnbp093IgL_CqZwTxJl_yokQWRlLvApms",
             });
 
             worker = new SheetWorker(this, sheetsService);
