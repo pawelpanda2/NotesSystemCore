@@ -13,7 +13,7 @@ namespace SharpNotesMigrationTests
     {
         public UnitTest1()
         {
-            OutBorder01.GetPeparer("PrivateNotesPreparer").Prepare();
+            OutBorder01.GetPreparer("PrivateNotesPreparer").Prepare();
             var configService = MyBorder.Container.Resolve<IConfigService>();
             configService.Prepare();
             var repoService = MyBorder.Container.Resolve<IRepoService>();

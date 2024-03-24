@@ -2,33 +2,24 @@
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using SharpGoogleDriveProg.AAPublic;
+using SharpGoogleDriveProg.Names;
 
 namespace SharpGoogleDriveProg.Service
 {
     public class GoogleDriveService : IGoogleDriveService
     {
-        private DriveService service;
-        private bool isInitialized;
+        //workers
         private DriveWorker worker;
+        private DriveService service;
+        private bool isWorkerInit;
 
         // settings
-        private string applicationName;
+        private Dictionary<string, object> settings;
         private List<string> scopes;
         private string clientId;
         private string clientSecret;
-
-        public DriveWorker Worker
-        {
-            get
-            {
-                if (!isInitialized)
-                {
-                    Initialize(clientId, clientSecret);
-                    isInitialized = true;
-                }
-                return worker;
-            }
-        }
+        private string applicationName;
+        private string user;
 
         public GoogleDriveService()
         {
@@ -37,35 +28,57 @@ namespace SharpGoogleDriveProg.Service
         public GoogleDriveService(
             Dictionary<string, object> settingDict)
         {
-            ApplySettings(settingDict);
+            ReWriteSettings(settingDict);
         }
 
-        private void ApplySettings(Dictionary<string, object> settingDict)
+        public DriveWorker Worker
         {
-            var s3 = settingDict.TryGetValue("googleClientId", out var clientId);
-            var s4 = settingDict.TryGetValue("googleClientSecret", out var clientSecret);
-            if (s3) { this.clientId = clientId.ToString(); }
-            if (s4) { this.clientSecret = clientSecret.ToString(); }
+            get
+            {
+                if (!isWorkerInit)
+                {
+                    WorkerInit();
+                    isWorkerInit = true;
+                }
+                return worker;
+            }
+        }
 
-            applicationName = "notesSystem";
-
-            this.scopes = new List<string>
-            { 
-                DriveService.ScopeConstants.Drive,
-                DriveService.ScopeConstants.DriveFile,
-                DriveService.ScopeConstants.DriveMetadata,
-                DriveService.ScopeConstants.DriveScripts,
-            };
-
-            //string[] Scopes = { DriveService.Scope.Drive, DriveService.Scope.DriveFile };
+        public void Initialize()
+        {
+            WorkerInit();
         }
 
         public void OverrideSettings(Dictionary<string, object> settingDict)
         {
-            ApplySettings(settingDict);
+            ReWriteSettings(settingDict);
+            ApplySettings();
         }
 
-        public void Initialize(string clientId, string clientSecret)
+        private void ReWriteSettings(Dictionary<string, object> inputDict)
+        {
+            this.settings ??= new Dictionary<string, object>();
+            TryAdd(inputDict, settings, VarNames.GoogleClientId);
+            TryAdd(inputDict, settings, VarNames.GoogleClientSecret);
+            TryAdd(inputDict, settings, VarNames.GoogleApplicationName);
+            TryAdd(inputDict, settings, VarNames.GoogleUserName);
+        }
+
+        private void ApplySettings()
+        {
+            this.scopes ??= new List<string>();
+            this.clientId = settings[VarNames.GoogleClientId].ToString();
+            this.clientSecret = settings[VarNames.GoogleClientSecret].ToString();
+            this.applicationName = settings[VarNames.GoogleApplicationName].ToString();
+            this.user = settings[VarNames.GoogleUserName].ToString();
+
+            this.scopes.Add(DriveService.ScopeConstants.Drive);
+            this.scopes.Add(DriveService.ScopeConstants.DriveFile);
+            this.scopes.Add(DriveService.ScopeConstants.DriveMetadata);
+            this.scopes.Add(DriveService.ScopeConstants.DriveScripts);
+        }
+
+        private void WorkerInit()
         {
             var initializer = GetInitilizer(clientId, clientSecret);
             var service = new DriveService(initializer);
@@ -91,6 +104,26 @@ namespace SharpGoogleDriveProg.Service
             };
 
             return initializer;
+        }
+
+        private bool TryAdd(
+            Dictionary<string, object> inputDict,
+            Dictionary<string, object> outputDict,
+            string keyName)
+        {
+            var success1 = inputDict.TryGetValue(keyName, out var valueObj);
+            var success2 = false;
+            if (success1)
+            {
+                success2 = outputDict.TryAdd(keyName, valueObj);
+            }
+
+            if (success2)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

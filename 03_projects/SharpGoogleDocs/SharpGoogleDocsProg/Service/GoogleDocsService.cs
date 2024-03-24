@@ -2,6 +2,7 @@
 using Google.Apis.Docs.v1;
 using Google.Apis.Services;
 using SharpGoogleDocsProg.AAPublic;
+using SharpGoogleDocsProg.Names;
 using SharpGoogleDocsProg.Worker;
 
 namespace GoogleDocsServiceProj.Service
@@ -9,16 +10,16 @@ namespace GoogleDocsServiceProj.Service
     internal class GoogleDocsService : IGoogleDocsService
     {
         // workers
-        private bool isInitialized;
-        private DocsWorker worker;
         private StackWorker stackWkr;
+        private DocsWorker worker;
+        private bool isStackInit;
 
         // settings
-        private IEnumerable<string> scopes;
+        private Dictionary<string, object> settings;
+        private List<string> scopes;
         private string clientId;
         private string clientSecret;
         private string applicationName;
-
         private string user;
 
         public GoogleDocsService()
@@ -28,39 +29,54 @@ namespace GoogleDocsServiceProj.Service
         public GoogleDocsService(
             Dictionary<string, object> settingDict)
         {
-            ApplySettings(settingDict);
+            ReWriteSettings(settingDict);
         }
 
         public StackWorker StackWkr
         {
             get
             {
-                if (!isInitialized)
+                if (!isStackInit)
                 {
-                    Initialize(clientId, clientSecret);
-                    isInitialized = true;
+                    StackInit();
+                    isStackInit = true;
                 }
                 return stackWkr;
             }
         }
 
-        private void ApplySettings(Dictionary<string, object> settingDict)
+        public void Initialize()
         {
-            var s3 = settingDict.TryGetValue("googleClientId", out var clientId);
-            var s4 = settingDict.TryGetValue("googleClientSecret", out var clientSecret);
-            this.applicationName = "GameStatistics";
-            user = "GameStatistics";
-            this.scopes = new List<string> { DocsService.ScopeConstants.Documents };
-            if (s3) { this.clientId = clientId.ToString(); }
-            if (s4) { this.clientSecret = clientSecret.ToString(); }
+            StackInit();
         }
 
         public void OverrideSettings(Dictionary<string, object> settingDict)
         {
+            ReWriteSettings(settingDict);
             ApplySettings(settingDict);
         }
 
-        public void Initialize(string clientId, string clientSecret)
+        private void ReWriteSettings(Dictionary<string, object> inputDict)
+        {
+            this.settings = new Dictionary<string, object>();
+            TryAdd(inputDict, settings, VarNames.GoogleClientId);
+            TryAdd(inputDict, settings, VarNames.GoogleClientSecret);
+            TryAdd(inputDict, settings, VarNames.GoogleApplicationName);
+            TryAdd(inputDict, settings, VarNames.GoogleUserName);
+        }
+
+        private void ApplySettings(Dictionary<string, object> settingDict)
+        {
+            this.scopes ??= new List<string>();
+            this.clientId = settings[VarNames.GoogleClientId].ToString();
+            this.clientSecret = settings[VarNames.GoogleClientSecret].ToString();
+            this.applicationName = settings[VarNames.GoogleApplicationName].ToString();
+            this.user = settings[VarNames.GoogleUserName].ToString();
+
+            this.scopes.Add(DocsService.ScopeConstants.Documents);
+        }
+
+        private void StackInit()
         {
             var initializer = GetInitilizer(clientId, clientSecret);
             var service = new DocsService(initializer);
@@ -87,6 +103,26 @@ namespace GoogleDocsServiceProj.Service
             };
 
             return initializer;
+        }
+
+        private bool TryAdd(
+            Dictionary<string, object> inputDict,
+            Dictionary<string, object> outputDict,
+            string keyName)
+        {
+            var success1 = inputDict.TryGetValue(keyName, out var valueObj);
+            var success2 = false;
+            if (success1)
+            {
+                success2 = outputDict.TryAdd(keyName, valueObj);
+            }
+
+            if (success2)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

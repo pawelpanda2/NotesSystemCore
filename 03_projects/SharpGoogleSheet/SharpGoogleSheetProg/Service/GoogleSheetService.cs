@@ -2,20 +2,24 @@
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using SharpGoogleSheetProg.AAPublic;
+using SharpGoogleSheetProg.Names;
 
 namespace SharpGoogleSheetProg.Service
 {
     public class GoogleSheetService : IGoogleSheetService
     {
-        private SheetsService sheetsService;
+        // workers
+        private SheetsService service;
         private SheetWorker worker;
-        private string applicationName;
-        private string user;
+        private bool isSheetInit;
+
+        // settings
+        private Dictionary<string, object> settings;
         private List<string> scopes;
         private string clientId;
         private string clientSecret;
-        private bool sheetInit;
-        private Dictionary<string, object> settings;
+        private string applicationName;
+        private string user;
 
         public GoogleSheetService()
         {
@@ -31,37 +35,43 @@ namespace SharpGoogleSheetProg.Service
         {
             get
             {
-                if (!sheetInit)
+                if (!isSheetInit)
                 {
                     SheetInit();
-                    sheetInit = true;
+                    isSheetInit = true;
                 }
                 return worker;
             }
         }
 
+        public void Initialize()
+        {
+            SheetInit();
+        }
+
         public void OverrideSettings(Dictionary<string, object> settingDict)
         {
-            this.settings = new Dictionary<string, object>();
             ReWriteSettings(settingDict);
+            ApplySettings();
         }
 
         private void ReWriteSettings(Dictionary<string, object> inputDict)
         {
-            this.settings = new Dictionary<string, object>();
-            TryAdd(inputDict, settings, "googleClientId");
-            TryAdd(inputDict, settings, "googleClientSecret");
-            TryAdd(inputDict, settings, "googleApplicationName");
-            TryAdd(inputDict, settings, "googleUserName");
+            this.settings ??= new Dictionary<string, object>();
+            TryAdd(inputDict, settings, VarNames.GoogleClientId);
+            TryAdd(inputDict, settings, VarNames.GoogleClientSecret);
+            TryAdd(inputDict, settings, VarNames.GoogleApplicationName);
+            TryAdd(inputDict, settings, VarNames.GoogleUserName);
         }
 
         private void ApplySettings()
         {
-            this.clientId = settings["googleClientId"].ToString();
-            this.clientSecret = settings["googleClientSecret"].ToString();
-            this.applicationName = settings["googleApplicationName"].ToString();
-            this.user = settings["googleUserName"].ToString();
-            this.scopes = new List<string>();
+            this.scopes ??= new List<string>();
+            this.clientId = settings[VarNames.GoogleClientId].ToString();
+            this.clientSecret = settings[VarNames.GoogleClientSecret].ToString();
+            this.applicationName = settings[VarNames.GoogleApplicationName].ToString();
+            this.user = settings[VarNames.GoogleUserName].ToString();
+            
             this.scopes.Add(SheetsService.ScopeConstants.Spreadsheets);
             //scopes.Add(SheetsService.ScopeConstants.Drive);
         }
@@ -69,7 +79,15 @@ namespace SharpGoogleSheetProg.Service
         private void SheetInit()
         {
             ApplySettings();
+            var initializer = GetInitilizer(clientId, clientSecret);
+            service = new SheetsService(initializer);
+            worker = new SheetWorker(this, service);
+        }
 
+        public BaseClientService.Initializer GetInitilizer(
+            string clientId,
+            string clientSecret)
+        {
             var secrets = new ClientSecrets();
             secrets.ClientId = clientId;
             secrets.ClientSecret = clientSecret;
@@ -80,13 +98,13 @@ namespace SharpGoogleSheetProg.Service
                 user,
                 CancellationToken.None);
 
-            sheetsService = new SheetsService(new BaseClientService.Initializer()
+            var initializer = new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credentialAuthorization.Result,
                 ApplicationName = applicationName,
-            });
+            };
 
-            worker = new SheetWorker(this, sheetsService);
+            return initializer;
         }
 
         private bool TryAdd(
@@ -108,10 +126,5 @@ namespace SharpGoogleSheetProg.Service
 
             return false;
         }
-
-        //private void InitFields()
-        //{
-        //    if (scopes == null) { scopes = new List<string>(); };
-        //}
     }
 }
