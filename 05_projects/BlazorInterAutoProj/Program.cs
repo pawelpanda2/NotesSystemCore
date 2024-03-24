@@ -4,7 +4,7 @@ using SharpFileServiceProg.Service;
 using SharpRepoBackendProg.Service;
 using OutBorder01 = SharpSetup21ProgPrivate.AAPublic.OutBorder;
 
-OutBorder01.GetPeparer("PrivateNotesPreparer").Prepare();
+OutBorder01.GetPreparer("PrivateNotesPreparer").Prepare();
 
 var builder = WebApplication.CreateBuilder(args);
 
