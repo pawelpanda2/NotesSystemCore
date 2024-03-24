@@ -1,7 +1,6 @@
 using SharpGoogleSheetProg.AAPublic;
 using SharpGoogleSheetTests.Registrations;
 using OutBorder01 = SharpSetup21ProgPrivate.AAPublic.OutBorder;
-using OutBorder03 = SharpSetup23ProgPrivate.AAPublic.OutBorder;
 
 namespace SharpGoogleSheetTests
 {

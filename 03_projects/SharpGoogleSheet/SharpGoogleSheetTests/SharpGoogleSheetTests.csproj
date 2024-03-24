@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\22_projects\SharpSetup21ProgPrivate\SharpSetup21ProgPrivate.csproj" />
-    <ProjectReference Include="..\..\..\22_projects\SharpSetup23ProgPrivate\SharpSetup23ProgPrivate.csproj" />
     <ProjectReference Include="..\SharpGoogleSheetProg\SharpGoogleSheetProg.csproj" />
   </ItemGroup>
 

@@ -51,19 +51,19 @@ namespace SharpGoogleSheetProg.Service
             this.settings = new Dictionary<string, object>();
             TryAdd(inputDict, settings, "googleClientId");
             TryAdd(inputDict, settings, "googleClientSecret");
-            TryAdd(inputDict, settings, "applicationName");
-            TryAdd(inputDict, settings, "scopes");
+            TryAdd(inputDict, settings, "googleApplicationName");
+            TryAdd(inputDict, settings, "googleUserName");
         }
 
         private void ApplySettings()
         {
             this.clientId = settings["googleClientId"].ToString();
             this.clientSecret = settings["googleClientSecret"].ToString();
-            scopes = new List<string>();
-            scopes.Add(SheetsService.ScopeConstants.Spreadsheets);
-            scopes.Add(SheetsService.ScopeConstants.Drive);
-            applicationName = "GameStatistics";
-            user = "notki.info@gmail.com";
+            this.applicationName = settings["googleApplicationName"].ToString();
+            this.user = settings["googleUserName"].ToString();
+            this.scopes = new List<string>();
+            this.scopes.Add(SheetsService.ScopeConstants.Spreadsheets);
+            //scopes.Add(SheetsService.ScopeConstants.Drive);
         }
 
         private void SheetInit()
