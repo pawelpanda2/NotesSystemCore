@@ -69,6 +69,22 @@ namespace SharpGoogleSheetProg.Service
             return updateFormulasRequest;
         }
 
+        public List<(string, string)> GetSheetIdQTitleList(string spreadsheetId)
+        {
+            var dataFilters = new List<DataFilter>();
+            var requestBody = new GetSpreadsheetByDataFilterRequest()
+            {
+                DataFilters = dataFilters,
+                IncludeGridData = false,
+            };
+
+            var dataFilterRequest = sheetsService.Spreadsheets.GetByDataFilter(requestBody, spreadsheetId);
+            var sheetsFile = dataFilterRequest.Execute();
+
+            var gg = sheetsFile.Sheets.Select(x => (x.Properties.SheetId.ToString(), x.Properties.Title)).ToList();
+            return gg;
+        }
+
         public Spreadsheet GetSpreadsheet(string spreadsheetId)
         {
             var dataFilters = new List<DataFilter>();

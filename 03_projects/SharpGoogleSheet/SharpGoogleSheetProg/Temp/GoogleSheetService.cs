@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Google.Apis.Sheets.v4.Data;
+﻿using Google.Apis.Sheets.v4.Data;
 
 namespace GoogleApiV4CoreApp
 {
-    public class GoogleSheetService : IGoogleSheetApiV4Service
+    public class GoogleSheetService
     {
         private readonly GoogleSheetService_Logic logicWorker;
         private readonly GoogleSheetService_Query queryWoker;
@@ -43,7 +41,6 @@ namespace GoogleApiV4CoreApp
                 queryWoker.GetAllUpdateRequests(request2, spreadsheetId);
 
             }
-
         }
 
         public List<Request> PasteDataToSheet(
