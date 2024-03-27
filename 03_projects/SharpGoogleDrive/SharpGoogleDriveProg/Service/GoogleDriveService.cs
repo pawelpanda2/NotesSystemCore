@@ -80,6 +80,7 @@ namespace SharpGoogleDriveProg.Service
 
         private void WorkerInit()
         {
+            ApplySettings();
             var initializer = GetInitilizer(clientId, clientSecret);
             var service = new DriveService(initializer);
             worker = new DriveWorker(this, service);
@@ -94,7 +95,7 @@ namespace SharpGoogleDriveProg.Service
             var credentialAuthorization = GoogleWebAuthorizationBroker.AuthorizeAsync(
                 secrets,
                 this.scopes,
-                "GameStatistics",
+                this.user,
                 CancellationToken.None);
 
             var initializer = new BaseClientService.Initializer()

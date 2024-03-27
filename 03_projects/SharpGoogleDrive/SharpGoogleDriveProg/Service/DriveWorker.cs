@@ -4,6 +4,8 @@ using DriveFile = Google.Apis.Drive.v3.Data.File;
 
 namespace SharpGoogleDriveProg.Service
 {
+    // goog examples
+    // https://github.com/LindaLawton/Google-Dotnet-Samples/blob/master/Samples/Drive%20API/v3/FilesSample.cs
     public class DriveWorker
     {
         private readonly GoogleDriveService parentService;
@@ -53,6 +55,27 @@ namespace SharpGoogleDriveProg.Service
         {
             var files = GetFilesRequest($"name='{name}'");
             var file = files.First();
+            var result = (file.Id, file.Name);
+            return result;
+        }
+
+        public List<(string Id, string Name)> GetSpreadSheetsList(List<string> idsList)
+        {
+            var query = "mimeType = 'application/vnd.google-apps.spreadsheet'";
+            var allFiles = GetFilesRequest(query);
+            var tmp = allFiles.Where(x => idsList.Contains(x.Id)).ToList();
+            var tmp2 = tmp.Select(x => (x.Id, x.Name)).ToList();
+            return tmp2;
+        }
+
+        // https://stackoverflow.com/questions/59677223/search-file-inside-shared-drive-by-id-file-using-the-query-filter
+        // https://developers.google.com/drive/api/guides/search-files
+        public (string Id, string Name) GetFileById(string fileId)
+        {
+            var request = service.Files.Get(fileId);
+            //request.Fields = "*";
+            request.Fields = "id, name";
+            var file = request.Execute();
             var result = (file.Id, file.Name);
             return result;
         }
@@ -215,11 +238,14 @@ namespace SharpGoogleDriveProg.Service
             }
         }
 
-        public List<DriveFile> GetFilesRequest(string query)
+        public List<DriveFile> GetFilesRequest(
+            string query,
+            string fields = "*")
         {
+            // "nextPageToken, incompleteSearch, kind, files(parents, fileExtension, fullFileExtension, id, name, mimeType, permissions)"
             var listRequest = service.Files.List();
             listRequest.PageSize = 400;
-            listRequest.Fields = "nextPageToken, incompleteSearch, kind, files(parents, fileExtension, fullFileExtension, id, name, mimeType, permissions)";
+            listRequest.Fields = fields;
             listRequest.Q = query;
             var result = listRequest.Execute();
             var files = result.Files.ToList();

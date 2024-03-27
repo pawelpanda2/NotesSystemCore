@@ -31,7 +31,8 @@ namespace SharpRepoServiceProg.RepoOperations
         private RepoWorker repo;
 
         public ItemWorker(
-            RepoWorker repoWorker)
+            RepoWorker repoWorker,
+            IFileService fileService)
         {
             this.repo = repoWorker;
             this.fileService = fileService;

@@ -50,7 +50,7 @@ namespace SharpRepoServiceProg.Service
 
             if (item == null)
             {
-                item = new ItemWorker(methods);
+                item = new ItemWorker(methods, fileService);
             }
         }
 

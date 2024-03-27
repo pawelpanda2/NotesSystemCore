@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -18,7 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\22_projects\SharpSetup21ProgPrivate\SharpSetup21ProgPrivate.csproj" />
     <ProjectReference Include="..\..\..\03_projects\SharpContainer\SharpContainerProg\SharpContainerProg.csproj" />
-    <ProjectReference Include="..\SharpGoogleSheetProg\SharpGoogleSheetProg.csproj" />
+    <ProjectReference Include="..\SharpGoogleDriveProg\SharpGoogleDriveProg.csproj" />
+
   </ItemGroup>
 
 </Project>

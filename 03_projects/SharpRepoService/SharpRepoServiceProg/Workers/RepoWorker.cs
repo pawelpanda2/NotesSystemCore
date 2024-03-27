@@ -144,6 +144,24 @@ namespace SharpRepoServiceProg.RepoOperations
 
         public (string, string) GetAdrTupleByNameList(
             (string Repo, string Loca) address,
+            params string[] names)
+        {
+            // ReadElemPathByNames
+            foreach (var name in names)
+            {
+                var tmp = GetAllFoldersNames(address);
+                var find = tmp.SingleOrDefault(x => x == name);
+                if (name != null)
+                {
+                    address = GetExistingItem(address, name);
+                }
+            }
+
+            return address;
+        }
+
+        public (string, string) GetAdrTupleByNameList(
+            (string Repo, string Loca) address,
             List<string> names)
         {
             // ReadElemPathByNames

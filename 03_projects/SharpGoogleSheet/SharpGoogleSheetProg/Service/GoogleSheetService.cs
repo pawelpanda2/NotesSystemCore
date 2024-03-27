@@ -94,8 +94,8 @@ namespace SharpGoogleSheetProg.Service
 
             var credentialAuthorization = GoogleWebAuthorizationBroker.AuthorizeAsync(
                 secrets,
-                scopes,
-                user,
+                this.scopes,
+                this.user,
                 CancellationToken.None);
 
             var initializer = new BaseClientService.Initializer()

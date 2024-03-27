@@ -7,6 +7,8 @@ namespace SharpRepoServiceProg.Service
     {
         RepoWorker Methods { get; }
 
+        ItemWorker Item { get; }
+
         void Initialize(List<string> searchPaths);
 
         public enum ConfigKeys
