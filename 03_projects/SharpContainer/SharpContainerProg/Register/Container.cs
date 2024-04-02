@@ -34,7 +34,6 @@ namespace SharpContainerProg.Register
         {
             var result = unity.Resolve<T>();
             return result;
-
         }
 
         public object Resolve(Type type)

@@ -91,15 +91,17 @@ namespace GoogleDocsServiceProj.Service
             secrets.ClientId = clientId;
             secrets.ClientSecret = clientSecret;
 
-            var credentialAuthorization = GoogleWebAuthorizationBroker.AuthorizeAsync(
+            var task = GoogleWebAuthorizationBroker.AuthorizeAsync(
                 secrets,
                 this.scopes,
                 user,
                 CancellationToken.None);
 
+            task.Wait();
+
             var initializer = new BaseClientService.Initializer()
             {
-                HttpClientInitializer = credentialAuthorization.Result,
+                HttpClientInitializer = task.Result,
                 ApplicationName = applicationName,
             };
 
