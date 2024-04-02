@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SharpFileServiceProg.Service;
 using SharpRepoServiceCoreProj;
+using SharpRepoServiceProg.AAPublic;
 using SharpRepoServiceProg.RepoOperations;
 
 namespace SharpRepoServiceProg.Service

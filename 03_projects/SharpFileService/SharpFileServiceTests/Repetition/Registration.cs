@@ -1,6 +1,6 @@
 ﻿using SharpConfigProg.Service;
 using SharpFileServiceProg.Service;
-using SharpRepoServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 using Unity;
 using OutBorder1 = SharpFileServiceProg.AAPublic.OutBorder;
 using OutBorder2 = SharpConfigProg.AAPublic.OutBorder;

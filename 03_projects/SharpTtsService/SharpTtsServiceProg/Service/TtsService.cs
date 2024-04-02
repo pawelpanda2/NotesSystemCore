@@ -1,5 +1,5 @@
 ﻿using SharpFileServiceProg.Service;
-using SharpRepoServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 using SharpTtsServiceProg.AAPublic;
 using SharpTtsServiceProg.Worker;
 using SharpVideoServiceProg.AAPublic;
@@ -17,16 +17,21 @@ namespace SharpTtsServiceProg.Service
         {
             get
             {
-                TryInitialize();
+                if (!isTtsWorkerInit)
+                {
+                    TtsWorkerInit();
+                    isTtsWorkerInit = true;
+                }
+
                 return repoTts;
             }
         }
 
         public TtsWorker Tts { get; private set;}
 
-        private bool isInitialized;
+        private bool isTtsWorkerInit;
 
-        private void TryInitialize()
+        private void TtsWorkerInit()
         {
             Tts = new TtsWorker();
             repoTts = new RepoTtsWorker(fileService, repoService, videoService);

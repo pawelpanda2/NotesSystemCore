@@ -9,9 +9,9 @@ using WpfNotesSystemProg3.ViewModelBase;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
-using SharpRepoServiceProg.Service;
 using WpfCoreProg.Debug;
 using System.ComponentModel;
+using SharpRepoServiceProg.AAPublic;
 
 namespace WpfNotesSystem.ViewModels
 {

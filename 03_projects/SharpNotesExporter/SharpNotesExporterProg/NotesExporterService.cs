@@ -2,10 +2,10 @@
 using System.Text;
 using SharpFileServiceProg.Operations.Headers;
 using ElementType = TextHeaderAnalyzerCoreProj.ElementType;
-using SharpRepoServiceProg.Service;
 using SharpGoogleDocsProg.AAPublic;
 using SharpNotesExporterProg.Register;
 using SharpFileServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 
 namespace SharpNotesExporter
 {

@@ -3,6 +3,7 @@ using SharpFileServiceProg.Service;
 using SharpRepoServiceCoreProj;
 using SharpRepoServiceProg.Names;
 using SharpTinderComplexTests;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -121,37 +122,46 @@ namespace SharpRepoServiceProg.RepoOperations
         public Dictionary<string, object> GetItemDict(
             (string repo, string loca) adrTuple)
         {
-            var type = repo.GetItemType(adrTuple);
-            object body = null;
-
-            if (type == ItemTypeNames.Text)
-            {
-                body = repo.GetText2(adrTuple);
-            }
-
-            if (type == ItemTypeNames.RefText)
-            {
-                var refAdrTuple = repo.GetRefAdrTuple(adrTuple);
-                body = repo.GetText2(refAdrTuple);
-            }
-
-            if (type == ItemTypeNames.Folder)
-            {
-                body = repo.GetAllIndexesQNames(adrTuple);
-            }
-            var name = repo.GetName(adrTuple);
-
-            var config = repo.GetConfigDictionary(adrTuple);
-            var address = fileService.Index.GetAddressString(adrTuple);
-
             var dict = new Dictionary<string, object>();
-            dict.Add("Type", type);
-            dict.Add("Name", name);
-            dict.Add("Body", body);
-            dict.Add("Config", config);
-            dict.Add("Address", address);
 
-            return dict;
+            try
+            {
+                var type = repo.GetItemType(adrTuple);
+                object body = null;
+
+                if (type == ItemTypeNames.Text)
+                {
+                    body = repo.GetText2(adrTuple);
+                }
+
+                if (type == ItemTypeNames.RefText)
+                {
+                    var refAdrTuple = repo.GetRefAdrTuple(adrTuple);
+                    body = repo.GetText2(refAdrTuple);
+                }
+
+                if (type == ItemTypeNames.Folder)
+                {
+                    body = repo.GetAllIndexesQNames(adrTuple);
+                }
+                var name = repo.GetName(adrTuple);
+
+                var config = repo.GetConfigDictionary(adrTuple);
+                var address = fileService.Index.GetAddressString(adrTuple);
+
+                
+                dict.Add("Type", type);
+                dict.Add("Name", name);
+                dict.Add("Body", body);
+                dict.Add("Config", config);
+                dict.Add("Address", address);
+
+                return dict;
+            }
+            catch (Exception ex)
+            {
+                return dict;
+            }
         }
     }
 }

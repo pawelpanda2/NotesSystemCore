@@ -53,7 +53,7 @@ namespace GoogleDocsServiceProj.Service
         public void OverrideSettings(Dictionary<string, object> settingDict)
         {
             ReWriteSettings(settingDict);
-            ApplySettings(settingDict);
+            ApplySettings();
         }
 
         private void ReWriteSettings(Dictionary<string, object> inputDict)
@@ -65,7 +65,7 @@ namespace GoogleDocsServiceProj.Service
             TryAdd(inputDict, settings, VarNames.GoogleUserName);
         }
 
-        private void ApplySettings(Dictionary<string, object> settingDict)
+        private void ApplySettings()
         {
             this.scopes ??= new List<string>();
             this.clientId = settings[VarNames.GoogleClientId].ToString();
@@ -78,6 +78,7 @@ namespace GoogleDocsServiceProj.Service
 
         private void StackInit()
         {
+            ApplySettings();
             var initializer = GetInitilizer(clientId, clientSecret);
             var service = new DocsService(initializer);
             worker = new DocsWorker(service);

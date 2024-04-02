@@ -1,7 +1,7 @@
 ﻿using SharpConfigProg.Service;
 using SharpFileServiceProg.Service;
 using SharpNotesMigrationProg.Migrations;
-using SharpRepoServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 
 namespace SharpNotesMigrationProg.Service
 {

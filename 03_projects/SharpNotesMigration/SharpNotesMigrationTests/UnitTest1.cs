@@ -2,7 +2,7 @@ using SharpConfigProg.Service;
 using SharpNotesMigrationProg.AAPublic;
 using SharpNotesMigrationProg.Service;
 using SharpNotesMigrationTests.Repetition;
-using SharpRepoServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 using Unity;
 using OutBorder01 = SharpSetup21ProgPrivate.AAPublic.OutBorder;
 

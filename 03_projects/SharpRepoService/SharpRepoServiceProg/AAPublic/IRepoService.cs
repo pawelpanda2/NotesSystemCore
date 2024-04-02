@@ -1,20 +1,14 @@
 ﻿using SharpRepoServiceProg.RepoOperations;
 using System.Collections.Generic;
 
-namespace SharpRepoServiceProg.Service
+namespace SharpRepoServiceProg.AAPublic
 {
-    public interface IRepoService
+    public partial interface IRepoService
     {
         RepoWorker Methods { get; }
 
         ItemWorker Item { get; }
 
         void Initialize(List<string> searchPaths);
-
-        public enum ConfigKeys
-        {
-            googleDocId,
-            name,
-        }
     }
 }

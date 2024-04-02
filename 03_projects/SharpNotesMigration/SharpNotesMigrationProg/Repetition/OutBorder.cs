@@ -2,7 +2,7 @@
 using SharpNotesMigrationProg.AAPublic;
 using SharpNotesMigrationProg.Migrations;
 using SharpNotesMigrationProg.Service;
-using SharpRepoServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 
 namespace SharpNotesMigrationProg.Repetition
 {

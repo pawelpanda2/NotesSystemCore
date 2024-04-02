@@ -2,7 +2,6 @@
 using SharpFileServiceProg.Operations.Headers;
 using SharpFileServiceProg.Service;
 using SharpRepoServiceProg.AAPublic;
-using SharpRepoServiceProg.Service;
 using OutBorder1 = SharpFileServiceProg.AAPublic.OutBorder;
 
 namespace SharpFileServiceTests

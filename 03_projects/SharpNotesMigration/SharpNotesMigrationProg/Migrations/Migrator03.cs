@@ -1,6 +1,6 @@
 ﻿using SharpFileServiceProg.Service;
 using SharpNotesMigrationProg.AAPublic;
-using SharpRepoServiceProg.Service;
+using SharpRepoServiceProg.AAPublic;
 using System.Text.RegularExpressions;
 
 namespace SharpNotesMigrationProg.Migrations
