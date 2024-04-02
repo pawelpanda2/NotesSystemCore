@@ -72,9 +72,17 @@ if (reloadState)
     {
         var itemJString = GetItem(address);
         var itemObj = fileService.Json.TryDeserializeObject<ItemModel>(itemJString);
+        if (itemObj != null)
+        {
+            ReloadItem(itemObj);
+        }
+    }
+
+    protected void ReloadItem(ItemModel itemObj)
+    {
         item = itemObj;
         var adrTuple = fileService.RepoAddress
-             .CreateAddressFromString(item.Address);
+            .CreateAddressFromString(item.Address);
         formRepoName = adrTuple.Item1;
         formLocaName = adrTuple.Item2;
 
