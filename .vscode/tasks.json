@@ -39,5 +39,17 @@
             ],
             "problemMatcher": "$msCompile"
         },
+        {
+            "label": "build; SharpImageSplitter",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/24_projects/SharpImageSplitter/SharpImageSplitter.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+            ],
+            "problemMatcher": "$msCompile"
+        },
     ]
 }
