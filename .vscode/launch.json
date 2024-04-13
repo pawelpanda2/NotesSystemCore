@@ -47,11 +47,11 @@
             "justMyCode": false,
         },
         {
-            "name": "run; SharpImageSplitter",
+            "name": "run; SharpImageSplitterProg",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build; SharpImageSplitter",
-            "program": "${workspaceFolder}/Binaries/SharpImageSplitter/bin/Debug/net6.0/SharpImageSplitter.dll",
+            "program": "${workspaceFolder}/Binaries/SharpImageSplitterProg/bin/Debug/net6.0/SharpImageSplitterProg.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

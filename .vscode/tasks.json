@@ -45,7 +45,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/24_projects/SharpImageSplitter/SharpImageSplitter.csproj",
+                "${workspaceFolder}/24_projects/SharpImageSplitter/SharpImageSplitterProg/SharpImageSplitterProg.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
             ],
