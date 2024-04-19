@@ -1,8 +1,7 @@
 ﻿using SharpFileServiceProg.Service;
-using SharpRepoBackendProg.Repetition;
+using SharpFileServiceTests.Registrations;
 using SharpRepoServiceProg.AAPublic;
 using SharpRepoServiceProg.FileOperations;
-using Unity;
 
 namespace SharpFileServiceTests.SingleClassTests
 {

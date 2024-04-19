@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\22_projects\SharpSetup21ProgPrivate\SharpSetup21ProgPrivate.csproj" />
     <ProjectReference Include="..\..\SharpConfig\SharpConfigProg\SharpConfigProg.csproj" />
     <ProjectReference Include="..\..\SharpRepoService\SharpRepoServiceProg\SharpRepoServiceProg.csproj" />
     <ProjectReference Include="..\SharpFileServiceProg\SharpFileServiceProg.csproj" />

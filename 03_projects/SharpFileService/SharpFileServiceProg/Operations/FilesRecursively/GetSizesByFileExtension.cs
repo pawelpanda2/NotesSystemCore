@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace SharpFileServiceProg.Operations.FileSize
+﻿namespace SharpFileServiceProg.Operations.FileSize
 {
-    internal class GetSizesByFileExtension
+    public class GetSizesByFileExtension
     {
         private VisitDirectoriesRecursively rvd;
         private Action<FileInfo> fileAction;
@@ -16,6 +11,7 @@ namespace SharpFileServiceProg.Operations.FileSize
 
         public GetSizesByFileExtension()
         {
+            rvd = new VisitDirectoriesRecursively();
             ClearAll();
             InitializeActions();
         }

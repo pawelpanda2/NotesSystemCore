@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpFileServiceTests", "Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpFileServiceProg", "..\SharpFileServiceProg\SharpFileServiceProg.csproj", "{3A935691-BE22-4FE6-AAA4-2682ACD79FCB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpSetup21ProgPrivate", "..\..\..\22_projects\SharpSetup21ProgPrivate\SharpSetup21ProgPrivate.csproj", "{598E8E9B-2865-41E0-8406-6642ED3DBE00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3A935691-BE22-4FE6-AAA4-2682ACD79FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A935691-BE22-4FE6-AAA4-2682ACD79FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A935691-BE22-4FE6-AAA4-2682ACD79FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{598E8E9B-2865-41E0-8406-6642ED3DBE00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{598E8E9B-2865-41E0-8406-6642ED3DBE00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{598E8E9B-2865-41E0-8406-6642ED3DBE00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{598E8E9B-2865-41E0-8406-6642ED3DBE00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
