@@ -1,5 +1,7 @@
 ####################
 # moje-01
+*.DS_Store
+**/*.DS_Store
 AAPrivate
 Binaries
 **/paths.cfg

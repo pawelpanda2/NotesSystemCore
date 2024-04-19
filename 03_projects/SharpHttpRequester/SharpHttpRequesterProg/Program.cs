@@ -8,7 +8,7 @@ namespace SharpTinderApiDataImport
         {
             //var organizationUri1 = "https://dev.azure.com/MvpProjects";
             //var projectNameOrId = "FirstMvp";
-            //var pat = "fyo2u7cy4qypqmoxegg2mlzon6bbf3ykti6ks7dtqsxpmhzg56fa";
+            //var pat = "";
             //var urlRequestPart01b = "/_apis/build/builds?definitions=8&queryOrder=queueTimeDescending&api-version=6.0";
 
             //var urlRequestPart02 = "/_apis/build/builds/220?api-version=7.0";

@@ -11,7 +11,7 @@ namespace SharpHttpRequesterTests
     {
         public UnitTest1()
         {
-            //azureDevopsPat
+            var pat = "";
         }
 
         
@@ -24,7 +24,6 @@ namespace SharpHttpRequesterTests
             var authenticationType = "Basic";
             var organizationUri = "https://dev.azure.com/MvpProjects";
             var projectNameOrId = "FirstMvp";
-            var pat = "fyo2u7cy4qypqmoxegg2mlzon6bbf3ykti6ks7dtqsxpmhzg56fa";
             var urlRequestPart = "/_apis/build/builds?definitions=8&queryOrder=queueTimeDescending&api-version=6.0";
 
             // act
@@ -50,7 +49,6 @@ namespace SharpHttpRequesterTests
             var authenticationType = "Basic";
             var organizationUri = "https://dev.azure.com/MvpProjects";
             var projectNameOrId = "FirstMvp";
-            var pat = "fyo2u7cy4qypqmoxegg2mlzon6bbf3ykti6ks7dtqsxpmhzg56fa";
             var buildNumber = 260;
             //https://dev.azure.com/MvpProjects/FirstMvp/_apis/build/builds/260?api-version=6.0
             var urlRequestPart = $"/_apis/build/builds?api-version=6.0";
@@ -89,7 +87,6 @@ namespace SharpHttpRequesterTests
             var authenticationType = "Basic";
             var organizationUri = "https://dev.azure.com/MvpProjects";
             var projectNameOrId = "FirstMvp";
-            var pat = "fyo2u7cy4qypqmoxegg2mlzon6bbf3ykti6ks7dtqsxpmhzg56fa";
             var buildNumber = 260;
             //https://dev.azure.com/MvpProjects/FirstMvp/_apis/build/builds/260?api-version=6.0
             var urlRequestPart = $"/_apis/build/builds/{buildNumber}?api-version=6.0";
@@ -123,7 +120,6 @@ namespace SharpHttpRequesterTests
             var authenticationType = "Basic";
             var organizationUri = "https://dev.azure.com/MvpProjects";
             var projectNameOrId = "FirstMvp";
-            var pat = "fyo2u7cy4qypqmoxegg2mlzon6bbf3ykti6ks7dtqsxpmhzg56fa";
             var urlRequestPart = "/_apis/build/builds/220?api-version=7.0";
 
             // act
@@ -145,7 +141,6 @@ namespace SharpHttpRequesterTests
             var httpRequester = new HttpRequester();
             var authenticationType = "Basic";
             var organizationUri = "https://dev.azure.com/MvpProjects";
-            var pat = "fyo2u7cy4qypqmoxegg2mlzon6bbf3ykti6ks7dtqsxpmhzg56fa";
             var urlRequestPart = "/_apis/projects";
 
             // act
