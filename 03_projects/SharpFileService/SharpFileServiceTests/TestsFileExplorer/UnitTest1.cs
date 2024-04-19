@@ -21,14 +21,16 @@ namespace SharpFileServiceTests.SingleClassTests
         {
             // arrange
             //var visitor = fileService.File.GetNewVisitDirectoriesRecursivelyWithParentMemory();
-            var gg = new GetFolderSizes();
+            //var gg = new GetFolderSizes();
 
             // act
-            var path = "D:\\03_synch\\01_files_programming\\03_github\\17_projects";
-            var gg2 = gg.Do(path);
+            //var path = "D:\\03_synch\\01_files_programming\\03_github\\17_projects";
+            //var path2 = "/Users/pawelfluder/03_synch/01_files_programming/03_github/";
+            var path3 = "/Users/pawelfluder/03_synch/01_files_programming/03_github/NotesSystemCore";
+            //var gg2 = gg.Do(path3);
 
-            var gg4 = new GetSizesByFileExtension();
-            var gg5 = gg4.Do(path);
+            var gg4 = new GetSizesByFileExtension2();
+            var gg5 = gg4.Do(path3);
         }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using SharpFileServiceProg.Service;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace SharpFileServiceProg.Operations.FileSize
 {
