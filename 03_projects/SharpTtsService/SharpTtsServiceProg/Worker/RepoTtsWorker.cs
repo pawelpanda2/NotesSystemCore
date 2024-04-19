@@ -2,13 +2,15 @@
 using SharpRepoServiceProg.AAPublic;
 using SharpVideoServiceProg.AAPublic;
 using System.Globalization;
+using System.Linq;
 using System.Speech.Synthesis;
+using System.Text.RegularExpressions;
 
 namespace SharpTtsServiceProg.Worker
 {
     public class RepoTtsWorker : MethodRunner
     {
-        private readonly TtsWorker ttsWorker;
+        private readonly TtsBuilderWorker ttsWorker;
         private readonly IFileService fileService;
         private readonly IRepoService repoService;
         private readonly IVideoService videoService;
@@ -24,7 +26,7 @@ namespace SharpTtsServiceProg.Worker
             this.fileService = fileService;
             this.repoService = repoService;
             this.videoService = videoService;
-            ttsWorker = new TtsWorker();
+            ttsWorker = new TtsBuilderWorker();
             fileName = "lista";
         }
 
@@ -88,14 +90,16 @@ namespace SharpTtsServiceProg.Worker
 
         public async Task PlStartNew((string Repo, string Loca) adrTuple)
         {
-            var text = GetText(adrTuple);
-            await ttsWorker.StartNew(text, new CultureInfo("pl-PL"));
+            var culture = new CultureInfo("pl-PL");
+            var builder = GetBuilder(adrTuple, culture);
+            await ttsWorker.StartNew(builder);
         }
 
         public async Task EnStartNew((string Repo, string Loca) adrTuple)
         {
-            var text = GetText(adrTuple);
-            await ttsWorker.StartNew(text, new CultureInfo("en-GB"));
+            var culture = new CultureInfo("en-GB");
+            var builder = GetBuilder(adrTuple, culture);
+            await ttsWorker.StartNew(builder);
         }
 
         public async Task Pause()
@@ -156,18 +160,83 @@ namespace SharpTtsServiceProg.Worker
             {
                 if (elem.Type == "Header")
                 {
-                    builder.AppendBreak();
-                    builder.AppendText(elem.Text);
-                    builder.AppendBreak();
+                    HeaderParser(builder, elem.Text);
                 }
 
                 if (elem.Type != "Header")
                 {
-                    builder.AppendText(elem.Text);
+                    LineParser(builder, elem.Text);
                 }
             }
 
             return builder;
+        }
+
+        private void HeaderParser(
+            PromptBuilder builder,
+            string line)
+        {
+            line = AllReplacements(line);
+            builder.AppendText(line);
+            builder.AppendBreak();
+        }
+
+        private void LineParser(
+            PromptBuilder builder,
+            string line)
+        {
+            var version = "v;";
+            if (line.StartsWith(version))
+            {
+                var start = version.Length;
+                var stop = line.Length;
+                var length = stop - start;
+                line = line.Substring(start, length);
+            }
+
+            line = AllReplacements(line);
+            line.Replace(" m2w ", " man to woman ");
+
+            builder.AppendText(line);
+            builder.AppendBreak();
+        }
+
+        private string AllReplacements(
+            string line)
+        {
+            line = ReplaceShortcut(line, "m2w", "man to woman");
+            return line;
+        }
+
+
+        private string ReplaceShortcut(
+            string line,
+            string shortcut,
+            string replacement)
+        {
+            var space = ' ';
+            if (line.Contains(shortcut))
+            {
+                var tmp01 = space + shortcut + space;
+                if (line.Contains(tmp01))
+                {
+                    line = line.Replace(tmp01, space + replacement + space);
+                }
+
+                var tmp02 = shortcut + space;
+                if (line.StartsWith(tmp02))
+                {
+                    line = line.Replace(tmp02, replacement + space);
+                }
+
+                var tmp03 = space + shortcut;
+                if (line.EndsWith(tmp03))
+                {
+                    line = line.Replace(tmp03, space + replacement);
+                }
+            }
+
+            return line;
         }
     }
 }

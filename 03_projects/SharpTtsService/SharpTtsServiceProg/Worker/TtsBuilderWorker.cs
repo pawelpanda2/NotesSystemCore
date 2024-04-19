@@ -4,7 +4,7 @@ using System.Speech.Synthesis;
 
 namespace SharpTtsServiceProg.Worker
 {
-    public class TtsWorker
+    public class TtsBuilderWorker
     {
         private SpeechSynthesizer synth;
         
@@ -13,7 +13,7 @@ namespace SharpTtsServiceProg.Worker
 
         private bool isInitialized;
 
-        public TtsWorker()
+        public TtsBuilderWorker()
         {
             synth = new SpeechSynthesizer();
                 //SetVoiceSettings();
@@ -55,12 +55,13 @@ namespace SharpTtsServiceProg.Worker
             }
         }
 
-        public async Task StartNew(string text, CultureInfo? culture = null)
+        public async Task StartNew(
+            PromptBuilder builder)
         {
-            if (culture != null)
-            {
-                SetVoiceSettings2(culture);
-            }
+            //if (culture != null)
+            //{
+            //    SetVoiceSettings2(culture);
+            //}
 
             var state = synth.State;
             if (state == SynthesizerState.Speaking ||
@@ -71,16 +72,8 @@ namespace SharpTtsServiceProg.Worker
             }
 
             //synth.Resume();
-            var builder = CreateBuilder(text);
+            synth.SetOutputToDefaultAudioDevice();
             currentPrompt = synth.SpeakAsync(builder);
-        }
-
-        public PromptBuilder CreateBuilder(string text)
-        {
-            var builder = new PromptBuilder();
-            builder.Culture = currentCulture;
-            builder.AppendText(text);
-            return builder;
         }
 
         public async Task Stop()
@@ -94,15 +87,15 @@ namespace SharpTtsServiceProg.Worker
             }
         }
 
-        public async Task SaveAudioFile(
-           string folderName,
-           string fileName,
-           string text,
-           CultureInfo culture = null)
-        {
-            var builder = CreateBuilder(text);
-            SaveAudioFile(folderName, fileName, builder);
-        }
+        //public async Task SaveAudioFile(
+        //   string folderName,
+        //   string fileName,
+        //   string text,
+        //   CultureInfo culture = null)
+        //{
+        //    var builder = CreateBuilder(text);
+        //    SaveAudioFile(folderName, fileName, builder);
+        //}
 
         public async Task SaveAudioFile(
             string folderPath,

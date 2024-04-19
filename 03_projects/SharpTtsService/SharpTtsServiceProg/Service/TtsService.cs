@@ -27,13 +27,13 @@ namespace SharpTtsServiceProg.Service
             }
         }
 
-        public TtsWorker Tts { get; private set;}
+        public TtsBuilderWorker Tts { get; private set;}
 
         private bool isTtsWorkerInit;
 
         private void TtsWorkerInit()
         {
-            Tts = new TtsWorker();
+            Tts = new TtsBuilderWorker();
             repoTts = new RepoTtsWorker(fileService, repoService, videoService);
         }
 

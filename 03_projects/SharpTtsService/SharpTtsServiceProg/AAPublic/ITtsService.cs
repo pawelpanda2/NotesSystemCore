@@ -4,7 +4,7 @@ namespace SharpTtsServiceProg.AAPublic
 {
     public interface ITtsService
     {
-        TtsWorker Tts { get; }
+        TtsBuilderWorker Tts { get; }
 
         RepoTtsWorker RepoTts { get; }
     }

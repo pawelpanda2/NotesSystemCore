@@ -137,7 +137,7 @@
         var itemJString = GetItem(newAddress);
         var itemObj = fileService.Json.TryDeserializeObject<ItemModel>(itemJString);
 
-        if (itemObj.Type != myType)
+        if (itemObj?.Type != myType)
         {
             ReloadItem(itemObj, true);
             return;
