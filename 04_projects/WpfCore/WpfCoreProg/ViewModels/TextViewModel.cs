@@ -129,14 +129,14 @@ namespace WpfNotesSystem.ViewModels
             if (SelectedGoogleDoc == "Open")
             {
                 backendService.CommandApi(
-                    IBackendService.ApiMethods.OpenGoogledoc.ToString(),
+                    IBackendService.ApiMethods.OpenGoogleDoc.ToString(),
                     AdrTuple.repo, AdrTuple.loca);
             }
 
             if (SelectedGoogleDoc == "Recreate")
             {
                 backendService.CommandApi(
-                    IBackendService.ApiMethods.RecreateGoogledoc.ToString(),
+                    IBackendService.ApiMethods.RecreateGoogleDoc.ToString(),
                     AdrTuple.repo, AdrTuple.loca);
             }
         }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSQLiteProj", "SharpSQLiteProj\SharpSQLiteProj.csproj", "{1BF22D92-F88F-4A1A-A68B-EB4E5AEFB5F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSQLiteProg", "SharpSQLiteProj.csproj", "{1BF22D92-F88F-4A1A-A68B-EB4E5AEFB5F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

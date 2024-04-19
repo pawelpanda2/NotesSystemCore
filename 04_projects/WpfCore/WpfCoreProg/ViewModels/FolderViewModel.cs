@@ -141,7 +141,7 @@ namespace WpfNotesSystem.ViewModels
             if (ValueToAdd != string.Empty)
             {
                 backendService.CommandApi(
-                    IBackendService.ApiMethods.CreateFolder.ToString(),
+                    IBackendService.ApiMethods.CreateItem.ToString(),
                     AdrTuple.repo,
                     AdrTuple.loca,
                     ItemTypes[SelectedIndex],

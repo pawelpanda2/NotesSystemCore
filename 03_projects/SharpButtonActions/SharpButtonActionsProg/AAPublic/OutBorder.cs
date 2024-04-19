@@ -1,7 +1,6 @@
-﻿using SharpButtonActionsProg.AAPublic;
-using SharpButtonActionsProj.Service;
+﻿using SharpButtonActionsProj.Service;
 using SharpFileServiceProg.Service;
-namespace SharpFileServiceProg.AAPublic
+namespace SharpButtonActionsProg.AAPublic
 {
     public static class OutBorder
     {

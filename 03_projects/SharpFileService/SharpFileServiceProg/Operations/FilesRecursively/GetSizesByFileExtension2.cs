@@ -7,7 +7,7 @@
         private Action<DirectoryInfo> folderAction;
         long generalSize;
         long tempSize;
-        private Dictionary<string, Dictionary<string, long>> dictionarySize;
+        private Dictionary<string, Dictionary<string, string>> dictionarySize;
 
         public GetSizesByFileExtension2()
         {
@@ -15,10 +15,10 @@
             InitializeActions();
         }
 
-        public Dictionary<string, Dictionary<string, long>> Do
+        public Dictionary<string, Dictionary<string, string>> Do
             (string path, string[] typesToCount = null)
         {
-            dictionarySize = new Dictionary<string, Dictionary<string, long>>();
+            dictionarySize = new Dictionary<string, Dictionary<string, string>>();
             rvd.Visit(path, fileAction, folderAction);
             return dictionarySize;
         }
@@ -31,12 +31,13 @@
 
                 if (!dictionarySize.ContainsKey(extension))
                 {
-                    var tmp2 = new Dictionary<string, long>();
+                    var tmp2 = new Dictionary<string, string>();
                     dictionarySize.Add(extension, tmp2);
                 }
                 
                 var tmp = dictionarySize[extension];
-                tmp.Add(fileInfo.FullName, fileInfo.Length);
+                var size = rvd.FormatBytes(fileInfo.Length);
+                tmp.Add(fileInfo.FullName, size);
             });
 
             folderAction = new Action<DirectoryInfo>((directionryInfo) =>

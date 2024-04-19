@@ -24,13 +24,27 @@ namespace SharpFileServiceTests.SingleClassTests
             //var gg = new GetFolderSizes();
 
             // act
-            //var path = "D:\\03_synch\\01_files_programming\\03_github\\17_projects";
+            var path = "D:\\03_synch\\01_files_programming\\03_github\\17_projects";
+            //var path = "D:\\03_synch\\01_files_programming\\03_github\\17_projects/03_projects";
             //var path2 = "/Users/pawelfluder/03_synch/01_files_programming/03_github/";
-            var path3 = "/Users/pawelfluder/03_synch/01_files_programming/03_github/NotesSystemCore";
+            //var path = "/Users/pawelfluder/03_synch/01_files_programming/03_github/NotesSystemCore";
             //var gg2 = gg.Do(path3);
 
+            // pipeline
+            // remove all .vs folders
+            // remove all DS_Store files
+            // find all bin folders
+            // find all obj folders
+            // find all int folders
+            // find all Packages folders
+            // find all TestResults folders
+            // find all Binaries folders
+
+            var gg6 = new GetSizesByFileExtension();
+            var gg7 = gg6.Do(path);
+
             var gg4 = new GetSizesByFileExtension2();
-            var gg5 = gg4.Do(path3);
+            var gg5 = gg4.Do(path);
         }
     }
 }
